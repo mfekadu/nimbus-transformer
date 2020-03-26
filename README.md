@@ -20,6 +20,8 @@ it's like Nimbus but uses a transformer language model
 * `ResultURLs`: the first 10 **URLs** in `Result`
 * `Context`: one large text document containing the text content of each url in `ResultURLs`
 * `SimpleContext`: one large text document containing the text content of the first 10 **html sections** in `Result`
+  * see the highlighted section in the example google result below
+  * <img src="google.png" width="400">
 * `Transformer`/`Transform`: a function that uses one of the fancy langauge models provided in [huggingface/transformers][2]
 * `Answer`: a segment text found within the given `Context` that appropriately answers the given `Question`.
 
