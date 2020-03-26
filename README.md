@@ -88,7 +88,7 @@ https://digitalcommons.calpoly.edu/cgi/viewcontent.cgi?article=2820&context=thes
 - [ ] write function `getGoogleContext( urls : ResultURLs ) -> Context`
   * given a `ResultURLs`, returns the `Context` as defined above
   * [pip install beautifulsoup4][8]
-```
+```python
 >>> from bs4 import BeautifulSoup
 >>> 
 >>> soups = [BeautifulSoup(url) for url in urls]
@@ -100,7 +100,7 @@ https://digitalcommons.calpoly.edu/cgi/viewcontent.cgi?article=2820&context=thes
   * given a `Result`, returns the `SimpleContext` as defined above
   * [`pip install google`][7]
   * [pip install beautifulsoup4][8]
-```
+```python
 >>> import googlesearch
 >>> from bs4 import BeautifulSoup
 >>> 
