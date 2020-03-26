@@ -47,6 +47,7 @@ it's like Nimbus but uses a transformer language model
 
 - [ ] write function `getGoogleResult( q : Query ) -> Result`
   * given a `Query`, returns the `Result` as defined above
+  * [`pip install google`][7]
   * [pip install beautifulsoup4][8]
 ```python
 >>> import googlesearch
@@ -98,6 +99,7 @@ https://digitalcommons.calpoly.edu/cgi/viewcontent.cgi?article=2820&context=thes
 - [ ] write function `getSimpleGoogleContext( r : Result ) -> SimpleContext`
   * given a `Result`, returns the `SimpleContext` as defined above
   * [`pip install google`][7]
+  * [pip install beautifulsoup4][8]
 ```
 >>> import googlesearch
 >>> from bs4 import BeautifulSoup
