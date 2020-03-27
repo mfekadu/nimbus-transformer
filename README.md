@@ -128,6 +128,7 @@ nlp({
 })
 >>> {'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
 ```
+  * <img src="transformers_qa_test.png" width="400">
 
 
 ## Resources
