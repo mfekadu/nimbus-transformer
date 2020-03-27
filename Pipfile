@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-transformers = "*"
+transformers = "==2.3"
 spacy = "*"
 google = "*"
 beautifulsoup4 = "*"
