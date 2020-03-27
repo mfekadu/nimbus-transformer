@@ -18,20 +18,25 @@ class Query(str):
     `Query`: a string of text to pass into Google search
     `{Question}` or
     `{Question} site:calpoly.edu`
+
+    Resources:
+        * https://stackoverflow.com/q/2673651
     """
 
-    def __init__(self, question: str) -> None:
-        super().__init__()
-        self.question = question
-        self.query = f"{question} site:calpoly.edu"
+    def __new__(cls, question: Question):
+        """Describes how to create a new Query string object"""
 
-    def __str__(self) -> str:
-        """Describes the string representation of Query."""
-        return self.query
+        # make a Google query with appropriate scope of domain name
+        query = f"{question} site:calpoly.edu"
 
-    def __repr__(self) -> str:
-        """Describes what to display within the REPL."""
-        return f"'{self.query}'"
+        # use the str.__new__() and rename object as Query
+        obj = super(Query, cls).__new__(cls, query)
+
+        # save for future reference
+        obj.question = question
+        obj.query = query
+
+        return obj
 
 
 class Result(str):
