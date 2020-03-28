@@ -2,6 +2,7 @@
 pdoc --html nimbus_transformer --output-dir docs --force
 
 mv docs/nimbus_transformer/* docs
+rmdir docs/nimbus_transformer
 
 if [[ $1 == "--open" ]] ||
     [[ $2 == "--open" ]] ||
