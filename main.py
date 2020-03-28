@@ -2,21 +2,14 @@
 
 from nimbus_transformer.question import Question
 from nimbus_transformer.query import Query
-from nimbus_transformer.result import Result
+from nimbus_transformer.result import Results
 
-
-class ResultURL(str):
-    """
-    `ResultURLs`: the first 10 **URLs** in `Result`
-    """
-
-    pass
 
 
 class Context(str):
     """
     `Context`: one large text document containing
-        the text content of each url in `ResultURLs`.
+        the text content of each url in `Results`.
     """
 
     pass
@@ -25,7 +18,7 @@ class Context(str):
 class SimpleContext(str):
     """
     `SimpleContext`: one large text document containing
-        the text content of the first 10 **html sections** in `Result`
+        the text content of the first 10 **html sections** in `Results`
     """
 
     pass
@@ -52,7 +45,7 @@ if __name__ == "__main__":
     print("question...", question)
     print("query...", query)
 
-    google_result = Result(query)
+    google_result = Results(query)
 
     print(google_result.BASE_URL)
 

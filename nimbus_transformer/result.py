@@ -1,6 +1,6 @@
-"""Defines the Google Search `Result` object.
+"""Defines the Google Search `Results` object.
 
-A Google `Result` is an HTML page [like this page][4].
+A Google `Results` is an HTML page [like this page][4].
 
 [//]: # (markdown comment # noqa)
 A GET request to the corresponding URL of a Google Search `nimbus_transformer.query.Query`
@@ -14,10 +14,10 @@ Typical usage example:
 
     from nimbus_transformer.question import Question
     from nimbus_transformer.query import Query
-    from nimbus_transformer.result import Result
+    from nimbus_transformer.result import Results
     question = Question("what is foaad khosmood's email?")
     query = Query(question)
-    google_result = Result(query)
+    google_result = Results(query)
     print(google_result.get_google_result())
     >>> '<html><body><div>...</div></body></html>'
 
@@ -26,6 +26,7 @@ Typical usage example:
 
 import googlesearch
 from nimbus_transformer.query import Query
+from nimbus_transformer.question import Question
 
 
 def url_param_sanitize(q: Query) -> str:
@@ -49,14 +50,14 @@ def url_param_sanitize(q: Query) -> str:
     return googlesearch.quote_plus(str(q))
 
 
-class Result(str):
+class Results(str):
     """
     [//]: # (markdown comment # noqa)
-    A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
+    A `Results` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
 
-    # TODO: ResultURLs is a property of Result
+    # TODO: ResultsURLs is a property of Results
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be
@@ -78,10 +79,10 @@ class Result(str):
         Perform a Google Search and return the html content.
 
         Example:
-            >>> from nimbus_transformer import Question, Query, Result
+            >>> from nimbus_transformer import Question, Query, Results
             >>> question = Question("what is foaad khosmood's email?")
             >>> query = Query(question)
-            >>> google_result = Result(query)
+            >>> google_result = Results(query)
             >>> google_result.get_google_result()
             '<html><body><div>...</div></body></html>'
 
@@ -95,8 +96,8 @@ class Result(str):
         return html_page
 
     @property
-    def question(self):
+    def question(self) -> Question:
         """
-        Gets the original `nimbus_transformer.question.Question` that leads to this `Result`
+        Gets the original `nimbus_transformer.question.Question` that leads to this `Results`
         """
         return self.query.question
