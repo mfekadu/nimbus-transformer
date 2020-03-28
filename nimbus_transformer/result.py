@@ -42,6 +42,11 @@ Iterator Example:
     >>> 'https://digitalcommons.calpoly.edu/theses/1623/'
     >>> 'https://www.calpoly.edu/'
 
+    urls = [u for u in google_result]
+    print(urls)
+    >>> ['https://cpe.calpoly.edu/faculty/foaad/', 'http://users.csc.calpoly.edu/~dekhtyar/466-Spring2012/', 'https://iatpp.calpoly.edu/organization', 'https://lib.calpoly.edu/events/my-tech-journey/', 'https://cpe.calpoly.edu/faculty/', 'https://lib.calpoly.edu/events/gerrymandering-in-america/', 'https://lib.calpoly.edu/events/open-access-and-government-transparency/', 'https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai', 'https://digitalcommons.calpoly.edu/theses/1623/', 'https://www.calpoly.edu/']
+
+
 [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
 """
 

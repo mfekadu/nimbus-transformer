@@ -55,6 +55,10 @@ print(google_result.result)
 &gt;&gt;&gt; 'https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai'
 &gt;&gt;&gt; 'https://digitalcommons.calpoly.edu/theses/1623/'
 &gt;&gt;&gt; 'https://www.calpoly.edu/'
+
+urls = [u for u in google_result]
+print(urls)
+&gt;&gt;&gt; ['https://cpe.calpoly.edu/faculty/foaad/', 'http://users.csc.calpoly.edu/~dekhtyar/466-Spring2012/', 'https://iatpp.calpoly.edu/organization', 'https://lib.calpoly.edu/events/my-tech-journey/', 'https://cpe.calpoly.edu/faculty/', 'https://lib.calpoly.edu/events/gerrymandering-in-america/', 'https://lib.calpoly.edu/events/open-access-and-government-transparency/', 'https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai', 'https://digitalcommons.calpoly.edu/theses/1623/', 'https://www.calpoly.edu/']
 </code></pre>
 <details class="source">
 <summary>
@@ -103,6 +107,11 @@ Iterator Example:
     &gt;&gt;&gt; &#39;https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai&#39;
     &gt;&gt;&gt; &#39;https://digitalcommons.calpoly.edu/theses/1623/&#39;
     &gt;&gt;&gt; &#39;https://www.calpoly.edu/&#39;
+
+    urls = [u for u in google_result]
+    print(urls)
+    &gt;&gt;&gt; [&#39;https://cpe.calpoly.edu/faculty/foaad/&#39;, &#39;http://users.csc.calpoly.edu/~dekhtyar/466-Spring2012/&#39;, &#39;https://iatpp.calpoly.edu/organization&#39;, &#39;https://lib.calpoly.edu/events/my-tech-journey/&#39;, &#39;https://cpe.calpoly.edu/faculty/&#39;, &#39;https://lib.calpoly.edu/events/gerrymandering-in-america/&#39;, &#39;https://lib.calpoly.edu/events/open-access-and-government-transparency/&#39;, &#39;https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai&#39;, &#39;https://digitalcommons.calpoly.edu/theses/1623/&#39;, &#39;https://www.calpoly.edu/&#39;]
+
 
 [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
 &#34;&#34;&#34;

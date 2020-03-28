@@ -46,8 +46,8 @@ if __name__ == "__main__":
 
     google_result = Results(query)
 
-    for url in google_result:
-        print(url)
+    urls = [u for u in google_result]
+    print(urls)
 
     # print(google_result.BASE_URL)
 
