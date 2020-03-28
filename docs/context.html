@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.5" />
-<title>nimbus_transformer API documentation</title>
-<meta name="description" content="nimbus_transformer.
-it&#39;s like [Nimbus][1] but uses [a transformer language model][2] …" />
+<title>nimbus_transformer.context API documentation</title>
+<meta name="description" content="Defines the Google Search `Context` object …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -18,88 +17,109 @@ it&#39;s like [Nimbus][1] but uses [a transformer language model][2] …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>nimbus_transformer</code></h1>
+<h1 class="title">Module <code>nimbus_transformer.context</code></h1>
 </header>
 <section id="section-intro">
-<p>nimbus_transformer.
-it's like <a href="http://github.com/calpoly-csai/api">Nimbus</a> but uses <a href="https://github.com/huggingface/transformers">a transformer language model</a></p>
-<p><a href="http://github.com/mfekadu/nimbus-transformer">READ MORE ON GITHUB</a></p>
-<p><strong>Pipeline</strong></p>
-<ol>
-<li>
-<p><em>User</em> asks <a title="nimbus_transformer.question.Question" href="question.html#nimbus_transformer.question.Question"><code>Question</code></a> to a web application.</p>
-</li>
-<li>
-<p>Scrape Google for <code>Context</code> limit 10 url results.</p>
-</li>
-<li>
-<p>Store <code>Context</code> into database.</p>
-</li>
-<li>
-<p>Transform ( <a title="nimbus_transformer.question.Question" href="question.html#nimbus_transformer.question.Question"><code>Question</code></a>, <code>Context</code> ) &gt;&gt; <code>Answer</code></p>
-</li>
-<li>
-<p>Reply with <code>Answer</code></p>
-</li>
-<li>
-<p>Mark, good/bad answer <em>to learn from later</em>.</p>
-</li>
-</ol>
+<p>Defines the Google Search <a title="nimbus_transformer.context.Context" href="#nimbus_transformer.context.Context"><code>Context</code></a> object.</p>
+<p>A Google Search <a title="nimbus_transformer.context.Context" href="#nimbus_transformer.context.Context"><code>Context</code></a> is one large text document of the text content of the
+first 10 <code>ResultURLs</code> from a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>.</p>
+<p>Typical usage example:</p>
+<pre><code>from nimbus_transformer.question import Question
+from nimbus_transformer.query import Query
+from nimbus_transformer.result import Result
+# TODO: somehow get the ResultURLs
+# TODO: ResultURLs is a property of Result
+from nimbus_transformer.context import Context
+question = Question("what is foaad khosmood's email?")
+query = Query(question)
+google_result = Result(query)
+# TODO: finish this example
+&gt;&gt;&gt; # TODO: finish this example
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;nimbus_transformer.
-it&#39;s like [Nimbus][1] but uses [a transformer language model][2]
+<pre><code class="python">&#34;&#34;&#34;Defines the Google Search `Context` object.
 
-[READ MORE ON GITHUB][3]
+A Google Search `Context` is one large text document of the text content of the
+first 10 `ResultURLs` from a Google Search `nimbus_transformer.query.Query`.
 
-**Pipeline**
 
-1. _User_ asks `nimbus_transformer.question.Question` to a web application.
+Typical usage example:
 
-2. Scrape Google for `Context` limit 10 url results.
+    from nimbus_transformer.question import Question
+    from nimbus_transformer.query import Query
+    from nimbus_transformer.result import Result
+    # TODO: somehow get the ResultURLs
+    # TODO: ResultURLs is a property of Result
+    from nimbus_transformer.context import Context
+    question = Question(&#34;what is foaad khosmood&#39;s email?&#34;)
+    query = Query(question)
+    google_result = Result(query)
+    # TODO: finish this example
+    &gt;&gt;&gt; # TODO: finish this example
 
-3. Store `Context` into database.
+[4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+&#34;&#34;&#34;
 
-4. Transform ( `nimbus_transformer.question.Question`, `Context` ) &gt;&gt; `Answer`
 
-5. Reply with `Answer`
+class Context(str):
+    &#34;&#34;&#34;
+    A `Context` is one large text document of the text content of the
+    first 10 `ResultURLs` from a Google Search `nimbus_transformer.query.Query`
 
-6. Mark, good/bad answer _to learn from later_.
+    Attributes:
+        # TODO: ???
 
-[1]: http://github.com/calpoly-csai/api
-[2]: https://github.com/huggingface/transformers
-[3]: http://github.com/mfekadu/nimbus-transformer
-&#34;&#34;&#34;</code></pre>
+    # TODO: SimpleContext is a property of Context
+    &#34;&#34;&#34;
+
+    pass</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="nimbus_transformer.context" href="context.html">nimbus_transformer.context</a></code></dt>
+<dt id="nimbus_transformer.context.Context"><code class="flex name class">
+<span>class <span class="ident">Context</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
 <dd>
-<section class="desc"><p>Defines the Google Search <code>Context</code> object …</p></section>
-</dd>
-<dt><code class="name"><a title="nimbus_transformer.query" href="query.html">nimbus_transformer.query</a></code></dt>
-<dd>
-<section class="desc"><p>Defines the Google Search <code>Query</code> object …</p></section>
-</dd>
-<dt><code class="name"><a title="nimbus_transformer.question" href="question.html">nimbus_transformer.question</a></code></dt>
-<dd>
-<section class="desc"><p>Defines the Cal Poly <code>Question</code> object …</p></section>
-</dd>
-<dt><code class="name"><a title="nimbus_transformer.result" href="result.html">nimbus_transformer.result</a></code></dt>
-<dd>
-<section class="desc"><p>Defines the Google Search <code>Result</code> object …</p></section>
+<section class="desc"><p>A <a title="nimbus_transformer.context.Context" href="#nimbus_transformer.context.Context"><code>Context</code></a> is one large text document of the text content of the
+first 10 <code>ResultURLs</code> from a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a></p>
+<h2 id="attributes">Attributes</h2>
+<h1 id="todo">TODO: ???</h1>
+<h1 id="todo-simplecontext-is-a-property-of-context">TODO: SimpleContext is a property of Context</h1></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Context(str):
+    &#34;&#34;&#34;
+    A `Context` is one large text document of the text content of the
+    first 10 `ResultURLs` from a Google Search `nimbus_transformer.query.Query`
+
+    Attributes:
+        # TODO: ???
+
+    # TODO: SimpleContext is a property of Context
+    &#34;&#34;&#34;
+
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+</ul>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
 </section>
 </article>
 <nav id="sidebar">
@@ -108,12 +128,16 @@ it&#39;s like [Nimbus][1] but uses [a transformer language model][2]
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="nimbus_transformer.context" href="context.html">nimbus_transformer.context</a></code></li>
-<li><code><a title="nimbus_transformer.query" href="query.html">nimbus_transformer.query</a></code></li>
-<li><code><a title="nimbus_transformer.question" href="question.html">nimbus_transformer.question</a></code></li>
-<li><code><a title="nimbus_transformer.result" href="result.html">nimbus_transformer.result</a></code></li>
+<li><code><a title="nimbus_transformer" href="index.html">nimbus_transformer</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="nimbus_transformer.context.Context" href="#nimbus_transformer.context.Context">Context</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

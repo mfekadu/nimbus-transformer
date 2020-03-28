@@ -2,12 +2,20 @@
 
 A Google `Result` is an HTML page [like this page][4].
 
+[//]: # (markdown comment # noqa)
+A GET request to the corresponding URL of a Google Search `nimbus_transformer.query.Query`
+is needed to extract the HTML page and later the `nimbus_transformer.context.Context`.
+
+```
+http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+```
+
 Typical usage example:
 
     from nimbus_transformer.question import Question
     from nimbus_transformer.query import Query
     from nimbus_transformer.result import Result
-    question = Question("what?")
+    question = Question("what is foaad khosmood's email?")
     query = Query(question)
     google_result = Result(query)
     print(google_result.get_google_result())
@@ -47,6 +55,8 @@ class Result(str):
     A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
+
+    # TODO: ResultURLs is a property of Result
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be

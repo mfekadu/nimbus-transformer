@@ -22,11 +22,15 @@
 <section id="section-intro">
 <p>Defines the Google Search <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a> object.</p>
 <p>A Google <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a> is an HTML page <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">like this page</a>.</p>
+<p>A GET request to the corresponding URL of a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>
+is needed to extract the HTML page and later the <a title="nimbus_transformer.context.Context" href="context.html#nimbus_transformer.context.Context"><code>Context</code></a>.</p>
+<pre><code>&lt;http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu&gt;
+</code></pre>
 <p>Typical usage example:</p>
 <pre><code>from nimbus_transformer.question import Question
 from nimbus_transformer.query import Query
 from nimbus_transformer.result import Result
-question = Question("what?")
+question = Question("what is foaad khosmood's email?")
 query = Query(question)
 google_result = Result(query)
 print(google_result.get_google_result())
@@ -40,12 +44,20 @@ print(google_result.get_google_result())
 
 A Google `Result` is an HTML page [like this page][4].
 
+[//]: # (markdown comment # noqa)
+A GET request to the corresponding URL of a Google Search `nimbus_transformer.query.Query`
+is needed to extract the HTML page and later the `nimbus_transformer.context.Context`.
+
+```
+http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+```
+
 Typical usage example:
 
     from nimbus_transformer.question import Question
     from nimbus_transformer.query import Query
     from nimbus_transformer.result import Result
-    question = Question(&#34;what?&#34;)
+    question = Question(&#34;what is foaad khosmood&#39;s email?&#34;)
     query = Query(question)
     google_result = Result(query)
     print(google_result.get_google_result())
@@ -85,6 +97,8 @@ class Result(str):
     A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
+
+    # TODO: ResultURLs is a property of Result
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be
@@ -195,6 +209,7 @@ into their appropriate codes.</p></section>
 <dd>
 <section class="desc"><p>A <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a> is the Google html page for a given <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>.</p>
 <p>For example <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">this page</a>.</p>
+<h1 id="todo-resulturls-is-a-property-of-result">TODO: ResultURLs is a property of Result</h1>
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>query</code></strong></dt>
@@ -212,6 +227,8 @@ which is expected to be used as a URL parameter.</dd>
     A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
+
+    # TODO: ResultURLs is a property of Result
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be
