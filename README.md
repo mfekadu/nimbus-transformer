@@ -1,6 +1,8 @@
 # nimbus-transformer
 it's like Nimbus but uses a transformer language model
 
+## [Documentation][10]
+
 ## A Simple Program
 
 **Assumptions**
@@ -151,3 +153,5 @@ nlp({
 [7]: https://github.com/MarioVilas/googlesearch
 [8]: https://pypi.org/project/beautifulsoup4/
 [9]: https://github.com/huggingface/transformers#quick-tour-of-pipelines
+[10]: https://mfekadu.github.io/nimbus-transformer/
+
