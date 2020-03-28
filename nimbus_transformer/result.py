@@ -73,6 +73,12 @@ class Results(str):
     def __init__(self, query: Query) -> None:
         super().__init__()
         self.query = query
+    @property
+    def result(self) -> str:
+        """
+        `Results.get_google_result`
+        """
+        return self.get_google_result()
 
     def get_google_result(self) -> str:
         """
