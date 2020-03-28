@@ -5,7 +5,6 @@ from nimbus_transformer.query import Query
 from nimbus_transformer.result import Results
 
 
-
 class Context(str):
     """
     `Context`: one large text document containing
@@ -47,8 +46,11 @@ if __name__ == "__main__":
 
     google_result = Results(query)
 
-    print(google_result.BASE_URL)
+    for url in google_result:
+        print(url)
 
-    print(google_result.question)
-    print(google_result.query)
-    print(google_result.get_google_result())
+    # print(google_result.BASE_URL)
+
+    # print(google_result.question)
+    # print(google_result.query)
+    # print(google_result.get_google_result())

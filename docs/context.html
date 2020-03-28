@@ -22,17 +22,17 @@
 <section id="section-intro">
 <p>Defines the Google Search <a title="nimbus_transformer.context.Context" href="#nimbus_transformer.context.Context"><code>Context</code></a> object.</p>
 <p>A Google Search <a title="nimbus_transformer.context.Context" href="#nimbus_transformer.context.Context"><code>Context</code></a> is one large text document of the text content of the
-first 10 <code>ResultURLs</code> from a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>.</p>
+first 10 <code>ResultsURLs</code> from a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>.</p>
 <p>Typical usage example:</p>
 <pre><code>from nimbus_transformer.question import Question
 from nimbus_transformer.query import Query
-from nimbus_transformer.result import Result
-# TODO: somehow get the ResultURLs
-# TODO: ResultURLs is a property of Result
+from nimbus_transformer.result import Results
+# TODO: somehow get the ResultsURLs
+# TODO: ResultsURLs is a property of Results
 from nimbus_transformer.context import Context
 question = Question("what is foaad khosmood's email?")
 query = Query(question)
-google_result = Result(query)
+google_result = Results(query)
 # TODO: finish this example
 &gt;&gt;&gt; # TODO: finish this example
 </code></pre>
@@ -43,20 +43,20 @@ google_result = Result(query)
 <pre><code class="python">&#34;&#34;&#34;Defines the Google Search `Context` object.
 
 A Google Search `Context` is one large text document of the text content of the
-first 10 `ResultURLs` from a Google Search `nimbus_transformer.query.Query`.
+first 10 `ResultsURLs` from a Google Search `nimbus_transformer.query.Query`.
 
 
 Typical usage example:
 
     from nimbus_transformer.question import Question
     from nimbus_transformer.query import Query
-    from nimbus_transformer.result import Result
-    # TODO: somehow get the ResultURLs
-    # TODO: ResultURLs is a property of Result
+    from nimbus_transformer.result import Results
+    # TODO: somehow get the ResultsURLs
+    # TODO: ResultsURLs is a property of Results
     from nimbus_transformer.context import Context
     question = Question(&#34;what is foaad khosmood&#39;s email?&#34;)
     query = Query(question)
-    google_result = Result(query)
+    google_result = Results(query)
     # TODO: finish this example
     &gt;&gt;&gt; # TODO: finish this example
 
@@ -67,7 +67,7 @@ Typical usage example:
 class Context(str):
     &#34;&#34;&#34;
     A `Context` is one large text document of the text content of the
-    first 10 `ResultURLs` from a Google Search `nimbus_transformer.query.Query`
+    first 10 `ResultsURLs` from a Google Search `nimbus_transformer.query.Query`
 
     Attributes:
         # TODO: ???
@@ -93,7 +93,7 @@ class Context(str):
 </code></dt>
 <dd>
 <section class="desc"><p>A <a title="nimbus_transformer.context.Context" href="#nimbus_transformer.context.Context"><code>Context</code></a> is one large text document of the text content of the
-first 10 <code>ResultURLs</code> from a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a></p>
+first 10 <code>ResultsURLs</code> from a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a></p>
 <h2 id="attributes">Attributes</h2>
 <h1 id="todo">TODO: ???</h1>
 <h1 id="todo-simplecontext-is-a-property-of-context">TODO: SimpleContext is a property of Context</h1></section>
@@ -104,7 +104,7 @@ first 10 <code>ResultURLs</code> from a Google Search <a title="nimbus_transform
 <pre><code class="python">class Context(str):
     &#34;&#34;&#34;
     A `Context` is one large text document of the text content of the
-    first 10 `ResultURLs` from a Google Search `nimbus_transformer.query.Query`
+    first 10 `ResultsURLs` from a Google Search `nimbus_transformer.query.Query`
 
     Attributes:
         # TODO: ???
