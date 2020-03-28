@@ -16,9 +16,10 @@ Typical usage example:
 
 class Question(str):
     """
+    [//]: # (markdown comment # noqa)
     A `Question` is a sentence that elicits information
     about Cal Poly staff/clubs/etc. This class merely wraps the `str` type
-    for increased readablility of the code below. # noqa
+    for increased readablility of the code below.
 
     TODO: consider adding functions to this class like:
 

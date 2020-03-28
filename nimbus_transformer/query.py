@@ -22,7 +22,7 @@ from nimbus_transformer.question import Question
 class Query(str):
     """
     A `Query` is a string that would be
-            typed into the Google search box,
+            typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
     Example:

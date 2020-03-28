@@ -1,3 +1,21 @@
+"""Defines the Google Search `Result` object.
+
+A Google `Result` is an HTML page [like this page][4].
+
+Typical usage example:
+
+    from nimbus_transformer.question import Question
+    from nimbus_transformer.query import Query
+    from nimbus_transformer.result import Result
+    question = Question("what?")
+    query = Query(question)
+    google_result = Result(query)
+    print(google_result.get_google_result())
+    >>> '<html><body><div>...</div></body></html>'
+
+[4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+"""
+
 import googlesearch
 from nimbus_transformer.query import Query
 
@@ -6,7 +24,7 @@ def url_param_sanitize(q: Query) -> str:
     """
     Args:
         q: A `nimbus_transformer.query.Query` string that would be
-            typed into the Google search box,
+            typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
     Example:
@@ -25,13 +43,14 @@ def url_param_sanitize(q: Query) -> str:
 
 class Result(str):
     """
+    [//]: # (markdown comment # noqa)
     A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be
-            typed into the Google search box,
+            typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
@@ -46,7 +65,7 @@ class Result(str):
 
     def get_google_result(self) -> str:
         """
-        Perform a Google search and return the html content.
+        Perform a Google Search and return the html content.
 
         Example:
             >>> from nimbus_transformer import Question, Query, Result
@@ -57,7 +76,7 @@ class Result(str):
             '<html><body><div>...</div></body></html>'
 
         Returns:
-            A string of HTML representing the [Google search result][4] page.
+            A string of HTML representing the [Google Search result][4] page.
 
         [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
         """

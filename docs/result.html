@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.5" />
 <title>nimbus_transformer.result API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Defines the Google Search `Result` object …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -20,11 +20,41 @@
 <h1 class="title">Module <code>nimbus_transformer.result</code></h1>
 </header>
 <section id="section-intro">
+<p>Defines the Google Search <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a> object.</p>
+<p>A Google <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a> is an HTML page <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">like this page</a>.</p>
+<p>Typical usage example:</p>
+<pre><code>from nimbus_transformer.question import Question
+from nimbus_transformer.query import Query
+from nimbus_transformer.result import Result
+question = Question("what?")
+query = Query(question)
+google_result = Result(query)
+print(google_result.get_google_result())
+&gt;&gt;&gt; '&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import googlesearch
+<pre><code class="python">&#34;&#34;&#34;Defines the Google Search `Result` object.
+
+A Google `Result` is an HTML page [like this page][4].
+
+Typical usage example:
+
+    from nimbus_transformer.question import Question
+    from nimbus_transformer.query import Query
+    from nimbus_transformer.result import Result
+    question = Question(&#34;what?&#34;)
+    query = Query(question)
+    google_result = Result(query)
+    print(google_result.get_google_result())
+    &gt;&gt;&gt; &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
+
+[4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+&#34;&#34;&#34;
+
+import googlesearch
 from nimbus_transformer.query import Query
 
 
@@ -32,7 +62,7 @@ def url_param_sanitize(q: Query) -&gt; str:
     &#34;&#34;&#34;
     Args:
         q: A `nimbus_transformer.query.Query` string that would be
-            typed into the Google search box,
+            typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
     Example:
@@ -51,13 +81,14 @@ def url_param_sanitize(q: Query) -&gt; str:
 
 class Result(str):
     &#34;&#34;&#34;
+    [//]: # (markdown comment # noqa)
     A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be
-            typed into the Google search box,
+            typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
@@ -72,7 +103,7 @@ class Result(str):
 
     def get_google_result(self) -&gt; str:
         &#34;&#34;&#34;
-        Perform a Google search and return the html content.
+        Perform a Google Search and return the html content.
 
         Example:
             &gt;&gt;&gt; from nimbus_transformer import Question, Query, Result
@@ -83,7 +114,7 @@ class Result(str):
             &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
 
         Returns:
-            A string of HTML representing the [Google search result][4] page.
+            A string of HTML representing the [Google Search result][4] page.
 
         [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
         &#34;&#34;&#34;
@@ -114,7 +145,7 @@ class Result(str):
 <dl>
 <dt><strong><code>q</code></strong></dt>
 <dd>A <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a> string that would be
-typed into the Google search box,
+typed into the Google Search box,
 which is expected to be used as a URL parameter.</dd>
 </dl>
 <h2 id="example">Example</h2>
@@ -135,7 +166,7 @@ into their appropriate codes.</p></section>
     &#34;&#34;&#34;
     Args:
         q: A `nimbus_transformer.query.Query` string that would be
-            typed into the Google search box,
+            typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
     Example:
@@ -168,7 +199,7 @@ into their appropriate codes.</p></section>
 <dl>
 <dt><strong><code>query</code></strong></dt>
 <dd>A <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a> string that would be
-typed into the Google search box,
+typed into the Google Search box,
 which is expected to be used as a URL parameter.</dd>
 </dl></section>
 <details class="source">
@@ -177,13 +208,14 @@ which is expected to be used as a URL parameter.</dd>
 </summary>
 <pre><code class="python">class Result(str):
     &#34;&#34;&#34;
+    [//]: # (markdown comment # noqa)
     A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be
-            typed into the Google search box,
+            typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
@@ -198,7 +230,7 @@ which is expected to be used as a URL parameter.</dd>
 
     def get_google_result(self) -&gt; str:
         &#34;&#34;&#34;
-        Perform a Google search and return the html content.
+        Perform a Google Search and return the html content.
 
         Example:
             &gt;&gt;&gt; from nimbus_transformer import Question, Query, Result
@@ -209,7 +241,7 @@ which is expected to be used as a URL parameter.</dd>
             &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
 
         Returns:
-            A string of HTML representing the [Google search result][4] page.
+            A string of HTML representing the [Google Search result][4] page.
 
         [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
         &#34;&#34;&#34;
@@ -259,7 +291,7 @@ def question(self):
 <span>def <span class="ident">get_google_result</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Perform a Google search and return the html content.</p>
+<section class="desc"><p>Perform a Google Search and return the html content.</p>
 <h2 id="example">Example</h2>
 <pre><code>&gt;&gt;&gt; from nimbus_transformer import Question, Query, Result
 &gt;&gt;&gt; question = Question("what is foaad khosmood's email?")
@@ -269,14 +301,14 @@ def question(self):
 '&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
 </code></pre>
 <h2 id="returns">Returns</h2>
-<p>A string of HTML representing the <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">Google search result</a> page.</p></section>
+<p>A string of HTML representing the <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">Google Search result</a> page.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_google_result(self) -&gt; str:
     &#34;&#34;&#34;
-    Perform a Google search and return the html content.
+    Perform a Google Search and return the html content.
 
     Example:
         &gt;&gt;&gt; from nimbus_transformer import Question, Query, Result
@@ -287,7 +319,7 @@ def question(self):
         &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
 
     Returns:
-        A string of HTML representing the [Google search result][4] page.
+        A string of HTML representing the [Google Search result][4] page.
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
