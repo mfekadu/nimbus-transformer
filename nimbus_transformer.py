@@ -3,11 +3,30 @@
 
 class Question(str):
     """
-    `Question`: a sentence that elicits information
-        about Cal Poly staff/clubs/etc.
-    e.g. `"What is Foaad Khosmood's email?"`
-    e.g. `"What is Foaad's office?"`
-    e.g. `"What courses does Foaad Khosmood teach this quarter?"`
+    A `Question` is a sentence that elicits information
+    about Cal Poly staff/clubs/etc. This class merely wraps the `str` type
+    for increased readablility of the code below. # noqa
+
+    TODO: consider adding functions to this class like:
+
+    * classify - maps a given `Question` to a known `Question` with
+        - [`sklearn.neighbors.KNeighborsClassifier` as used by Cal Poly CSAI][1]
+
+    * paraphrase - kind of like classify, but use a technique
+        - known as Question Paraphrasing coined by Gan et al.
+        - https://www.aclweb.org/anthology/P19-1610/
+
+    * normalize - transform the given `Question` string to all lowercase, etc.
+
+    Example:
+        >>> Question("What is Foaad Khosmood's email?")
+        "What is Foaad Khosmood's email?"
+        >>> Question("What is Foaad's office?")
+        "What is Foaad's office?"
+        >>> Question("What courses does Foaad Khosmood teach this quarter?")
+        'What courses does Foaad Khosmood teach this quarter?'
+
+    [1]: https://github.com/calpoly-csai/api/blob/7e24774fccc6f835c59c4b6d3414b79c1ba1fd0b/nimbus_nlp/question_classifier.py#L5
     """
 
     pass
@@ -15,16 +34,34 @@ class Question(str):
 
 class Query(str):
     """
-    `Query`: a string of text to pass into Google search
-    `{Question}` or
-    `{Question} site:calpoly.edu`
+    A `Query` is a string that would be
+            typed into the Google search box,
+            which is expected to be used as a URL parameter.
+
+    Example:
+        >>> question = Question("what is foaad khosmood's email?")
+        >>> Query(question)
+        "what is foaad khosmood's email? site:calpoly.edu"
 
     Resources:
-        * https://stackoverflow.com/q/2673651
+        * Example Google Search:
+            * http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+
+        * More details about the dunder `__new__` method:
+            * https://stackoverflow.com/q/2673651
     """
 
     def __new__(cls, question: Question):
-        """Describes how to create a new Query string object"""
+        """
+        Describes how to create a new `Query` string object
+            from a given `Question`.
+
+        Args:
+            question: A `Question` string.
+
+        Returns:
+            A `Query` object.
+        """
 
         # make a Google query with appropriate scope of domain name
         query = f"{question} site:calpoly.edu"
