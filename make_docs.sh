@@ -1,6 +1,8 @@
 #!/bin/bash
 pdoc --html nimbus_transformer --output-dir docs --force
 
+mv docs/nimbus_transformer/* docs
+
 if [[ $1 == "--open" ]] ||
     [[ $2 == "--open" ]] ||
     [[ $1 == "-open" ]] ||
@@ -9,7 +11,7 @@ if [[ $1 == "--open" ]] ||
     [[ $2 == "open" ]] ||
     [[ $1 == "o" ]] ||
     [[ $2 == "o" ]]; then
-    open docs/nimbus_transformer/index.html
+    open docs/index.html
 else
-    echo "open docs/nimbus_transformer.html"
+    echo "open docs/index.html"
 fi
