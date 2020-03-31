@@ -15,6 +15,7 @@ beautifulsoup4 = "*"
 torch = "*"
 torchvision = "*"
 pdoc3 = "*"
+pyre-check = "*"
 
 [requires]
 python_version = "3.6"
