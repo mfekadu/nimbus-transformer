@@ -98,6 +98,9 @@ class Results:
             * https://stackoverflow.com/q/24856035
             * TODO: write tests
 
+        * GeeksForGeeks about `__iter__` and `__next__`
+            * https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/
+
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     """
 
@@ -110,6 +113,10 @@ class Results:
         self.query = query
         self._html_page = self.get_google_result()
         self._first_ten_urls = [u for u in self.fetch_result_urls(limit=10)]
+        self.urls = self._first_ten_urls
+        self.start = 0
+        self.num = self.start
+        self.end = 9
 
     def fetch_result_urls(self, limit=None) -> Iterator[str]:
         """Fetches result URLs from [large list of Google Search results][4].
@@ -141,6 +148,16 @@ class Results:
 
     def __getitem__(self, position):
         return self._first_ten_urls[position]
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.num > self.end:
+            raise StopIteration
+        else:
+            self.num += 1
+            return self.urls[self.num - 1]
 
     @property
     def result(self) -> str:
