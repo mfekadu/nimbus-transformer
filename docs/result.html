@@ -141,7 +141,7 @@ def url_param_sanitize(q: Query) -&gt; str:
         A string such that spaces are converted to `+` and special characters
             into their appropriate codes.
     &#34;&#34;&#34;
-    return googlesearch.quote_plus(str(q))
+    return googlesearch.quote_plus(str(q))  # pyre-ignore[16]
 
 
 class Results:
@@ -296,7 +296,7 @@ into their appropriate codes.</p></section>
         A string such that spaces are converted to `+` and special characters
             into their appropriate codes.
     &#34;&#34;&#34;
-    return googlesearch.quote_plus(str(q))</code></pre>
+    return googlesearch.quote_plus(str(q))  # pyre-ignore[16]</code></pre>
 </details>
 </dd>
 </dl>

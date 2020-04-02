@@ -75,7 +75,7 @@ def url_param_sanitize(q: Query) -> str:
         A string such that spaces are converted to `+` and special characters
             into their appropriate codes.
     """
-    return googlesearch.quote_plus(str(q))
+    return googlesearch.quote_plus(str(q))  # pyre-ignore[16]
 
 
 class Results:
