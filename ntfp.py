@@ -237,4 +237,5 @@ if __name__ == "__main__":
     print("Transformer: ", Transformer, "\n")
     print("type(Transformer): ", type(Transformer), "\n")
     print("get_type_hints(transformer): ", get_type_hints(transformer), "\n")
+    print("create_query(Question('what?')): ", create_query(Question("what?")))
     # print(": ", transformer("ok", "cool"))

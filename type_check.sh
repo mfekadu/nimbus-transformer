@@ -19,12 +19,26 @@ python_version_folder=$(
 
 site_packages_path="$pipenv_location/lib/$python_version_folder/site-packages/"
 
-echo $site_packages_path
-echo
-echo
+# echo $site_packages_path
 
-pyre --search-path \
+echo
+echo "
+pyre \
+    --hide-parse-errors \
+    --search-path \
     $site_packages_path \
     --source-directory \
     . \
     check
+"
+echo
+echo
+
+pyre \
+    --hide-parse-errors \
+    --search-path \
+    $site_packages_path \
+    --source-directory \
+    . \
+    check
+
