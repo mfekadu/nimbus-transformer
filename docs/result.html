@@ -164,6 +164,9 @@ class Results:
             * https://stackoverflow.com/q/24856035
             * TODO: write tests
 
+        * GeeksForGeeks about `__iter__` and `__next__`
+            * https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/
+
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
 
@@ -176,6 +179,10 @@ class Results:
         self.query = query
         self._html_page = self.get_google_result()
         self._first_ten_urls = [u for u in self.fetch_result_urls(limit=10)]
+        self.urls = self._first_ten_urls
+        self.start = 0
+        self.num = self.start
+        self.end = 9
 
     def fetch_result_urls(self, limit=None) -&gt; Iterator[str]:
         &#34;&#34;&#34;Fetches result URLs from [large list of Google Search results][4].
@@ -208,6 +215,16 @@ class Results:
     def __getitem__(self, position):
         return self._first_ten_urls[position]
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.num &gt; self.end:
+            raise StopIteration
+        else:
+            self.num += 1
+            return self.urls[self.num - 1]
+
     @property
     def result(self) -&gt; str:
         &#34;&#34;&#34;
@@ -232,16 +249,21 @@ class Results:
 
         [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
         &#34;&#34;&#34;
-        URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;
+        # fmt:off
+        URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;  # pyre-fixme[6] because `query = None` means Optional  # noqa
+        # fmt:on
         html_page = googlesearch.get_page(URL)
         return html_page
 
     @property
     def question(self) -&gt; Question:
         &#34;&#34;&#34;
+        [//]: # (markdown comment # noqa)
         Gets the original `nimbus_transformer.question.Question` that leads to this `Results`
         &#34;&#34;&#34;
-        return self.query.question</code></pre>
+        # fmt:off
+        return self.query.question # pyre-fixme[16] because `query = None` means Optional  # noqa
+        # fmt:on</code></pre>
 </details>
 </section>
 <section>
@@ -321,9 +343,17 @@ which is expected to be used as a URL parameter.</dd>
 </dl>
 <h2 id="resources">Resources</h2>
 <ul>
-<li>How to assert string is HTML<ul>
+<li>
+<p>How to assert string is HTML</p>
+<ul>
 <li><a href="https://stackoverflow.com/q/24856035">https://stackoverflow.com/q/24856035</a></li>
 <li>TODO: write tests</li>
+</ul>
+</li>
+<li>
+<p>GeeksForGeeks about <code>__iter__</code> and <code>__next__</code></p>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/">https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/</a></li>
 </ul>
 </li>
 </ul></section>
@@ -351,6 +381,9 @@ which is expected to be used as a URL parameter.</dd>
             * https://stackoverflow.com/q/24856035
             * TODO: write tests
 
+        * GeeksForGeeks about `__iter__` and `__next__`
+            * https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/
+
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
 
@@ -363,6 +396,10 @@ which is expected to be used as a URL parameter.</dd>
         self.query = query
         self._html_page = self.get_google_result()
         self._first_ten_urls = [u for u in self.fetch_result_urls(limit=10)]
+        self.urls = self._first_ten_urls
+        self.start = 0
+        self.num = self.start
+        self.end = 9
 
     def fetch_result_urls(self, limit=None) -&gt; Iterator[str]:
         &#34;&#34;&#34;Fetches result URLs from [large list of Google Search results][4].
@@ -395,6 +432,16 @@ which is expected to be used as a URL parameter.</dd>
     def __getitem__(self, position):
         return self._first_ten_urls[position]
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.num &gt; self.end:
+            raise StopIteration
+        else:
+            self.num += 1
+            return self.urls[self.num - 1]
+
     @property
     def result(self) -&gt; str:
         &#34;&#34;&#34;
@@ -419,16 +466,20 @@ which is expected to be used as a URL parameter.</dd>
 
         [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
         &#34;&#34;&#34;
-        URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;
+        # fmt:off
+        URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;  # pyre-fixme[6] because `query = None` means Optional  # noqa
+        # fmt:on
         html_page = googlesearch.get_page(URL)
         return html_page
 
     @property
     def question(self) -&gt; Question:
         &#34;&#34;&#34;
+        [//]: # (markdown comment # noqa)
         Gets the original `nimbus_transformer.question.Question` that leads to this `Results`
         &#34;&#34;&#34;
-        return self.query.question</code></pre>
+        # fmt:off
+        return self.query.question # pyre-fixme[16] because `query = None` means Optional  # noqa</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -453,9 +504,11 @@ which is expected to be used as a URL parameter.</dd>
 <pre><code class="python">@property
 def question(self) -&gt; Question:
     &#34;&#34;&#34;
+    [//]: # (markdown comment # noqa)
     Gets the original `nimbus_transformer.question.Question` that leads to this `Results`
     &#34;&#34;&#34;
-    return self.query.question</code></pre>
+    # fmt:off
+    return self.query.question # pyre-fixme[16] because `query = None` means Optional  # noqa</code></pre>
 </details>
 </dd>
 <dt id="nimbus_transformer.result.Results.result"><code class="name">var <span class="ident">result</span></code></dt>
@@ -558,7 +611,9 @@ def result(self) -&gt; str:
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
-    URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;
+    # fmt:off
+    URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;  # pyre-fixme[6] because `query = None` means Optional  # noqa
+    # fmt:on
     html_page = googlesearch.get_page(URL)
     return html_page</code></pre>
 </details>

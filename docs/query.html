@@ -246,7 +246,7 @@ class Query(str):
         query = f&#34;{question} site:calpoly.edu&#34;
 
         # use the str.__new__() and rename object as Query
-        obj = str.__new__(cls, query)
+        obj = str.__new__(cls, query)  # pyre-fixme[19]
 
         # save for future reference
         obj.question = question
@@ -620,7 +620,7 @@ and you don't really get much benefit.</a></p>
         query = f&#34;{question} site:calpoly.edu&#34;
 
         # use the str.__new__() and rename object as Query
-        obj = str.__new__(cls, query)
+        obj = str.__new__(cls, query)  # pyre-fixme[19]
 
         # save for future reference
         obj.question = question

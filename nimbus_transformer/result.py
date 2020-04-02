@@ -183,13 +183,18 @@ class Results:
 
         [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
         """
-        URL = f"{self.BASE_URL}{url_param_sanitize(self.query)}"
+        # fmt:off
+        URL = f"{self.BASE_URL}{url_param_sanitize(self.query)}"  # pyre-fixme[6] because `query = None` means Optional  # noqa
+        # fmt:on
         html_page = googlesearch.get_page(URL)
         return html_page
 
     @property
     def question(self) -> Question:
         """
+        [//]: # (markdown comment # noqa)
         Gets the original `nimbus_transformer.question.Question` that leads to this `Results`
         """
-        return self.query.question
+        # fmt:off
+        return self.query.question # pyre-fixme[16] because `query = None` means Optional  # noqa
+        # fmt:on
