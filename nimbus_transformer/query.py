@@ -208,7 +208,7 @@ class Query(str):
         query = f"{question} site:calpoly.edu"
 
         # use the str.__new__() and rename object as Query
-        obj = str.__new__(cls, query)
+        obj = str.__new__(cls, query)  # pyre-fixme[19]
 
         # save for future reference
         obj.question = question
