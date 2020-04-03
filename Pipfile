@@ -16,6 +16,7 @@ torch = "*"
 torchvision = "*"
 pdoc3 = "*"
 pyre-check = "*"
+typing-extensions = "*"
 
 [requires]
 python_version = "3.6"

@@ -16,6 +16,7 @@ Resources:
     * [__pdoc__override]
     * [pyre-check error suppression][5]
     * [mypy type hints cheat sheet][6]
+    * [Carl Meyer - Type-checked Python in the real world - PyCon 2018][carl_myer_pycon2018]
 
 [1]: http://github.com/calpoly-csai/api
 [2]: https://github.com/huggingface/transformers
@@ -26,6 +27,8 @@ Resources:
 [5]: https://pyre-check.org/docs/error-suppression.html
 
 [6]: https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html
+
+[carl_myer_pycon2018]: https://youtu.be/pMgmKJyWKn8
 
 [python3_typing]: https://docs.python.org/3/library/typing.html
 [python3_functools]: https://docs.python.org/3/library/functools.html
@@ -46,7 +49,10 @@ from typing import (
     NewType,
     TypeVar,
     get_type_hints,
-)  # TODO: typing.Literal
+)  # TODO: typing.Literal typing.Final both in python3.8
+
+from typing_extensions import Final, Literal
+
 import googlesearch
 from transformers import pipeline
 
@@ -60,7 +66,7 @@ Result = NewType("Result", str)
 Results = NewType("Results", List[str])
 Answer = NewType("Answer", str)
 Transformer = Callable[[str, str], str]
-IDK_TYPE = NewType("IDK_TYPE", str)
+IDK_TYPE = Literal["¯\\_(ツ)_/¯"]
 
 
 # fmt: off
@@ -161,7 +167,6 @@ Example:
     ```
 """
 
-# TODO in python 3.8: IDK_TYPE =  Literal["¯\\_(ツ)_/¯"]
 IDK_TYPE_TypeVar = TypeVar(
     "IDK_TYPE",
     IDK_TYPE,
@@ -169,7 +174,7 @@ IDK_TYPE_TypeVar = TypeVar(
 )
 """IDK_TYPE"""
 
-IDK: IDK_TYPE = IDK_TYPE("¯\\_(ツ)_/¯")
+IDK: IDK_TYPE = "¯\\_(ツ)_/¯"
 """IDK: `IDK_TYPE`"""
 
 TransformerTypeVar = TypeVar(
@@ -230,8 +235,8 @@ if __name__ == "__main__":
     print("type(IDK_TYPE): ", type(IDK_TYPE), "\n")
     print("IDK_TYPE_TypeVar: ", IDK_TYPE_TypeVar, "\n")
     print("type(IDK_TYPE_TypeVar): ", type(IDK_TYPE_TypeVar), "\n")
-    print('IDK_TYPE("hello"): ', IDK_TYPE("hello"), "\n")
-    print('type(IDK_TYPE("hello")): ', type(IDK_TYPE("hello")), "\n")
+    # print('IDK_TYPE("hello"): ', IDK_TYPE("hello"), "\n")
+    # print('type(IDK_TYPE("hello")): ', type(IDK_TYPE("hello")), "\n")
     print("transformer: ", transformer, "\n")
     print("type(transformer): ", type(transformer), "\n")
     print("Transformer: ", Transformer, "\n")
