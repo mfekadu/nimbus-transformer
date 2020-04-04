@@ -25,9 +25,9 @@ if [[ $1 == "--ntfp" ]] ||
     [[ $2 == "n" ]] ||
     [[ $1 == "fp" ]] ||
     [[ $2 == "fp" ]]; then
-    pdoc --html ntfp.py --output-dir docs --force
-    open docs/ntfp.html
+    pdoc --html ntfp --output-dir docs --force
+    open docs/ntfp/index.html
 else
-    echo "pdoc --html ntfp.py --output-dir docs --force"
-    echo "open docs/ntfp.html"
+    echo "pdoc --html ntfp --output-dir docs --force"
+    echo "open docs/index.html"
 fi
