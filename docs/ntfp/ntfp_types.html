@@ -88,6 +88,8 @@ Has _subtype_ [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage).
 
 Has _subtype_ [`GoogleResultURLPage`](#ntfp.ntfp_types.GoogleResultURLPage).
 
+Just a string of HTML.
+
 Example:
     ```
     &#34;&lt;html&gt;&lt;body&gt;&lt;div&gt;...Website.com...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#34;
@@ -120,10 +122,16 @@ __pdoc__[
 
 Has _supertype_ [`WebPage`](#ntfp.ntfp_types.WebPage).
 
+The actual Google search page with results.
+
 Example:
     ```
     &#34;&lt;html&gt;&lt;body&gt;&lt;div&gt;...Google.com...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#34;
     ```
+
+    [**Click here for an example GoogleResultPage**][4]
+
+[4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
 &#34;&#34;&#34;
 GoogleResultPages = List[GoogleResultPage]
 GoogleResultPageIterataor = Iterator[GoogleResultPage]
@@ -136,7 +144,7 @@ __pdoc__[
 
 Has _supertype_ [`URL`](#ntfp.ntfp_types.URL).
 
-A URL found in a GoogleResultPage like:
+A URL found in a [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage) like:
 
 ```
 &#34;http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu&#34;
@@ -152,6 +160,16 @@ Example:
     ...     &#39;https://cpe.calpoly.edu/faculty/&#39;,
     ...     &#39;...&#39;
     ... ]
+
+    ### Image Example
+    The GoogleResultURLs are the clickable purple or blue text in the image below.
+    &lt;br&gt;
+    The first example GoogleResultURL below is _&#34;https://cpe.calpoly.edu/faculty/foaad/&#34;_
+    &lt;br&gt;
+    &lt;img src=&#34;../../google.png&#34;
+         alt=&#34;google.png&#34;
+         width=&#34;400px&#34;
+         title=&#34;the GoogleResultURLs are the clickable purple or blue text in this image.&#34;/&gt;
 &#34;&#34;&#34;
 GoogleResultURLs = List[GoogleResultURL]
 GoogleResultURLIterator = Iterator[GoogleResultURL]
@@ -168,6 +186,16 @@ Example:
     ```
     &#34;&lt;html&gt;&lt;body&gt;&lt;div&gt;...ResultURL.com...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#34;
     ```
+
+    ### Image Example
+    [**Clicking on the first link**][1] in the below image of a Google search would then display a GoogleResultURLPage.
+    &lt;br&gt;
+    &lt;img src=&#34;../../google.png&#34;
+         alt=&#34;google.png&#34;
+         width=&#34;400px&#34;
+         title=&#34;...&#34;/&gt;
+
+[1]: https://cpe.calpoly.edu/faculty/foaad/
 &#34;&#34;&#34;
 GoogleResultURLPages = List[GoogleResultURLPage]
 GoogleResultURLPageIterator = Iterator[GoogleResultURLPage]
@@ -177,6 +205,11 @@ Context = NewType(&#34;Context&#34;, str)
 __pdoc__[
     &#34;Context&#34;
 ] = &#34;&#34;&#34;A Context type
+
+Has _subtype_ [`GoogleContext`](#ntfp.ntfp_types.GoogleContext).
+
+Has _subtype_ [`FullContext`](#ntfp.ntfp_types.FullContext).
+
 Example:
     [`Question`](#ntfp.ntfp_types.Question): &#34;what is foaad khosmood&#39;s email?&#34;
 
@@ -186,6 +219,50 @@ Example:
 
     [`Answer`](#ntfp.ntfp_types.Answer): &#34;foaad@calpoly.edu&#34;
 &#34;&#34;&#34;
+
+GoogleContext = NewType(&#34;GoogleContext&#34;, Context)
+&#34;&#34;&#34;GoogleContext&#34;&#34;&#34;
+__pdoc__[
+    &#34;GoogleContext&#34;
+] = &#34;&#34;&#34;A GoogleContext type
+
+Has _supertype_ [`Context`](#ntfp.ntfp_types.Context).
+
+The short preview text that Google shows within the \
+    [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage) \
+    just below the [`GoogleResultURL`](#ntfp.ntfp_types.GoogleResultURL).
+
+That text often contains words that Google has deemed most _relevant_ to \
+    the query, and sometimes sufficiently answers the question.
+
+Example:
+    [Click here for an example Google Search][4] and determine for yourself \
+        if the short block of text below each \
+            [`GoogleResultURL`](#ntfp.ntfp_types.GoogleResultURL) \
+            sufficiently answers the question.
+
+    ### Image Example
+    See the highlighted text below.
+    &lt;br&gt;
+    &lt;img src=&#34;../../google.png&#34;
+         alt=&#34;google.png&#34;
+         width=&#34;400px&#34;
+         title=&#34;the highlighted text is a GoogleContext&#34;/&gt;
+
+[4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+&#34;&#34;&#34;
+
+FullContext = NewType(&#34;FullContext&#34;, Context)
+&#34;&#34;&#34;FullContext&#34;&#34;&#34;
+__pdoc__[
+    &#34;FullContext&#34;
+] = &#34;&#34;&#34;A FullContext type
+
+Has _supertype_ [`Context`](#ntfp.ntfp_types.Context)
+
+**The text content of a [`GoogleResultURLPage`](#ntfp.ntfp_types.GoogleResultURLPage).**
+&#34;&#34;&#34;
+
 
 Answer = NewType(&#34;Answer&#34;, str)
 &#34;&#34;&#34;Answer&#34;&#34;&#34;
@@ -258,11 +335,59 @@ if __name__ == &#34;__main__&#34;:
 </code></dt>
 <dd>
 <section class="desc"><p>A Context type</p>
+<p>Has <em>subtype</em> <a href="#ntfp.ntfp_types.GoogleContext"><code>GoogleContext</code></a>.</p>
+<p>Has <em>subtype</em> <a href="#ntfp.ntfp_types.FullContext"><code>FullContext</code></a>.</p>
 <h2 id="example">Example</h2>
 <p><a href="#ntfp.ntfp_types.Question"><code>Question</code></a>: "what is foaad khosmood's email?"</p>
 <p><a href="#ntfp.ntfp_types.Query"><code>Query</code></a>: "what is foaad khosmood's email? site:calpoly.edu"</p>
 <p><a href="#ntfp.ntfp_types.Context"><code>Context</code></a>: "The email is foaad@calpoly.edu."</p>
 <p><a href="#ntfp.ntfp_types.Answer"><code>Answer</code></a>: "foaad@calpoly.edu"</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_type(x):
+    return x</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp_types.FullContext"><code class="name flex">
+<span>def <span class="ident">FullContext</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A FullContext type</p>
+<p>Has <em>supertype</em> <a href="#ntfp.ntfp_types.Context"><code>Context</code></a></p>
+<p><strong>The text content of a <a href="#ntfp.ntfp_types.GoogleResultURLPage"><code>GoogleResultURLPage</code></a>.</strong></p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_type(x):
+    return x</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp_types.GoogleContext"><code class="name flex">
+<span>def <span class="ident">GoogleContext</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A GoogleContext type</p>
+<p>Has <em>supertype</em> <a href="#ntfp.ntfp_types.Context"><code>Context</code></a>.</p>
+<p>The short preview text that Google shows within the
+<a href="#ntfp.ntfp_types.GoogleResultPage"><code>GoogleResultPage</code></a>
+just below the <a href="#ntfp.ntfp_types.GoogleResultURL"><code>GoogleResultURL</code></a>.</p>
+<p>That text often contains words that Google has deemed most <em>relevant</em> to
+the query, and sometimes sufficiently answers the question.</p>
+<h2 id="example">Example</h2>
+<p><a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">Click here for an example Google Search</a> and determine for yourself
+if the short block of text below each
+<a href="#ntfp.ntfp_types.GoogleResultURL"><code>GoogleResultURL</code></a>
+sufficiently answers the question.</p>
+<h3 id="image-example">Image Example</h3>
+<p>See the highlighted text below.
+<br>
+<img src="../../google.png"
+alt="google.png"
+width="400px"
+title="the highlighted text is a GoogleContext"/></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -277,9 +402,11 @@ if __name__ == &#34;__main__&#34;:
 <dd>
 <section class="desc"><p>A GoogleResultPage type</p>
 <p>Has <em>supertype</em> <a href="#ntfp.ntfp_types.WebPage"><code>WebPage</code></a>.</p>
+<p>The actual Google search page with results.</p>
 <h2 id="example">Example</h2>
 <pre><code>&quot;&lt;html&gt;&lt;body&gt;&lt;div&gt;...Google.com...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;
-</code></pre></section>
+</code></pre>
+<p><a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu"><strong>Click here for an example GoogleResultPage</strong></a></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -294,7 +421,7 @@ if __name__ == &#34;__main__&#34;:
 <dd>
 <section class="desc"><p>A GoogleResultURL type</p>
 <p>Has <em>supertype</em> <a href="#ntfp.ntfp_types.URL"><code>URL</code></a>.</p>
-<p>A URL found in a GoogleResultPage like:</p>
+<p>A URL found in a <a href="#ntfp.ntfp_types.GoogleResultPage"><code>GoogleResultPage</code></a> like:</p>
 <pre><code>&quot;http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu&quot;
 </code></pre>
 <h2 id="example">Example</h2>
@@ -307,7 +434,16 @@ if __name__ == &#34;__main__&#34;:
 ...     'https://cpe.calpoly.edu/faculty/',
 ...     '...'
 ... ]
-</code></pre></section>
+</code></pre>
+<h3 id="image-example">Image Example</h3>
+<p>The GoogleResultURLs are the clickable purple or blue text in the image below.
+<br>
+The first example GoogleResultURL below is <em>"https://cpe.calpoly.edu/faculty/foaad/"</em>
+<br>
+<img src="../../google.png"
+alt="google.png"
+width="400px"
+title="the GoogleResultURLs are the clickable purple or blue text in this image."/></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -324,7 +460,14 @@ if __name__ == &#34;__main__&#34;:
 <p>Has <em>supertype</em> <a href="#ntfp.ntfp_types.WebPage"><code>WebPage</code></a>.</p>
 <h2 id="example">Example</h2>
 <pre><code>&quot;&lt;html&gt;&lt;body&gt;&lt;div&gt;...ResultURL.com...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;
-</code></pre></section>
+</code></pre>
+<h3 id="image-example">Image Example</h3>
+<p><a href="https://cpe.calpoly.edu/faculty/foaad/"><strong>Clicking on the first link</strong></a> in the below image of a Google search would then display a GoogleResultURLPage.
+<br>
+<img src="../../google.png"
+alt="google.png"
+width="400px"
+title="..."/></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -411,6 +554,7 @@ if __name__ == &#34;__main__&#34;:
 <section class="desc"><p>A WebPage type</p>
 <p>Has <em>subtype</em> <a href="#ntfp.ntfp_types.GoogleResultPage"><code>GoogleResultPage</code></a>.</p>
 <p>Has <em>subtype</em> <a href="#ntfp.ntfp_types.GoogleResultURLPage"><code>GoogleResultURLPage</code></a>.</p>
+<p>Just a string of HTML.</p>
 <h2 id="example">Example</h2>
 <pre><code>&quot;&lt;html&gt;&lt;body&gt;&lt;div&gt;...Website.com...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;
 </code></pre></section>
@@ -448,6 +592,8 @@ if __name__ == &#34;__main__&#34;:
 <ul class="two-column">
 <li><code><a title="ntfp.ntfp_types.Answer" href="#ntfp.ntfp_types.Answer">Answer</a></code></li>
 <li><code><a title="ntfp.ntfp_types.Context" href="#ntfp.ntfp_types.Context">Context</a></code></li>
+<li><code><a title="ntfp.ntfp_types.FullContext" href="#ntfp.ntfp_types.FullContext">FullContext</a></code></li>
+<li><code><a title="ntfp.ntfp_types.GoogleContext" href="#ntfp.ntfp_types.GoogleContext">GoogleContext</a></code></li>
 <li><code><a title="ntfp.ntfp_types.GoogleResultPage" href="#ntfp.ntfp_types.GoogleResultPage">GoogleResultPage</a></code></li>
 <li><code><a title="ntfp.ntfp_types.GoogleResultURL" href="#ntfp.ntfp_types.GoogleResultURL">GoogleResultURL</a></code></li>
 <li><code><a title="ntfp.ntfp_types.GoogleResultURLPage" href="#ntfp.ntfp_types.GoogleResultURLPage">GoogleResultURLPage</a></code></li>

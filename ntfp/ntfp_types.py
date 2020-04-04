@@ -62,6 +62,8 @@ Has _subtype_ [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage).
 
 Has _subtype_ [`GoogleResultURLPage`](#ntfp.ntfp_types.GoogleResultURLPage).
 
+Just a string of HTML.
+
 Example:
     ```
     "<html><body><div>...Website.com...</div></body></html>"
@@ -94,10 +96,16 @@ __pdoc__[
 
 Has _supertype_ [`WebPage`](#ntfp.ntfp_types.WebPage).
 
+The actual Google search page with results.
+
 Example:
     ```
     "<html><body><div>...Google.com...</div></body></html>"
     ```
+
+    [**Click here for an example GoogleResultPage**][4]
+
+[4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
 """
 GoogleResultPages = List[GoogleResultPage]
 GoogleResultPageIterataor = Iterator[GoogleResultPage]
@@ -110,7 +118,7 @@ __pdoc__[
 
 Has _supertype_ [`URL`](#ntfp.ntfp_types.URL).
 
-A URL found in a GoogleResultPage like:
+A URL found in a [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage) like:
 
 ```
 "http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu"
@@ -126,6 +134,16 @@ Example:
     ...     'https://cpe.calpoly.edu/faculty/',
     ...     '...'
     ... ]
+
+    ### Image Example
+    The GoogleResultURLs are the clickable purple or blue text in the image below.
+    <br>
+    The first example GoogleResultURL below is _"https://cpe.calpoly.edu/faculty/foaad/"_
+    <br>
+    <img src="../../google.png"
+         alt="google.png"
+         width="400px"
+         title="the GoogleResultURLs are the clickable purple or blue text in this image."/>
 """
 GoogleResultURLs = List[GoogleResultURL]
 GoogleResultURLIterator = Iterator[GoogleResultURL]
@@ -142,6 +160,16 @@ Example:
     ```
     "<html><body><div>...ResultURL.com...</div></body></html>"
     ```
+
+    ### Image Example
+    [**Clicking on the first link**][1] in the below image of a Google search would then display a GoogleResultURLPage.
+    <br>
+    <img src="../../google.png"
+         alt="google.png"
+         width="400px"
+         title="..."/>
+
+[1]: https://cpe.calpoly.edu/faculty/foaad/
 """
 GoogleResultURLPages = List[GoogleResultURLPage]
 GoogleResultURLPageIterator = Iterator[GoogleResultURLPage]
@@ -151,6 +179,11 @@ Context = NewType("Context", str)
 __pdoc__[
     "Context"
 ] = """A Context type
+
+Has _subtype_ [`GoogleContext`](#ntfp.ntfp_types.GoogleContext).
+
+Has _subtype_ [`FullContext`](#ntfp.ntfp_types.FullContext).
+
 Example:
     [`Question`](#ntfp.ntfp_types.Question): "what is foaad khosmood's email?"
 
@@ -160,6 +193,50 @@ Example:
 
     [`Answer`](#ntfp.ntfp_types.Answer): "foaad@calpoly.edu"
 """
+
+GoogleContext = NewType("GoogleContext", Context)
+"""GoogleContext"""
+__pdoc__[
+    "GoogleContext"
+] = """A GoogleContext type
+
+Has _supertype_ [`Context`](#ntfp.ntfp_types.Context).
+
+The short preview text that Google shows within the \
+    [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage) \
+    just below the [`GoogleResultURL`](#ntfp.ntfp_types.GoogleResultURL).
+
+That text often contains words that Google has deemed most _relevant_ to \
+    the query, and sometimes sufficiently answers the question.
+
+Example:
+    [Click here for an example Google Search][4] and determine for yourself \
+        if the short block of text below each \
+            [`GoogleResultURL`](#ntfp.ntfp_types.GoogleResultURL) \
+            sufficiently answers the question.
+
+    ### Image Example
+    See the highlighted text below.
+    <br>
+    <img src="../../google.png"
+         alt="google.png"
+         width="400px"
+         title="the highlighted text is a GoogleContext"/>
+
+[4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+"""
+
+FullContext = NewType("FullContext", Context)
+"""FullContext"""
+__pdoc__[
+    "FullContext"
+] = """A FullContext type
+
+Has _supertype_ [`Context`](#ntfp.ntfp_types.Context)
+
+**The text content of a [`GoogleResultURLPage`](#ntfp.ntfp_types.GoogleResultURLPage).**
+"""
+
 
 Answer = NewType("Answer", str)
 """Answer"""
