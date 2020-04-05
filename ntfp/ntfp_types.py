@@ -140,7 +140,7 @@ Example:
     <br>
     The first example GoogleResultURL below is _"https://cpe.calpoly.edu/faculty/foaad/"_
     <br>
-    <img src="../../google.png"
+    <img src="../google.png"
          alt="google.png"
          width="400px"
          title="the GoogleResultURLs are the clickable purple or blue text in this image."/>
@@ -164,7 +164,7 @@ Example:
     ### Image Example
     [**Clicking on the first link**][1] in the below image of a Google search would then display a GoogleResultURLPage.
     <br>
-    <img src="../../google.png"
+    <img src="../google.png"
          alt="google.png"
          width="400px"
          title="..."/>
@@ -218,7 +218,7 @@ Example:
     ### Image Example
     See the highlighted text below.
     <br>
-    <img src="../../google.png"
+    <img src="../google.png"
          alt="google.png"
          width="400px"
          title="the highlighted text is a GoogleContext"/>
