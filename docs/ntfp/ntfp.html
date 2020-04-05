@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.5" />
+<title>ntfp.ntfp API documentation</title>
+<meta name="description" content="it&#39;s like [Nimbus][1] but uses [a transformer language model][2] …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>ntfp.ntfp</code></h1>
+</header>
+<section id="section-intro">
+<p>it's like <a href="http://github.com/calpoly-csai/api">Nimbus</a> but uses <a href="https://github.com/huggingface/transformers">a transformer language model</a></p>
+<p>Implemented in a <a href="https://realpython.com/courses/functional-programming-python/">functional programming style</a></p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/typing.html">import typing</a></li>
+<li><a href="https://docs.python.org/3/library/functools.html">import functools</a></li>
+<li><a href="https://youtu.be/ucnWLfBA1dc">Functional Design Patterns - Scott Wlaschin</a></li>
+<li><a href="https://youtu.be/ucnWLfBA1dc?t=685">"Types are not classes&hellip; they're sort of like Sets"</a></li>
+<li><a href="https://youtu.be/QyJZzq0v7Z4">Why Isn't Functional Programming the Norm? – Richard Feldman</a></li>
+<li><a href="https://docs.python.org/3/library/typing.html#newtype">"NewType declares one type to be a <em>subtype</em> of another"</a><ul>
+<li><em>subtype</em> means the same thing as <em>subclass</em> in this context</li>
+</ul>
+</li>
+<li><a href="https://pdoc3.github.io/pdoc/doc/pdoc/#overriding-docstrings-with-__pdoc__">__pdoc__override</a></li>
+<li><a href="https://pyre-check.org/docs/error-suppression.html">pyre-check error suppression</a></li>
+<li><a href="https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html">mypy type hints cheat sheet</a></li>
+<li><a href="https://youtu.be/pMgmKJyWKn8">Carl Meyer - Type-checked Python in the real world - PyCon 2018</a></li>
+</ul>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+&#34;&#34;&#34;it&#39;s like [Nimbus][1] but uses [a transformer language model][2]
+
+Implemented in a [functional programming style][4]
+
+[//]: # (markdown comment # noqa)
+
+Resources:
+    * [import typing][python3_typing]
+    * [import functools][python3_functools]
+    * [Functional Design Patterns - Scott Wlaschin][wlaschin_talk]
+    * [&#34;Types are not classes... they&#39;re sort of like Sets&#34;][wlaschin_talk_types]
+    * [Why Isn&#39;t Functional Programming the Norm? – Richard Feldman][richard_feldman_talk]
+    * [&#34;NewType declares one type to be a _subtype_ of another&#34;][new_type]
+        * _subtype_ means the same thing as _subclass_ in this context
+    * [__pdoc__override]
+    * [pyre-check error suppression][5]
+    * [mypy type hints cheat sheet][6]
+    * [Carl Meyer - Type-checked Python in the real world - PyCon 2018][carl_myer_pycon2018]
+
+[1]: http://github.com/calpoly-csai/api
+[2]: https://github.com/huggingface/transformers
+[3]: http://github.com/mfekadu/nimbus-transformer
+
+[4]: https://realpython.com/courses/functional-programming-python/
+
+[5]: https://pyre-check.org/docs/error-suppression.html
+
+[6]: https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html
+
+[carl_myer_pycon2018]: https://youtu.be/pMgmKJyWKn8
+
+[python3_typing]: https://docs.python.org/3/library/typing.html
+[python3_functools]: https://docs.python.org/3/library/functools.html
+
+[wlaschin_talk]: https://youtu.be/ucnWLfBA1dc
+[wlaschin_talk_types]: https://youtu.be/ucnWLfBA1dc?t=685
+
+[richard_feldman_talk]: https://youtu.be/QyJZzq0v7Z4
+
+[new_type]: https://docs.python.org/3/library/typing.html#newtype
+
+[__pdoc__override]: https://pdoc3.github.io/pdoc/doc/pdoc/#overriding-docstrings-with-__pdoc__
+&#34;&#34;&#34;
+from typing import Optional, Union, get_type_hints
+
+import googlesearch
+from transformers import pipeline
+from typing_extensions import Final
+
+from ntfp.ntfp_types import (
+    IDK,
+    IDK_TYPE,
+    Answer,
+    Context,
+    GoogleResultPage,
+    GoogleResultPageIterataor,
+    GoogleResultPages,
+    GoogleResultURL,
+    GoogleResultURLIterator,
+    GoogleResultURLPage,
+    GoogleResultURLPageIterator,
+    GoogleResultURLPages,
+    GoogleResultURLs,
+    Query,
+    Question,
+    SanitizedQuery,
+    WebPage,
+    WebPageIterataor,
+    WebPages,
+    URL,
+    URLs,
+    URLIterataor,
+)
+
+
+def create_query(question: Question) -&gt; Query:
+    &#34;&#34;&#34;
+    [//]: # (markdown comment # noqa)
+
+    Describes how to create a new
+        [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+        from a given [`Question`](ntfp_types.html#ntfp.ntfp_types.Question).
+
+    Args:
+        question: A [`Question`](ntfp_types.html#ntfp.ntfp_types.Question) string.
+
+    Returns:
+        A [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string.
+    &#34;&#34;&#34;
+    # make a Google query with appropriate scope of domain name
+    # by kind-of-sort-of-cast-str-to-Query-via-__init__-but-is-that-really-casting-idk-how-types-work-in-python  # noqa
+    query: Query = Query(f&#34;{question} site:calpoly.edu&#34;)
+    return query
+
+
+def url_param_sanitize(query: Query) -&gt; SanitizedQuery:
+    &#34;&#34;&#34;Sanitizes the given
+        [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+        for use in a [`URL`](ntfp_types.html#ntfp.ntfp_types.URL)
+        as an HTTP parameter in a HTTP GET request.
+
+    [//]: # (markdown comment # noqa)
+
+    Args:
+        query: A [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+            that would be typed into the Google Search box,
+            which is expected to be used as a URL parameter.
+
+    Example:
+        &gt;&gt;&gt; query: Query = Query(&#34;what is foaad khosmood&#39;s email? site:calpoly.edu&#34;)
+        &gt;&gt;&gt; url_param_sanitize(query)
+        what+is+foaad+khosmood%27s+email%3F+site%3Acalpoly.edu
+        &gt;&gt;&gt; url_param_sanitize(&#34;a!a@a#a$a%a^a&amp;a*a(a)a_a+a a&#34;)
+        &#39;a%21a%40a%23a%24a%25a%5Ea%26a%2Aa%28a%29a_a%2Ba+a&#39;
+
+    Returns:
+        A [`SanitizedQuery`](ntfp_types.html#ntfp.ntfp_types.SanitizedQuery) \
+            string such that spaces are converted to `+` \
+                and special characters into their appropriate codes.
+
+    &#34;&#34;&#34;
+    return SanitizedQuery(googlesearch.quote_plus(query))  # pyre-ignore[16]
+
+
+def get_page(url: URL) -&gt; WebPage:
+    &#34;&#34;&#34;Returns the html \
+        [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) \
+        of the given [`URL`](ntfp_types.html#ntfp.ntfp_types.URL).
+    &#34;&#34;&#34;
+    return WebPage(googlesearch.get_page(url))
+
+
+def get_google_result_page(query: Query) -&gt; GoogleResultPage:
+    &#34;&#34;&#34;
+    Perform a Google Search and return the html content.
+
+    Args:
+        query: A [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+            that would be typed into the Google Search box,
+            which is expected to be used as a URL parameter.
+
+    Example:
+        &gt;&gt;&gt; question: Question = Question(&#34;what is foaad email?&#34;)
+        &gt;&gt;&gt; query: Query = create_query(question)
+        &gt;&gt;&gt; query
+        ... &#39;what is foaad email? site:calpoly.edu&#39;
+        &gt;&gt;&gt; google_result: GoogleResultPage = get_google_result_page(query)
+        &gt;&gt;&gt; google_result
+        ... &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
+        &gt;&gt;&gt; type(google_result)  # type still str at runtime
+        ... &lt;class &#39;str&#39;&gt;
+
+    Returns:
+        A string of HTML representing the [Google Search result][4] \
+            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+
+    [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+    &#34;&#34;&#34;
+    BASE_GOOGLE_URL: Final[URL] = URL(&#34;https://www.google.com/search?q=&#34;)
+
+    sanitized_query: SanitizedQuery = url_param_sanitize(query)
+
+    url: URL = URL(f&#34;{BASE_GOOGLE_URL}{sanitized_query}&#34;)
+
+    html_page: GoogleResultPage = GoogleResultPage(get_page(url))
+
+    return html_page
+
+
+# fmt:off
+def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -&gt; GoogleResultURLIterator:  # noqa
+    &#34;&#34;&#34;Fetches [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)s \
+        from [large list of Google Search results][4].
+
+    [//]: # (markdown comment # noqa)
+
+    Retrieves strings of \
+        [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)s \
+        pertaining to the given [`Query`](ntfp_types.html#ntfp.ntfp_types.Query).
+
+    Args:
+        query: A [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+            that would be typed into the Google Search box,
+            which is expected to be used as a URL parameter.
+
+        limit: An optional integer for the total number of results to fetch.
+            By default `None` means fetch all results that google offers.
+
+    Yields:
+        A single \
+            [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)
+            from the Google Search
+            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+
+    Resources:
+        * How to type annotate Generators
+            * https://stackoverflow.com/q/27264250
+            * https://docs.python.org/3/library/typing.html#typing.Generator
+
+    [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+    &#34;&#34;&#34;
+    # fmt: on
+    for url in googlesearch.search(
+        query,
+        num=10,
+        stop=limit,  # allows for infinite-ish generation of google results
+        country=&#34;&#34;,  # TODO: consider setting San Luis Obispo if possible?
+    ):
+        yield GoogleResultURL(url)
+
+
+def transformer(q: Question, c: Context) -&gt; Answer:
+    &#34;&#34;&#34;transformer
+
+    Is a `Transformer`.
+    &#34;&#34;&#34;
+    # this line below needs an internet connection!
+    nlp = pipeline(&#34;question-answering&#34;)
+    input_data = {&#34;question&#34;: q, &#34;context&#34;: c}
+    answer = nlp(input_data)
+    return answer.get(&#34;answer&#34;, IDK)
+
+
+if __name__ == &#34;__main__&#34;:
+    print()
+    print(&#34;IDK: &#34;, IDK, &#34;\n&#34;)
+    # reveal_type(IDK)
+
+    print(&#34;type(IDK): &#34;, type(IDK), &#34;\n&#34;)
+    # reveal_type(type(IDK))
+
+    print(&#34;IDK_TYPE: &#34;, IDK_TYPE, &#34;\n&#34;)
+    # reveal_type(IDK_TYPE)
+
+    print(&#34;type(IDK_TYPE): &#34;, type(IDK_TYPE), &#34;\n&#34;)
+    # reveal_type(type(IDK_TYPE))
+
+    # print(&#34;IDK_TYPE_TypeVar: &#34;, IDK_TYPE_TypeVar, &#34;\n&#34;)
+    # # reveal_type(IDK_TYPE_TypeVar)
+
+    # print(&#34;type(IDK_TYPE_TypeVar): &#34;, type(IDK_TYPE_TypeVar), &#34;\n&#34;)
+    # # reveal_type(type(IDK_TYPE_TypeVar))
+
+    # print(&#39;IDK_TYPE(&#34;hello&#34;): &#39;, IDK_TYPE(&#34;hello&#34;), &#34;\n&#34;)
+
+    # print(&#39;type(IDK_TYPE(&#34;hello&#34;)): &#39;, type(IDK_TYPE(&#34;hello&#34;)), &#34;\n&#34;)
+
+    print(&#34;transformer: &#34;, transformer, &#34;\n&#34;)
+    # reveal_type(transformer)
+
+    print(&#34;type(transformer): &#34;, type(transformer), &#34;\n&#34;)
+    # reveal_type(type(transformer))
+
+    # print(&#34;Transformer: &#34;, Transformer, &#34;\n&#34;)
+    # # reveal_type(Transformer)
+
+    # print(&#34;type(Transformer): &#34;, type(Transformer), &#34;\n&#34;)
+    # # reveal_type(type(Transformer))
+
+    print(&#34;get_type_hints(transformer): &#34;, get_type_hints(transformer), &#34;\n&#34;)
+    # reveal_type(get_type_hints(transformer))
+
+    print()
+
+    user_input: str = input(&#34;question: &#34;)
+    # reveal_type(user_input)
+
+    question: Question = Question(user_input)
+    # reveal_type(question)
+
+    query: Query = create_query(question)
+    print(&#34;query: &#34;, query, &#34;\n&#34;)
+    print(&#34;type(query) == str: &#34;, type(query) == str, &#34;\n&#34;)
+    # this typing module is not intuitive sometimes.
+    # i suppose the reason is that the type checker is static
+    # and has no affect on runtime values.
+    print(&#34;type(query) != Query: &#34;, type(query) != Query, &#34;\n&#34;)
+    # reveal_type(query)
+    # reveal_type(type(query))
+    # reveal_type(Query)
+
+    sanitized_query: SanitizedQuery = url_param_sanitize(query)
+    print(&#34;sanitized_query: &#34;, sanitized_query, &#34;\n&#34;)
+    # reveal_type(sanitized_query)
+
+    x = get_google_result_page(sanitized_query)
+    y = get_google_result_page(query)
+    assert x[:5] == y[:5]
+    # reveal_type(x)
+    # reveal_type(y)
+
+    first_ten_urls: GoogleResultURLs = [x for x in fetch_google_result_urls(query, limit=10)]  # noqa
+    print(&#34;first_ten_urls: &#34;, first_ten_urls)
+    # reveal_type(first_ten_urls)
+
+    result_pages: GoogleResultPages = [GoogleResultPage(get_page(url)) for url in first_ten_urls]  # noqa
+    # reveal_type(result_pages)
+
+    # print(&#34;: &#34;, transformer(&#34;ok&#34;, &#34;cool&#34;))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="ntfp.ntfp.create_query"><code class="name flex">
+<span>def <span class="ident">create_query</span></span>(<span>question)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Describes how to create a new
+<a href="ntfp_types.html#ntfp.ntfp_types.Query"><code>Query</code></a> string
+from a given <a href="ntfp_types.html#ntfp.ntfp_types.Question"><code>Question</code></a>.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>question</code></strong></dt>
+<dd>A <a href="ntfp_types.html#ntfp.ntfp_types.Question"><code>Question</code></a> string.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A <a href="ntfp_types.html#ntfp.ntfp_types.Query"><code>Query</code></a> string.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_query(question: Question) -&gt; Query:
+    &#34;&#34;&#34;
+    [//]: # (markdown comment # noqa)
+
+    Describes how to create a new
+        [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+        from a given [`Question`](ntfp_types.html#ntfp.ntfp_types.Question).
+
+    Args:
+        question: A [`Question`](ntfp_types.html#ntfp.ntfp_types.Question) string.
+
+    Returns:
+        A [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string.
+    &#34;&#34;&#34;
+    # make a Google query with appropriate scope of domain name
+    # by kind-of-sort-of-cast-str-to-Query-via-__init__-but-is-that-really-casting-idk-how-types-work-in-python  # noqa
+    query: Query = Query(f&#34;{question} site:calpoly.edu&#34;)
+    return query</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp.fetch_google_result_urls"><code class="name flex">
+<span>def <span class="ident">fetch_google_result_urls</span></span>(<span>query, limit=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fetches <a href="ntfp_types.html#ntfp.ntfp_types.GoogleResultURL"><code>GoogleResultURL</code></a>s
+from <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">large list of Google Search results</a>.</p>
+<p>Retrieves strings of
+<a href="ntfp_types.html#ntfp.ntfp_types.GoogleResultURL"><code>GoogleResultURL</code></a>s
+pertaining to the given <a href="ntfp_types.html#ntfp.ntfp_types.Query"><code>Query</code></a>.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>query</code></strong></dt>
+<dd>A <a href="ntfp_types.html#ntfp.ntfp_types.Query"><code>Query</code></a> string
+that would be typed into the Google Search box,
+which is expected to be used as a URL parameter.</dd>
+<dt><strong><code>limit</code></strong></dt>
+<dd>An optional integer for the total number of results to fetch.
+By default <code>None</code> means fetch all results that google offers.</dd>
+</dl>
+<h2 id="yields">Yields</h2>
+<p>A single
+<a href="ntfp_types.html#ntfp.ntfp_types.GoogleResultURL"><code>GoogleResultURL</code></a>
+from the Google Search
+<a href="ntfp_types.html#ntfp.ntfp_types.GoogleResultPage"><code>GoogleResultPage</code></a>.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li>How to type annotate Generators<ul>
+<li><a href="https://stackoverflow.com/q/27264250">https://stackoverflow.com/q/27264250</a></li>
+<li><a href="https://docs.python.org/3/library/typing.html#typing.Generator">https://docs.python.org/3/library/typing.html#typing.Generator</a></li>
+</ul>
+</li>
+</ul></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -&gt; GoogleResultURLIterator:  # noqa
+    &#34;&#34;&#34;Fetches [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)s \
+        from [large list of Google Search results][4].
+
+    [//]: # (markdown comment # noqa)
+
+    Retrieves strings of \
+        [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)s \
+        pertaining to the given [`Query`](ntfp_types.html#ntfp.ntfp_types.Query).
+
+    Args:
+        query: A [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+            that would be typed into the Google Search box,
+            which is expected to be used as a URL parameter.
+
+        limit: An optional integer for the total number of results to fetch.
+            By default `None` means fetch all results that google offers.
+
+    Yields:
+        A single \
+            [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)
+            from the Google Search
+            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+
+    Resources:
+        * How to type annotate Generators
+            * https://stackoverflow.com/q/27264250
+            * https://docs.python.org/3/library/typing.html#typing.Generator
+
+    [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+    &#34;&#34;&#34;
+    # fmt: on
+    for url in googlesearch.search(
+        query,
+        num=10,
+        stop=limit,  # allows for infinite-ish generation of google results
+        country=&#34;&#34;,  # TODO: consider setting San Luis Obispo if possible?
+    ):
+        yield GoogleResultURL(url)</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp.get_google_result_page"><code class="name flex">
+<span>def <span class="ident">get_google_result_page</span></span>(<span>query)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Perform a Google Search and return the html content.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>query</code></strong></dt>
+<dd>A <a href="ntfp_types.html#ntfp.ntfp_types.Query"><code>Query</code></a> string
+that would be typed into the Google Search box,
+which is expected to be used as a URL parameter.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>&gt;&gt;&gt; question: Question = Question("what is foaad email?")
+&gt;&gt;&gt; query: Query = create_query(question)
+&gt;&gt;&gt; query
+... 'what is foaad email? site:calpoly.edu'
+&gt;&gt;&gt; google_result: GoogleResultPage = get_google_result_page(query)
+&gt;&gt;&gt; google_result
+... '&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
+&gt;&gt;&gt; type(google_result)  # type still str at runtime
+... &lt;class 'str'&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p>A string of HTML representing the <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">Google Search result</a>
+<a href="ntfp_types.html#ntfp.ntfp_types.GoogleResultPage"><code>GoogleResultPage</code></a>.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_google_result_page(query: Query) -&gt; GoogleResultPage:
+    &#34;&#34;&#34;
+    Perform a Google Search and return the html content.
+
+    Args:
+        query: A [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+            that would be typed into the Google Search box,
+            which is expected to be used as a URL parameter.
+
+    Example:
+        &gt;&gt;&gt; question: Question = Question(&#34;what is foaad email?&#34;)
+        &gt;&gt;&gt; query: Query = create_query(question)
+        &gt;&gt;&gt; query
+        ... &#39;what is foaad email? site:calpoly.edu&#39;
+        &gt;&gt;&gt; google_result: GoogleResultPage = get_google_result_page(query)
+        &gt;&gt;&gt; google_result
+        ... &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
+        &gt;&gt;&gt; type(google_result)  # type still str at runtime
+        ... &lt;class &#39;str&#39;&gt;
+
+    Returns:
+        A string of HTML representing the [Google Search result][4] \
+            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+
+    [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+    &#34;&#34;&#34;
+    BASE_GOOGLE_URL: Final[URL] = URL(&#34;https://www.google.com/search?q=&#34;)
+
+    sanitized_query: SanitizedQuery = url_param_sanitize(query)
+
+    url: URL = URL(f&#34;{BASE_GOOGLE_URL}{sanitized_query}&#34;)
+
+    html_page: GoogleResultPage = GoogleResultPage(get_page(url))
+
+    return html_page</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp.get_page"><code class="name flex">
+<span>def <span class="ident">get_page</span></span>(<span>url)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns the html
+<a href="ntfp_types.html#ntfp.ntfp_types.WebPage"><code>WebPage</code></a>
+of the given <a href="ntfp_types.html#ntfp.ntfp_types.URL"><code>URL</code></a>.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_page(url: URL) -&gt; WebPage:
+    &#34;&#34;&#34;Returns the html \
+        [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) \
+        of the given [`URL`](ntfp_types.html#ntfp.ntfp_types.URL).
+    &#34;&#34;&#34;
+    return WebPage(googlesearch.get_page(url))</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp.transformer"><code class="name flex">
+<span>def <span class="ident">transformer</span></span>(<span>q, c)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>transformer</p>
+<p>Is a <code>Transformer</code>.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transformer(q: Question, c: Context) -&gt; Answer:
+    &#34;&#34;&#34;transformer
+
+    Is a `Transformer`.
+    &#34;&#34;&#34;
+    # this line below needs an internet connection!
+    nlp = pipeline(&#34;question-answering&#34;)
+    input_data = {&#34;question&#34;: q, &#34;context&#34;: c}
+    answer = nlp(input_data)
+    return answer.get(&#34;answer&#34;, IDK)</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp.url_param_sanitize"><code class="name flex">
+<span>def <span class="ident">url_param_sanitize</span></span>(<span>query)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sanitizes the given
+<a href="ntfp_types.html#ntfp.ntfp_types.Query"><code>Query</code></a> string
+for use in a <a href="ntfp_types.html#ntfp.ntfp_types.URL"><code>URL</code></a>
+as an HTTP parameter in a HTTP GET request.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>query</code></strong></dt>
+<dd>A <a href="ntfp_types.html#ntfp.ntfp_types.Query"><code>Query</code></a> string
+that would be typed into the Google Search box,
+which is expected to be used as a URL parameter.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>&gt;&gt;&gt; query: Query = Query("what is foaad khosmood's email? site:calpoly.edu")
+&gt;&gt;&gt; url_param_sanitize(query)
+what+is+foaad+khosmood%27s+email%3F+site%3Acalpoly.edu
+&gt;&gt;&gt; url_param_sanitize("a!a@a#a$a%a^a&amp;a*a(a)a_a+a a")
+'a%21a%40a%23a%24a%25a%5Ea%26a%2Aa%28a%29a_a%2Ba+a'
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p>A <a href="ntfp_types.html#ntfp.ntfp_types.SanitizedQuery"><code>SanitizedQuery</code></a>
+string such that spaces are converted to <code>+</code>
+and special characters into their appropriate codes.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def url_param_sanitize(query: Query) -&gt; SanitizedQuery:
+    &#34;&#34;&#34;Sanitizes the given
+        [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+        for use in a [`URL`](ntfp_types.html#ntfp.ntfp_types.URL)
+        as an HTTP parameter in a HTTP GET request.
+
+    [//]: # (markdown comment # noqa)
+
+    Args:
+        query: A [`Query`](ntfp_types.html#ntfp.ntfp_types.Query) string
+            that would be typed into the Google Search box,
+            which is expected to be used as a URL parameter.
+
+    Example:
+        &gt;&gt;&gt; query: Query = Query(&#34;what is foaad khosmood&#39;s email? site:calpoly.edu&#34;)
+        &gt;&gt;&gt; url_param_sanitize(query)
+        what+is+foaad+khosmood%27s+email%3F+site%3Acalpoly.edu
+        &gt;&gt;&gt; url_param_sanitize(&#34;a!a@a#a$a%a^a&amp;a*a(a)a_a+a a&#34;)
+        &#39;a%21a%40a%23a%24a%25a%5Ea%26a%2Aa%28a%29a_a%2Ba+a&#39;
+
+    Returns:
+        A [`SanitizedQuery`](ntfp_types.html#ntfp.ntfp_types.SanitizedQuery) \
+            string such that spaces are converted to `+` \
+                and special characters into their appropriate codes.
+
+    &#34;&#34;&#34;
+    return SanitizedQuery(googlesearch.quote_plus(query))  # pyre-ignore[16]</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="ntfp" href="index.html">ntfp</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="ntfp.ntfp.create_query" href="#ntfp.ntfp.create_query">create_query</a></code></li>
+<li><code><a title="ntfp.ntfp.fetch_google_result_urls" href="#ntfp.ntfp.fetch_google_result_urls">fetch_google_result_urls</a></code></li>
+<li><code><a title="ntfp.ntfp.get_google_result_page" href="#ntfp.ntfp.get_google_result_page">get_google_result_page</a></code></li>
+<li><code><a title="ntfp.ntfp.get_page" href="#ntfp.ntfp.get_page">get_page</a></code></li>
+<li><code><a title="ntfp.ntfp.transformer" href="#ntfp.ntfp.transformer">transformer</a></code></li>
+<li><code><a title="ntfp.ntfp.url_param_sanitize" href="#ntfp.ntfp.url_param_sanitize">url_param_sanitize</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

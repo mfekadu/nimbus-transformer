@@ -1,5 +1,4 @@
-"""nimbus_transformer.
-it's like [Nimbus][1] but uses [a transformer language model][2]
+"""it's like [Nimbus][1] but uses [a transformer language model][2]
 
 [READ MORE ON GITHUB][3]
 

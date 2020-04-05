@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.5" />
 <title>nimbus_transformer.result API documentation</title>
-<meta name="description" content="Defines the Google Search `Result` object …" />
+<meta name="description" content="Defines the Google Search `Results` object …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -20,58 +20,111 @@
 <h1 class="title">Module <code>nimbus_transformer.result</code></h1>
 </header>
 <section id="section-intro">
-<p>Defines the Google Search <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a> object.</p>
-<p>A Google <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a> is an HTML page <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">like this page</a>.</p>
-<p>A GET request to the corresponding URL of a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>
+<p>Defines the Google Search <a title="nimbus_transformer.result.Results" href="#nimbus_transformer.result.Results"><code>Results</code></a> object.</p>
+<p>A Google <a title="nimbus_transformer.result.Results" href="#nimbus_transformer.result.Results"><code>Results</code></a> is an HTML page <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">like this page</a>.</p>
+<p>A GET request to the corresponding Query URL of a Google Search <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>
 is needed to extract the HTML page and later the <a title="nimbus_transformer.context.Context" href="context.html#nimbus_transformer.context.Context"><code>Context</code></a>.</p>
-<pre><code>&lt;http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu&gt;
+<p>Example Query URL:</p>
+<pre><code>'http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu'
 </code></pre>
 <p>Typical usage example:</p>
 <pre><code>from nimbus_transformer.question import Question
 from nimbus_transformer.query import Query
-from nimbus_transformer.result import Result
+from nimbus_transformer.result import Results
+
 question = Question("what is foaad khosmood's email?")
 query = Query(question)
-google_result = Result(query)
+google_result = Results(query)
+
 print(google_result.get_google_result())
 &gt;&gt;&gt; '&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
+
+print(google_result.result)
+&gt;&gt;&gt; '&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
+</code></pre>
+<p>Iterator Example:</p>
+<pre><code>for url in google_result:
+    print(url)
+&gt;&gt;&gt; 'https://cpe.calpoly.edu/faculty/foaad/'
+&gt;&gt;&gt; 'http://users.csc.calpoly.edu/~dekhtyar/466-Spring2012/'
+&gt;&gt;&gt; 'https://iatpp.calpoly.edu/organization'
+&gt;&gt;&gt; 'https://lib.calpoly.edu/events/my-tech-journey/'
+&gt;&gt;&gt; 'https://cpe.calpoly.edu/faculty/'
+&gt;&gt;&gt; 'https://lib.calpoly.edu/events/gerrymandering-in-america/'
+&gt;&gt;&gt; 'https://lib.calpoly.edu/events/open-access-and-government-transparency/'
+&gt;&gt;&gt; 'https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai'
+&gt;&gt;&gt; 'https://digitalcommons.calpoly.edu/theses/1623/'
+&gt;&gt;&gt; 'https://www.calpoly.edu/'
+
+urls = [u for u in google_result]
+print(urls)
+&gt;&gt;&gt; ['https://cpe.calpoly.edu/faculty/foaad/', 'http://users.csc.calpoly.edu/~dekhtyar/466-Spring2012/', 'https://iatpp.calpoly.edu/organization', 'https://lib.calpoly.edu/events/my-tech-journey/', 'https://cpe.calpoly.edu/faculty/', 'https://lib.calpoly.edu/events/gerrymandering-in-america/', 'https://lib.calpoly.edu/events/open-access-and-government-transparency/', 'https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai', 'https://digitalcommons.calpoly.edu/theses/1623/', 'https://www.calpoly.edu/']
 </code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;Defines the Google Search `Result` object.
+<pre><code class="python">&#34;&#34;&#34;Defines the Google Search `Results` object.
 
-A Google `Result` is an HTML page [like this page][4].
+A Google `Results` is an HTML page [like this page][4].
 
 [//]: # (markdown comment # noqa)
-A GET request to the corresponding URL of a Google Search `nimbus_transformer.query.Query`
+A GET request to the corresponding Query URL of a Google Search `nimbus_transformer.query.Query`
 is needed to extract the HTML page and later the `nimbus_transformer.context.Context`.
 
+Example Query URL:
 ```
-http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+&#39;http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu&#39;
 ```
 
 Typical usage example:
 
     from nimbus_transformer.question import Question
     from nimbus_transformer.query import Query
-    from nimbus_transformer.result import Result
+    from nimbus_transformer.result import Results
+
     question = Question(&#34;what is foaad khosmood&#39;s email?&#34;)
     query = Query(question)
-    google_result = Result(query)
+    google_result = Results(query)
+
     print(google_result.get_google_result())
     &gt;&gt;&gt; &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
+
+    print(google_result.result)
+    &gt;&gt;&gt; &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
+
+Iterator Example:
+
+    for url in google_result:
+        print(url)
+    &gt;&gt;&gt; &#39;https://cpe.calpoly.edu/faculty/foaad/&#39;
+    &gt;&gt;&gt; &#39;http://users.csc.calpoly.edu/~dekhtyar/466-Spring2012/&#39;
+    &gt;&gt;&gt; &#39;https://iatpp.calpoly.edu/organization&#39;
+    &gt;&gt;&gt; &#39;https://lib.calpoly.edu/events/my-tech-journey/&#39;
+    &gt;&gt;&gt; &#39;https://cpe.calpoly.edu/faculty/&#39;
+    &gt;&gt;&gt; &#39;https://lib.calpoly.edu/events/gerrymandering-in-america/&#39;
+    &gt;&gt;&gt; &#39;https://lib.calpoly.edu/events/open-access-and-government-transparency/&#39;
+    &gt;&gt;&gt; &#39;https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai&#39;
+    &gt;&gt;&gt; &#39;https://digitalcommons.calpoly.edu/theses/1623/&#39;
+    &gt;&gt;&gt; &#39;https://www.calpoly.edu/&#39;
+
+    urls = [u for u in google_result]
+    print(urls)
+    &gt;&gt;&gt; [&#39;https://cpe.calpoly.edu/faculty/foaad/&#39;, &#39;http://users.csc.calpoly.edu/~dekhtyar/466-Spring2012/&#39;, &#39;https://iatpp.calpoly.edu/organization&#39;, &#39;https://lib.calpoly.edu/events/my-tech-journey/&#39;, &#39;https://cpe.calpoly.edu/faculty/&#39;, &#39;https://lib.calpoly.edu/events/gerrymandering-in-america/&#39;, &#39;https://lib.calpoly.edu/events/open-access-and-government-transparency/&#39;, &#39;https://www.calpoly.edu/news/cal-poly-and-university-miami-team-help-newspapers-using-ai&#39;, &#39;https://digitalcommons.calpoly.edu/theses/1623/&#39;, &#39;https://www.calpoly.edu/&#39;]
+
 
 [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
 &#34;&#34;&#34;
 
 import googlesearch
 from nimbus_transformer.query import Query
+from nimbus_transformer.question import Question
+from typing import Iterator
 
 
 def url_param_sanitize(q: Query) -&gt; str:
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;Sanitizes string for use in a URL for an HTTP GET request.
+
     Args:
         q: A `nimbus_transformer.query.Query` string that would be
             typed into the Google Search box,
@@ -88,42 +141,106 @@ def url_param_sanitize(q: Query) -&gt; str:
         A string such that spaces are converted to `+` and special characters
             into their appropriate codes.
     &#34;&#34;&#34;
-    return googlesearch.quote_plus(str(q))
+    return googlesearch.quote_plus(str(q))  # pyre-ignore[16]
 
 
-class Result(str):
+class Results:
     &#34;&#34;&#34;
     [//]: # (markdown comment # noqa)
-    A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
+    A `Results` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
 
-    # TODO: ResultURLs is a property of Result
+    # TODO: ResultsURLs is a property of Results
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be
             typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
+
+    Resources:
+        * How to assert string is HTML
+            * https://stackoverflow.com/q/24856035
+            * TODO: write tests
+
+        * GeeksForGeeks about `__iter__` and `__next__`
+            * https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/
+
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
 
-    # static variable
+    # class variables
     BASE_URL = &#34;https://www.google.com/search?q=&#34;
+    query = None
 
     def __init__(self, query: Query) -&gt; None:
         super().__init__()
         self.query = query
+        self._html_page = self.get_google_result()
+        self._first_ten_urls = [u for u in self.fetch_result_urls(limit=10)]
+        self.urls = self._first_ten_urls
+        self.start = 0
+        self.num = self.start
+        self.end = 9
+
+    def fetch_result_urls(self, limit=None) -&gt; Iterator[str]:
+        &#34;&#34;&#34;Fetches result URLs from [large list of Google Search results][4].
+
+        [//]: # (markdown comment # noqa)
+
+        Retrieves strings of URLs pertaining to the `Results.query`
+
+        Yields:
+            A single url from the Google Search `Results`.
+
+        Resources:
+            * How to type annotate Generators
+                * https://stackoverflow.com/q/27264250
+                * https://docs.python.org/3/library/typing.html#typing.Generator
+
+        [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+        &#34;&#34;&#34;
+        for url in googlesearch.search(
+            self.query,
+            num=10,
+            stop=limit,  # allows for infinite-ish generation of google results
+            country=&#34;&#34;,  # TODO: consider setting San Luis Obispo if possible?
+        ):
+            yield url
+
+    def __len__(self):
+        return len(self._first_ten_urls)
+
+    def __getitem__(self, position):
+        return self._first_ten_urls[position]
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.num &gt; self.end:
+            raise StopIteration
+        else:
+            self.num += 1
+            return self.urls[self.num - 1]
+
+    @property
+    def result(self) -&gt; str:
+        &#34;&#34;&#34;
+        `Results.get_google_result`
+        &#34;&#34;&#34;
+        return self.get_google_result()
 
     def get_google_result(self) -&gt; str:
         &#34;&#34;&#34;
         Perform a Google Search and return the html content.
 
         Example:
-            &gt;&gt;&gt; from nimbus_transformer import Question, Query, Result
+            &gt;&gt;&gt; from nimbus_transformer import Question, Query, Results
             &gt;&gt;&gt; question = Question(&#34;what is foaad khosmood&#39;s email?&#34;)
             &gt;&gt;&gt; query = Query(question)
-            &gt;&gt;&gt; google_result = Result(query)
+            &gt;&gt;&gt; google_result = Results(query)
             &gt;&gt;&gt; google_result.get_google_result()
             &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
 
@@ -132,16 +249,21 @@ class Result(str):
 
         [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
         &#34;&#34;&#34;
-        URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;
+        # fmt:off
+        URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;  # pyre-fixme[6] because `query = None` means Optional  # noqa
+        # fmt:on
         html_page = googlesearch.get_page(URL)
         return html_page
 
     @property
-    def question(self):
+    def question(self) -&gt; Question:
         &#34;&#34;&#34;
-        Gets the original `nimbus_transformer.question.Question` that leads to this `Result`
+        [//]: # (markdown comment # noqa)
+        Gets the original `nimbus_transformer.question.Question` that leads to this `Results`
         &#34;&#34;&#34;
-        return self.query.question</code></pre>
+        # fmt:off
+        return self.query.question # pyre-fixme[16] because `query = None` means Optional  # noqa
+        # fmt:on</code></pre>
 </details>
 </section>
 <section>
@@ -155,7 +277,8 @@ class Result(str):
 <span>def <span class="ident">url_param_sanitize</span></span>(<span>q)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="args">Args</h2>
+<section class="desc"><p>Sanitizes string for use in a URL for an HTTP GET request.</p>
+<h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>q</code></strong></dt>
 <dd>A <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a> string that would be
@@ -177,7 +300,8 @@ into their appropriate codes.</p></section>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def url_param_sanitize(q: Query) -&gt; str:
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;Sanitizes string for use in a URL for an HTTP GET request.
+
     Args:
         q: A `nimbus_transformer.query.Query` string that would be
             typed into the Google Search box,
@@ -194,7 +318,7 @@ into their appropriate codes.</p></section>
         A string such that spaces are converted to `+` and special characters
             into their appropriate codes.
     &#34;&#34;&#34;
-    return googlesearch.quote_plus(str(q))</code></pre>
+    return googlesearch.quote_plus(str(q))  # pyre-ignore[16]</code></pre>
 </details>
 </dd>
 </dl>
@@ -202,58 +326,138 @@ into their appropriate codes.</p></section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="nimbus_transformer.result.Result"><code class="flex name class">
-<span>class <span class="ident">Result</span></span>
+<dt id="nimbus_transformer.result.Results"><code class="flex name class">
+<span>class <span class="ident">Results</span></span>
 <span>(</span><span>query)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a> is the Google html page for a given <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>.</p>
+<section class="desc"><p>A <a title="nimbus_transformer.result.Results" href="#nimbus_transformer.result.Results"><code>Results</code></a> is the Google html page for a given <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a>.</p>
 <p>For example <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">this page</a>.</p>
-<h1 id="todo-resulturls-is-a-property-of-result">TODO: ResultURLs is a property of Result</h1>
+<h1 id="todo-resultsurls-is-a-property-of-results">TODO: ResultsURLs is a property of Results</h1>
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>query</code></strong></dt>
 <dd>A <a title="nimbus_transformer.query.Query" href="query.html#nimbus_transformer.query.Query"><code>Query</code></a> string that would be
 typed into the Google Search box,
 which is expected to be used as a URL parameter.</dd>
-</dl></section>
+</dl>
+<h2 id="resources">Resources</h2>
+<ul>
+<li>
+<p>How to assert string is HTML</p>
+<ul>
+<li><a href="https://stackoverflow.com/q/24856035">https://stackoverflow.com/q/24856035</a></li>
+<li>TODO: write tests</li>
+</ul>
+</li>
+<li>
+<p>GeeksForGeeks about <code>__iter__</code> and <code>__next__</code></p>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/">https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/</a></li>
+</ul>
+</li>
+</ul></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Result(str):
+<pre><code class="python">class Results:
     &#34;&#34;&#34;
     [//]: # (markdown comment # noqa)
-    A `Result` is the Google html page for a given `nimbus_transformer.query.Query`.
+    A `Results` is the Google html page for a given `nimbus_transformer.query.Query`.
 
     For example [this page][4].
 
-    # TODO: ResultURLs is a property of Result
+    # TODO: ResultsURLs is a property of Results
 
     Attributes:
         query: A `nimbus_transformer.query.Query` string that would be
             typed into the Google Search box,
             which is expected to be used as a URL parameter.
 
+
+    Resources:
+        * How to assert string is HTML
+            * https://stackoverflow.com/q/24856035
+            * TODO: write tests
+
+        * GeeksForGeeks about `__iter__` and `__next__`
+            * https://www.geeksforgeeks.org/python-__iter__-__next__-converting-object-iterator/
+
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
 
-    # static variable
+    # class variables
     BASE_URL = &#34;https://www.google.com/search?q=&#34;
+    query = None
 
     def __init__(self, query: Query) -&gt; None:
         super().__init__()
         self.query = query
+        self._html_page = self.get_google_result()
+        self._first_ten_urls = [u for u in self.fetch_result_urls(limit=10)]
+        self.urls = self._first_ten_urls
+        self.start = 0
+        self.num = self.start
+        self.end = 9
+
+    def fetch_result_urls(self, limit=None) -&gt; Iterator[str]:
+        &#34;&#34;&#34;Fetches result URLs from [large list of Google Search results][4].
+
+        [//]: # (markdown comment # noqa)
+
+        Retrieves strings of URLs pertaining to the `Results.query`
+
+        Yields:
+            A single url from the Google Search `Results`.
+
+        Resources:
+            * How to type annotate Generators
+                * https://stackoverflow.com/q/27264250
+                * https://docs.python.org/3/library/typing.html#typing.Generator
+
+        [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+        &#34;&#34;&#34;
+        for url in googlesearch.search(
+            self.query,
+            num=10,
+            stop=limit,  # allows for infinite-ish generation of google results
+            country=&#34;&#34;,  # TODO: consider setting San Luis Obispo if possible?
+        ):
+            yield url
+
+    def __len__(self):
+        return len(self._first_ten_urls)
+
+    def __getitem__(self, position):
+        return self._first_ten_urls[position]
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.num &gt; self.end:
+            raise StopIteration
+        else:
+            self.num += 1
+            return self.urls[self.num - 1]
+
+    @property
+    def result(self) -&gt; str:
+        &#34;&#34;&#34;
+        `Results.get_google_result`
+        &#34;&#34;&#34;
+        return self.get_google_result()
 
     def get_google_result(self) -&gt; str:
         &#34;&#34;&#34;
         Perform a Google Search and return the html content.
 
         Example:
-            &gt;&gt;&gt; from nimbus_transformer import Question, Query, Result
+            &gt;&gt;&gt; from nimbus_transformer import Question, Query, Results
             &gt;&gt;&gt; question = Question(&#34;what is foaad khosmood&#39;s email?&#34;)
             &gt;&gt;&gt; query = Query(question)
-            &gt;&gt;&gt; google_result = Result(query)
+            &gt;&gt;&gt; google_result = Results(query)
             &gt;&gt;&gt; google_result.get_google_result()
             &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
 
@@ -262,58 +466,125 @@ which is expected to be used as a URL parameter.</dd>
 
         [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
         &#34;&#34;&#34;
-        URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;
+        # fmt:off
+        URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;  # pyre-fixme[6] because `query = None` means Optional  # noqa
+        # fmt:on
         html_page = googlesearch.get_page(URL)
         return html_page
 
     @property
-    def question(self):
+    def question(self) -&gt; Question:
         &#34;&#34;&#34;
-        Gets the original `nimbus_transformer.question.Question` that leads to this `Result`
+        [//]: # (markdown comment # noqa)
+        Gets the original `nimbus_transformer.question.Question` that leads to this `Results`
         &#34;&#34;&#34;
-        return self.query.question</code></pre>
+        # fmt:off
+        return self.query.question # pyre-fixme[16] because `query = None` means Optional  # noqa</code></pre>
 </details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>builtins.str</li>
-</ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="nimbus_transformer.result.Result.BASE_URL"><code class="name">var <span class="ident">BASE_URL</span></code></dt>
+<dt id="nimbus_transformer.result.Results.BASE_URL"><code class="name">var <span class="ident">BASE_URL</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="nimbus_transformer.result.Results.query"><code class="name">var <span class="ident">query</span></code></dt>
 <dd>
 <section class="desc"></section>
 </dd>
 </dl>
 <h3>Instance variables</h3>
 <dl>
-<dt id="nimbus_transformer.result.Result.question"><code class="name">var <span class="ident">question</span></code></dt>
+<dt id="nimbus_transformer.result.Results.question"><code class="name">var <span class="ident">question</span></code></dt>
 <dd>
-<section class="desc"><p>Gets the original <a title="nimbus_transformer.question.Question" href="question.html#nimbus_transformer.question.Question"><code>Question</code></a> that leads to this <a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result"><code>Result</code></a></p></section>
+<section class="desc"><p>Gets the original <a title="nimbus_transformer.question.Question" href="question.html#nimbus_transformer.question.Question"><code>Question</code></a> that leads to this <a title="nimbus_transformer.result.Results" href="#nimbus_transformer.result.Results"><code>Results</code></a></p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def question(self):
+def question(self) -&gt; Question:
     &#34;&#34;&#34;
-    Gets the original `nimbus_transformer.question.Question` that leads to this `Result`
+    [//]: # (markdown comment # noqa)
+    Gets the original `nimbus_transformer.question.Question` that leads to this `Results`
     &#34;&#34;&#34;
-    return self.query.question</code></pre>
+    # fmt:off
+    return self.query.question # pyre-fixme[16] because `query = None` means Optional  # noqa</code></pre>
+</details>
+</dd>
+<dt id="nimbus_transformer.result.Results.result"><code class="name">var <span class="ident">result</span></code></dt>
+<dd>
+<section class="desc"><p><a title="nimbus_transformer.result.Results.get_google_result" href="#nimbus_transformer.result.Results.get_google_result"><code>Results.get_google_result()</code></a></p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def result(self) -&gt; str:
+    &#34;&#34;&#34;
+    `Results.get_google_result`
+    &#34;&#34;&#34;
+    return self.get_google_result()</code></pre>
 </details>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="nimbus_transformer.result.Result.get_google_result"><code class="name flex">
+<dt id="nimbus_transformer.result.Results.fetch_result_urls"><code class="name flex">
+<span>def <span class="ident">fetch_result_urls</span></span>(<span>self, limit=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Fetches result URLs from <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">large list of Google Search results</a>.</p>
+<p>Retrieves strings of URLs pertaining to the <a title="nimbus_transformer.result.Results.query" href="#nimbus_transformer.result.Results.query"><code>Results.query</code></a></p>
+<h2 id="yields">Yields</h2>
+<p>A single url from the Google Search <a title="nimbus_transformer.result.Results" href="#nimbus_transformer.result.Results"><code>Results</code></a>.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li>How to type annotate Generators<ul>
+<li><a href="https://stackoverflow.com/q/27264250">https://stackoverflow.com/q/27264250</a></li>
+<li><a href="https://docs.python.org/3/library/typing.html#typing.Generator">https://docs.python.org/3/library/typing.html#typing.Generator</a></li>
+</ul>
+</li>
+</ul></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fetch_result_urls(self, limit=None) -&gt; Iterator[str]:
+    &#34;&#34;&#34;Fetches result URLs from [large list of Google Search results][4].
+
+    [//]: # (markdown comment # noqa)
+
+    Retrieves strings of URLs pertaining to the `Results.query`
+
+    Yields:
+        A single url from the Google Search `Results`.
+
+    Resources:
+        * How to type annotate Generators
+            * https://stackoverflow.com/q/27264250
+            * https://docs.python.org/3/library/typing.html#typing.Generator
+
+    [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
+    &#34;&#34;&#34;
+    for url in googlesearch.search(
+        self.query,
+        num=10,
+        stop=limit,  # allows for infinite-ish generation of google results
+        country=&#34;&#34;,  # TODO: consider setting San Luis Obispo if possible?
+    ):
+        yield url</code></pre>
+</details>
+</dd>
+<dt id="nimbus_transformer.result.Results.get_google_result"><code class="name flex">
 <span>def <span class="ident">get_google_result</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Perform a Google Search and return the html content.</p>
 <h2 id="example">Example</h2>
-<pre><code>&gt;&gt;&gt; from nimbus_transformer import Question, Query, Result
+<pre><code>&gt;&gt;&gt; from nimbus_transformer import Question, Query, Results
 &gt;&gt;&gt; question = Question("what is foaad khosmood's email?")
 &gt;&gt;&gt; query = Query(question)
-&gt;&gt;&gt; google_result = Result(query)
+&gt;&gt;&gt; google_result = Results(query)
 &gt;&gt;&gt; google_result.get_google_result()
 '&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
 </code></pre>
@@ -328,10 +599,10 @@ def question(self):
     Perform a Google Search and return the html content.
 
     Example:
-        &gt;&gt;&gt; from nimbus_transformer import Question, Query, Result
+        &gt;&gt;&gt; from nimbus_transformer import Question, Query, Results
         &gt;&gt;&gt; question = Question(&#34;what is foaad khosmood&#39;s email?&#34;)
         &gt;&gt;&gt; query = Query(question)
-        &gt;&gt;&gt; google_result = Result(query)
+        &gt;&gt;&gt; google_result = Results(query)
         &gt;&gt;&gt; google_result.get_google_result()
         &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
 
@@ -340,7 +611,9 @@ def question(self):
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
-    URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;
+    # fmt:off
+    URL = f&#34;{self.BASE_URL}{url_param_sanitize(self.query)}&#34;  # pyre-fixme[6] because `query = None` means Optional  # noqa
+    # fmt:on
     html_page = googlesearch.get_page(URL)
     return html_page</code></pre>
 </details>
@@ -369,11 +642,14 @@ def question(self):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="nimbus_transformer.result.Result" href="#nimbus_transformer.result.Result">Result</a></code></h4>
-<ul class="">
-<li><code><a title="nimbus_transformer.result.Result.BASE_URL" href="#nimbus_transformer.result.Result.BASE_URL">BASE_URL</a></code></li>
-<li><code><a title="nimbus_transformer.result.Result.get_google_result" href="#nimbus_transformer.result.Result.get_google_result">get_google_result</a></code></li>
-<li><code><a title="nimbus_transformer.result.Result.question" href="#nimbus_transformer.result.Result.question">question</a></code></li>
+<h4><code><a title="nimbus_transformer.result.Results" href="#nimbus_transformer.result.Results">Results</a></code></h4>
+<ul class="two-column">
+<li><code><a title="nimbus_transformer.result.Results.BASE_URL" href="#nimbus_transformer.result.Results.BASE_URL">BASE_URL</a></code></li>
+<li><code><a title="nimbus_transformer.result.Results.fetch_result_urls" href="#nimbus_transformer.result.Results.fetch_result_urls">fetch_result_urls</a></code></li>
+<li><code><a title="nimbus_transformer.result.Results.get_google_result" href="#nimbus_transformer.result.Results.get_google_result">get_google_result</a></code></li>
+<li><code><a title="nimbus_transformer.result.Results.query" href="#nimbus_transformer.result.Results.query">query</a></code></li>
+<li><code><a title="nimbus_transformer.result.Results.question" href="#nimbus_transformer.result.Results.question">question</a></code></li>
+<li><code><a title="nimbus_transformer.result.Results.result" href="#nimbus_transformer.result.Results.result">result</a></code></li>
 </ul>
 </li>
 </ul>
