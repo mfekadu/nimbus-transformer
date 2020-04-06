@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from typing import Callable, List
-
+from bs4 import BeautifulSoup
 from ntfp.ntfp import (
     create_query,
     extract_webpage_context,
@@ -10,6 +10,7 @@ from ntfp.ntfp import (
     url_param_sanitize,
     transformer,
 )
+from fuzzywuzzy import fuzz
 from ntfp.ntfp_types import (
     IDK,
     IDK_TYPE,
@@ -39,12 +40,39 @@ if __name__ == "__main__":
 
     google_page: GooglePage = get_google_page(query)
 
-    context: WebPageContext = extract_webpage_context(page=google_page)
+    # context: WebPageContext = extract_webpage_context(page=google_page)
 
+    soup = BeautifulSoup(google_page)
+    text_list = [x for x in soup.stripped_strings]
+
+    def relevance(to):
+        original_question = to
+
+        def filter_func(text):
+            FUZZ_THRESHOLD = 30
+            LEN_THRESHOLD = 2
+            if original_question in text:
+                # ASSUME: that answer would not include original_question
+                return False
+            if fuzz.ratio(text, original_question) < FUZZ_THRESHOLD:
+                # ASSUME: some lexical similarity question with answer
+                return False
+            if len(text) < LEN_THRESHOLD:
+                # ASSUME: answer is not short
+                return False
+            return True
+
+        return filter_func
+
+    # Filter by relevance to the question
+    relevant_text = filter(relevance(to=question), text_list)
+
+    context: Context = Context("\n".join(relevant_text))
     print("context: ", context)
 
-    answer: Answer = transformer(question, context)
+    assert len(context) > 0, "UH OH. No context?"
 
+    answer: Answer = transformer(question, context)
     print("answer: ", answer)
 
     # # first_ten_urls: GoogleResultURLs = [

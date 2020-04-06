@@ -18,6 +18,8 @@ pdoc3 = "*"
 pyre-check = "*"
 typing-extensions = "*"
 requests = "*"
+fuzzywuzzy = "*"
+python-levenshtein = "*"
 
 [requires]
 python_version = "3.6"
