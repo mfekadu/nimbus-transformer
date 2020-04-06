@@ -160,11 +160,21 @@ def url_param_sanitize(query: Query) -&gt; SanitizedQuery:
     return SanitizedQuery(googlesearch.quote_plus(query))  # pyre-ignore[16]
 
 
-def get_page(url: URL) -&gt; WebPage:
+def get_page(url: URL, verbose=False) -&gt; WebPage:
     &#34;&#34;&#34;Returns the html \
         [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) \
         of the given [`URL`](ntfp_types.html#ntfp.ntfp_types.URL).
     &#34;&#34;&#34;
+    if url.endswith(&#34;pdf&#34;):
+        if verbose:
+            print(&#34;skipping PDF file &amp;&amp; returning empty WebPage...&#34;)
+        # TODO: consider returning None? but then return is Optional[WebPage]
+        # TODO: consider having create_query avoid PDFs via &#34;-filetype:pdf&#34;
+        # TODO: but also consider that Google can get GoogleContext from PDFs,
+        #     :    which is good
+        # TODO: but for sure get_page should avoid PDFs.
+        #     :    unless we can import some fancy PDF OCR package to handle it
+        return WebPage(&#34;&#34;)
     response: Response = get(url)
     html: str = response.text
     return WebPage(html)
@@ -648,7 +658,7 @@ which is expected to be used as a URL parameter.</dd>
 </details>
 </dd>
 <dt id="ntfp.ntfp.get_page"><code class="name flex">
-<span>def <span class="ident">get_page</span></span>(<span>url)</span>
+<span>def <span class="ident">get_page</span></span>(<span>url, verbose=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Returns the html
@@ -658,11 +668,21 @@ of the given <a href="ntfp_types.html#ntfp.ntfp_types.URL"><code>URL</code></a>.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_page(url: URL) -&gt; WebPage:
+<pre><code class="python">def get_page(url: URL, verbose=False) -&gt; WebPage:
     &#34;&#34;&#34;Returns the html \
         [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) \
         of the given [`URL`](ntfp_types.html#ntfp.ntfp_types.URL).
     &#34;&#34;&#34;
+    if url.endswith(&#34;pdf&#34;):
+        if verbose:
+            print(&#34;skipping PDF file &amp;&amp; returning empty WebPage...&#34;)
+        # TODO: consider returning None? but then return is Optional[WebPage]
+        # TODO: consider having create_query avoid PDFs via &#34;-filetype:pdf&#34;
+        # TODO: but also consider that Google can get GoogleContext from PDFs,
+        #     :    which is good
+        # TODO: but for sure get_page should avoid PDFs.
+        #     :    unless we can import some fancy PDF OCR package to handle it
+        return WebPage(&#34;&#34;)
     response: Response = get(url)
     html: str = response.text
     return WebPage(html)</code></pre>

@@ -1,57 +1,86 @@
 #!/usr/bin/env python3
-
-from ntfp import ntfp
-from ntfp import ntfp_types
-
 from typing import Callable, List
 
+from ntfp.ntfp import (
+    create_query,
+    extract_webpage_context,
+    fetch_google_result_urls,
+    get_google_page,
+    get_page,
+    url_param_sanitize,
+)
 from ntfp.ntfp_types import (
     IDK,
     IDK_TYPE,
+    URL,
     Answer,
     Context,
-    WebPageContext,
     GooglePage,
+    GooglePages,
     GoogleResultURL,
     GoogleResultURLIterator,
+    GoogleResultURLs,
     Query,
     Question,
     SanitizedQuery,
     WebPage,
-    URL,
+    WebPageContext,
 )
 
 if __name__ == "__main__":
     print("nimbus_transformer")
 
     user_input: str = input("question: ")
-    question: ntfp_types.Question = ntfp_types.Question(user_input)
-    query: ntfp_types.Query = ntfp.create_query(question)
+    question: Question = Question(user_input)
+
+    query: Query = create_query(question)
     print("query: ", query, "\n")
-    sanitized_query: ntfp_types.SanitizedQuery = ntfp.url_param_sanitize(query)
-    print("sanitized_query: ", sanitized_query, "\n")
-    first_ten_urls: ntfp_types.GoogleResultURLs = [
-        x for x in ntfp.fetch_google_result_urls(query, limit=10)
-    ]
-    print("first_ten_urls: ", first_ten_urls)
-    type_hint = Callable[[ntfp_types.URL], ntfp_types.WebPage]
-    fun: type_hint = ntfp.get_page
-    type_hint_2 = ntfp_types.GooglePage
-    result_pages: ntfp_types.GooglePages = [
-        type_hint_2(fun(url)) for url in first_ten_urls
-    ]
 
-    google_page: ntfp_types.GooglePage = ntfp.get_google_page(query)
+    # first_ten_urls: GoogleResultURLs = [
+    #     x for x in fetch_google_result_urls(query, limit=10)
+    # ]
+    # print("first_ten_urls: ", first_ten_urls)
 
-    f: Callable[[ntfp_types.URL], ntfp_types.WebPage] = ntfp.get_page
-    result_pages: List[ntfp_types.WebPage] = [f(url) for url in first_ten_urls]
+    # google_page: GooglePage = get_google_page(query)
 
-    WP = ntfp_types.WebPage
-    WPC = ntfp_types.WebPageContext
-    f: Callable[[WP], WPC] = ntfp.extract_webpage_context
-    contexts: List[WPC] = [f(page) for page in result_pages]
+    # f: Callable[[URL], WebPage] = get_page
+    # result_pages: List[WebPage] = [f(url) for url in first_ten_urls]
 
-    C = ntfp_types.Context
-    large_context: C = ntfp_types.Context("\n\n".join(contexts))
+    # f: Callable[[WebPage], WebPageContext] = extract_webpage_context
+    # contexts: List[WebPageContext] = [f(page) for page in result_pages]
 
-    print(large_context)
+    # large_context: Context = Context("\n\n".join(contexts))
+
+    # print(large_context)
+
+    def generate_data(query, verbose=False):
+        sanitized_query: SanitizedQuery = url_param_sanitize(query)
+        print("sanitized_query: ", sanitized_query, "\n")
+
+        large_context: str = ""
+
+        for url in fetch_google_result_urls(query, limit=10):
+            if verbose:
+                print(f"getting data for url: {url}...")
+            page: WebPage = get_page(url, verbose=verbose)
+            context: WebPageContext = extract_webpage_context(page)
+            large_context += context + "\n\n"
+            yield (url, page, context)
+
+        return large_context
+
+    def handle_return(generator, func):
+        """
+        https://stackoverflow.com/a/41875793
+        """
+        returned = yield from generator
+        func(returned)
+
+    gen = generate_data(query)  # , verbose=True)
+
+    def fun(return_value):
+        print(f"type(return_value): {type(return_value)}")
+        print(f"len(return_value): {len(return_value)}")
+
+    for url, page, context in handle_return(gen, fun):
+        print("got data\n")
