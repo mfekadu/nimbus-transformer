@@ -116,11 +116,21 @@ def url_param_sanitize(query: Query) -> SanitizedQuery:
     return SanitizedQuery(googlesearch.quote_plus(query))  # pyre-ignore[16]
 
 
-def get_page(url: URL) -> WebPage:
+def get_page(url: URL, verbose=False) -> WebPage:
     """Returns the html \
         [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) \
         of the given [`URL`](ntfp_types.html#ntfp.ntfp_types.URL).
     """
+    if url.endswith("pdf"):
+        if verbose:
+            print("skipping PDF file && returning empty WebPage...")
+        # TODO: consider returning None? but then return is Optional[WebPage]
+        # TODO: consider having create_query avoid PDFs via "-filetype:pdf"
+        # TODO: but also consider that Google can get GoogleContext from PDFs,
+        #     :    which is good
+        # TODO: but for sure get_page should avoid PDFs.
+        #     :    unless we can import some fancy PDF OCR package to handle it
+        return WebPage("")
     response: Response = get(url)
     html: str = response.text
     return WebPage(html)
