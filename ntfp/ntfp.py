@@ -128,7 +128,9 @@ def get_page(url: URL) -> WebPage:
         [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) \
         of the given [`URL`](ntfp_types.html#ntfp.ntfp_types.URL).
     """
-    return WebPage(googlesearch.get_page(url))
+    response: Response = get(url)
+    html: str = response.text
+    return WebPage(html)
 
 
 def get_google_result_page(query: Query) -> GoogleResultPage:

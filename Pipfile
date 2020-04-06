@@ -17,6 +17,7 @@ torchvision = "*"
 pdoc3 = "*"
 pyre-check = "*"
 typing-extensions = "*"
+requests = "*"
 
 [requires]
 python_version = "3.6"
