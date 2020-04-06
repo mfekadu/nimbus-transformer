@@ -42,35 +42,28 @@ Resources:
 
 [__pdoc__override]: https://pdoc3.github.io/pdoc/doc/pdoc/#overriding-docstrings-with-__pdoc__
 """
-from typing import Optional, Union, get_type_hints
-
+from typing import Optional, get_type_hints
+from bs4 import BeautifulSoup
 import googlesearch
+from requests import get
+from requests.models import Response
 from transformers import pipeline
 from typing_extensions import Final
-
+from typing import List, Callable
 from ntfp.ntfp_types import (
     IDK,
     IDK_TYPE,
     Answer,
     Context,
-    GoogleResultPage,
-    GoogleResultPageIterataor,
-    GoogleResultPages,
+    WebPageContext,
+    GooglePage,
     GoogleResultURL,
     GoogleResultURLIterator,
-    GoogleResultURLPage,
-    GoogleResultURLPageIterator,
-    GoogleResultURLPages,
-    GoogleResultURLs,
     Query,
     Question,
     SanitizedQuery,
     WebPage,
-    WebPageIterataor,
-    WebPages,
     URL,
-    URLs,
-    URLIterataor,
 )
 
 
@@ -133,7 +126,7 @@ def get_page(url: URL) -> WebPage:
     return WebPage(html)
 
 
-def get_google_result_page(query: Query) -> GoogleResultPage:
+def get_google_page(query: Query) -> GooglePage:
     """
     Perform a Google Search and return the html content.
 
@@ -147,15 +140,15 @@ def get_google_result_page(query: Query) -> GoogleResultPage:
         >>> query: Query = create_query(question)
         >>> query
         ... 'what is foaad email? site:calpoly.edu'
-        >>> google_result: GoogleResultPage = get_google_result_page(query)
-        >>> google_result
+        >>> google_page: GooglePage = get_google_page_page(query)
+        >>> google_page
         ... '<html><body><div>...</div></body></html>'
-        >>> type(google_result)  # type still str at runtime
+        >>> type(google_page)  # type still str at runtime
         ... <class 'str'>
 
     Returns:
         A string of HTML representing the [Google Search result][4] \
-            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+            [`GooglePage`](ntfp_types.html#ntfp.ntfp_types.GooglePage).
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     """
@@ -165,13 +158,14 @@ def get_google_result_page(query: Query) -> GoogleResultPage:
 
     url: URL = URL(f"{BASE_GOOGLE_URL}{sanitized_query}")
 
-    html_page: GoogleResultPage = GoogleResultPage(get_page(url))
+    html_page: GooglePage = GooglePage(get_page(url))
 
     return html_page
 
 
-# fmt:off
-def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -> GoogleResultURLIterator:  # noqa
+def fetch_google_result_urls(
+    query: Query, limit: Optional[int] = None
+) -> GoogleResultURLIterator:
     """Fetches [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)s \
         from [large list of Google Search results][4].
 
@@ -193,7 +187,7 @@ def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -> Googl
         A single \
             [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)
             from the Google Search
-            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+            [`GooglePage`](ntfp_types.html#ntfp.ntfp_types.GooglePage).
 
     Resources:
         * How to type annotate Generators
@@ -202,7 +196,6 @@ def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -> Googl
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     """
-    # fmt: on
     for url in googlesearch.search(
         query,
         num=10,
@@ -222,6 +215,42 @@ def transformer(q: Question, c: Context) -> Answer:
     input_data = {"question": q, "context": c}
     answer = nlp(input_data)
     return answer.get("answer", IDK)
+
+
+def extract_webpage_context(
+    page: WebPage, only_paragraphs: Optional[bool] = False
+) -> WebPageContext:
+    """Extracts the text from a given HTML \
+        [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) and returns it as a \
+        [`WebPageContext`](ntfp_types.html#ntfp.ntfp_types.WebPageContext).
+
+    [//]: # (markdown comment # noqa)
+
+    Args:
+        page: A [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) HTML string.
+        only_paragraphs: An Optional boolean value to specify whether to only \
+            look at paragraph tags `<p>`. (Default = False).
+
+    Returns:
+        The [`WebPageContext`](ntfp_types.html#ntfp.ntfp_types.WebPageContext) string.
+
+    Example:
+        >>> html = "<html><div>Hello World!</div><code>126/3==42</code></html>"
+        >>> p: WebPage = WebPage(html)
+        >>> wpc: WebPageContext = extract_webpage_context(p)
+        >>> wpc
+        ... 'Hello World!126/3==42'
+
+    Resources:
+        * BeautifulSoup4
+            * https://pypi.org/project/beautifulsoup4/
+    """
+    soup: BeautifulSoup = BeautifulSoup(page)
+    if only_paragraphs is True:
+        paragraph_text: str = "".join([p.text for p in soup.find_all("p")])
+        return WebPageContext(Context(paragraph_text))
+    text: Context = Context(str(soup.text))
+    return WebPageContext(text)
 
 
 if __name__ == "__main__":
@@ -286,17 +315,28 @@ if __name__ == "__main__":
     print("sanitized_query: ", sanitized_query, "\n")
     # reveal_type(sanitized_query)
 
-    x = get_google_result_page(sanitized_query)
-    y = get_google_result_page(query)
-    assert x[:5] == y[:5]
-    # reveal_type(x)
-    # reveal_type(y)
+    # x = get_google_page(sanitized_query)
+    # y = get_google_page(query)
+    # assert x[:5] == y[:5]
+    # # reveal_type(x)
+    # # reveal_type(y)
 
-    first_ten_urls: GoogleResultURLs = [x for x in fetch_google_result_urls(query, limit=10)]  # noqa
+    google_page: GooglePage = get_google_page(query)
+
+    first_ten_urls: List[GoogleResultURL] = [
+        x for x in fetch_google_result_urls(query, limit=10)
+    ]  # noqa
     print("first_ten_urls: ", first_ten_urls)
     # reveal_type(first_ten_urls)
 
-    result_pages: GoogleResultPages = [GoogleResultPage(get_page(url)) for url in first_ten_urls]  # noqa
+    f: Callable[[URL], WebPage] = get_page
+    result_pages: List[WebPage] = [f(url) for url in first_ten_urls]
     # reveal_type(result_pages)
 
+    f: Callable[[WebPage], WebPageContext] = extract_webpage_context
+    contexts: List[WebPageContext] = [f(page) for page in result_pages]
+
+    large_context: Context = Context("\n\n".join(contexts))
+
+    print(large_context)
     # print(": ", transformer("ok", "cool"))

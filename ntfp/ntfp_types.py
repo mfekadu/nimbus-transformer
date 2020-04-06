@@ -58,7 +58,7 @@ __pdoc__[
     "WebPage"
 ] = """A WebPage type
 
-Has _subtype_ [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage).
+Has _subtype_ [`GooglePage`](#ntfp.ntfp_types.GooglePage).
 
 Has _subtype_ [`GoogleResultURLPage`](#ntfp.ntfp_types.GoogleResultURLPage).
 
@@ -88,11 +88,11 @@ Example:
 URLs = List[URL]
 URLIterataor = Iterator[URL]
 
-GoogleResultPage = NewType("GoogleResultPage", WebPage)
-"""GoogleResultPage"""
+GooglePage = NewType("GooglePage", WebPage)
+"""GooglePage"""
 __pdoc__[
-    "GoogleResultPage"
-] = """A GoogleResultPage type
+    "GooglePage"
+] = """A GooglePage type
 
 Has _supertype_ [`WebPage`](#ntfp.ntfp_types.WebPage).
 
@@ -103,12 +103,12 @@ Example:
     "<html><body><div>...Google.com...</div></body></html>"
     ```
 
-    [**Click here for an example GoogleResultPage**][4]
+    [**Click here for an example GooglePage**][4]
 
 [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
 """
-GoogleResultPages = List[GoogleResultPage]
-GoogleResultPageIterataor = Iterator[GoogleResultPage]
+GooglePages = List[GooglePage]
+GooglePageIterataor = Iterator[GooglePage]
 
 GoogleResultURL = NewType("GoogleResultURL", URL)
 """GoogleResultURL"""
@@ -118,7 +118,7 @@ __pdoc__[
 
 Has _supertype_ [`URL`](#ntfp.ntfp_types.URL).
 
-A URL found in a [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage) like:
+A URL found in a [`GooglePage`](#ntfp.ntfp_types.GooglePage) like:
 
 ```
 "http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu"
@@ -163,11 +163,23 @@ Example:
 
     ### Image Example
     [**Clicking on the first link**][1] in the below image of a Google search would then display a GoogleResultURLPage.
-    <br>
-    <img src="../google.png"
-         alt="google.png"
-         width="400px"
-         title="..."/>
+
+    <div>
+        <img src="../google.png"
+            alt="google.png"
+            width="400px"
+            title="The GooglePage from searching 'What is Foaad Khosmood's email?'/>
+    </div>
+
+    ###
+
+    Which then leads you to the GoogleResultURLPage depicted by the image below.
+    <div>
+        <img src="../GoogleResultURLPage.png"
+            alt="GoogleResultURLPage.png"
+            width="400px"
+            title="The GoogleResultURLPage after clicking the first link in the GooglePage."/>
+    </div>
 
 [1]: https://cpe.calpoly.edu/faculty/foaad/
 """
@@ -182,7 +194,7 @@ __pdoc__[
 
 Has _subtype_ [`GoogleContext`](#ntfp.ntfp_types.GoogleContext).
 
-Has _subtype_ [`FullContext`](#ntfp.ntfp_types.FullContext).
+Has _subtype_ [`WebPageContext`](#ntfp.ntfp_types.WebPageContext).
 
 Example:
     [`Question`](#ntfp.ntfp_types.Question): "what is foaad khosmood's email?"
@@ -203,7 +215,7 @@ __pdoc__[
 Has _supertype_ [`Context`](#ntfp.ntfp_types.Context).
 
 The short preview text that Google shows within the \
-    [`GoogleResultPage`](#ntfp.ntfp_types.GoogleResultPage) \
+    [`GooglePage`](#ntfp.ntfp_types.GooglePage) \
     just below the [`GoogleResultURL`](#ntfp.ntfp_types.GoogleResultURL).
 
 That text often contains words that Google has deemed most _relevant_ to \
@@ -225,16 +237,25 @@ Example:
 
 [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
 """
+GoogleContexts = List[GoogleContext]
+GoogleContextIterator = Iterator[GoogleContext]
 
-FullContext = NewType("FullContext", Context)
-"""FullContext"""
+WebPageContext = NewType("WebPageContext", Context)
+"""WebPageContext"""
 __pdoc__[
-    "FullContext"
-] = """A FullContext type
+    "WebPageContext"
+] = """A WebPageContext type
 
 Has _supertype_ [`Context`](#ntfp.ntfp_types.Context)
 
-**The text content of a [`GoogleResultURLPage`](#ntfp.ntfp_types.GoogleResultURLPage).**
+**The text content of a [`WebPage`](#ntfp.ntfp_types.WebPage).**
+
+Example:
+    >>> html = "<html><div>Hello World!</div><code>126/3==42</code></html>"
+    >>> g: GoogleResultURLPage = GoogleResultURLPage(html)
+    >>> wpc: WebPageContext = extract_webpage_context(g)
+    >>> wpc
+    ... 'Hello World!126/3==42'
 """
 
 

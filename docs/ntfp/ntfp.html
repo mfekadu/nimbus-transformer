@@ -86,35 +86,28 @@ Resources:
 
 [__pdoc__override]: https://pdoc3.github.io/pdoc/doc/pdoc/#overriding-docstrings-with-__pdoc__
 &#34;&#34;&#34;
-from typing import Optional, Union, get_type_hints
-
+from typing import Optional, get_type_hints
+from bs4 import BeautifulSoup
 import googlesearch
+from requests import get
+from requests.models import Response
 from transformers import pipeline
 from typing_extensions import Final
-
+from typing import List, Callable
 from ntfp.ntfp_types import (
     IDK,
     IDK_TYPE,
     Answer,
     Context,
-    GoogleResultPage,
-    GoogleResultPageIterataor,
-    GoogleResultPages,
+    WebPageContext,
+    GooglePage,
     GoogleResultURL,
     GoogleResultURLIterator,
-    GoogleResultURLPage,
-    GoogleResultURLPageIterator,
-    GoogleResultURLPages,
-    GoogleResultURLs,
     Query,
     Question,
     SanitizedQuery,
     WebPage,
-    WebPageIterataor,
-    WebPages,
     URL,
-    URLs,
-    URLIterataor,
 )
 
 
@@ -172,10 +165,12 @@ def get_page(url: URL) -&gt; WebPage:
         [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) \
         of the given [`URL`](ntfp_types.html#ntfp.ntfp_types.URL).
     &#34;&#34;&#34;
-    return WebPage(googlesearch.get_page(url))
+    response: Response = get(url)
+    html: str = response.text
+    return WebPage(html)
 
 
-def get_google_result_page(query: Query) -&gt; GoogleResultPage:
+def get_google_page(query: Query) -&gt; GooglePage:
     &#34;&#34;&#34;
     Perform a Google Search and return the html content.
 
@@ -189,15 +184,15 @@ def get_google_result_page(query: Query) -&gt; GoogleResultPage:
         &gt;&gt;&gt; query: Query = create_query(question)
         &gt;&gt;&gt; query
         ... &#39;what is foaad email? site:calpoly.edu&#39;
-        &gt;&gt;&gt; google_result: GoogleResultPage = get_google_result_page(query)
-        &gt;&gt;&gt; google_result
+        &gt;&gt;&gt; google_page: GooglePage = get_google_page_page(query)
+        &gt;&gt;&gt; google_page
         ... &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
-        &gt;&gt;&gt; type(google_result)  # type still str at runtime
+        &gt;&gt;&gt; type(google_page)  # type still str at runtime
         ... &lt;class &#39;str&#39;&gt;
 
     Returns:
         A string of HTML representing the [Google Search result][4] \
-            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+            [`GooglePage`](ntfp_types.html#ntfp.ntfp_types.GooglePage).
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
@@ -207,13 +202,14 @@ def get_google_result_page(query: Query) -&gt; GoogleResultPage:
 
     url: URL = URL(f&#34;{BASE_GOOGLE_URL}{sanitized_query}&#34;)
 
-    html_page: GoogleResultPage = GoogleResultPage(get_page(url))
+    html_page: GooglePage = GooglePage(get_page(url))
 
     return html_page
 
 
-# fmt:off
-def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -&gt; GoogleResultURLIterator:  # noqa
+def fetch_google_result_urls(
+    query: Query, limit: Optional[int] = None
+) -&gt; GoogleResultURLIterator:
     &#34;&#34;&#34;Fetches [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)s \
         from [large list of Google Search results][4].
 
@@ -235,7 +231,7 @@ def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -&gt; Go
         A single \
             [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)
             from the Google Search
-            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+            [`GooglePage`](ntfp_types.html#ntfp.ntfp_types.GooglePage).
 
     Resources:
         * How to type annotate Generators
@@ -244,7 +240,6 @@ def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -&gt; Go
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
-    # fmt: on
     for url in googlesearch.search(
         query,
         num=10,
@@ -264,6 +259,42 @@ def transformer(q: Question, c: Context) -&gt; Answer:
     input_data = {&#34;question&#34;: q, &#34;context&#34;: c}
     answer = nlp(input_data)
     return answer.get(&#34;answer&#34;, IDK)
+
+
+def extract_webpage_context(
+    page: WebPage, only_paragraphs: Optional[bool] = False
+) -&gt; WebPageContext:
+    &#34;&#34;&#34;Extracts the text from a given HTML \
+        [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) and returns it as a \
+        [`WebPageContext`](ntfp_types.html#ntfp.ntfp_types.WebPageContext).
+
+    [//]: # (markdown comment # noqa)
+
+    Args:
+        page: A [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) HTML string.
+        only_paragraphs: An Optional boolean value to specify whether to only \
+            look at paragraph tags `&lt;p&gt;`. (Default = False).
+
+    Returns:
+        The [`WebPageContext`](ntfp_types.html#ntfp.ntfp_types.WebPageContext) string.
+
+    Example:
+        &gt;&gt;&gt; html = &#34;&lt;html&gt;&lt;div&gt;Hello World!&lt;/div&gt;&lt;code&gt;126/3==42&lt;/code&gt;&lt;/html&gt;&#34;
+        &gt;&gt;&gt; p: WebPage = WebPage(html)
+        &gt;&gt;&gt; wpc: WebPageContext = extract_webpage_context(p)
+        &gt;&gt;&gt; wpc
+        ... &#39;Hello World!126/3==42&#39;
+
+    Resources:
+        * BeautifulSoup4
+            * https://pypi.org/project/beautifulsoup4/
+    &#34;&#34;&#34;
+    soup: BeautifulSoup = BeautifulSoup(page)
+    if only_paragraphs is True:
+        paragraph_text: str = &#34;&#34;.join([p.text for p in soup.find_all(&#34;p&#34;)])
+        return WebPageContext(Context(paragraph_text))
+    text: Context = Context(str(soup.text))
+    return WebPageContext(text)
 
 
 if __name__ == &#34;__main__&#34;:
@@ -328,19 +359,30 @@ if __name__ == &#34;__main__&#34;:
     print(&#34;sanitized_query: &#34;, sanitized_query, &#34;\n&#34;)
     # reveal_type(sanitized_query)
 
-    x = get_google_result_page(sanitized_query)
-    y = get_google_result_page(query)
-    assert x[:5] == y[:5]
-    # reveal_type(x)
-    # reveal_type(y)
+    # x = get_google_page(sanitized_query)
+    # y = get_google_page(query)
+    # assert x[:5] == y[:5]
+    # # reveal_type(x)
+    # # reveal_type(y)
 
-    first_ten_urls: GoogleResultURLs = [x for x in fetch_google_result_urls(query, limit=10)]  # noqa
+    google_page: GooglePage = get_google_page(query)
+
+    first_ten_urls: List[GoogleResultURL] = [
+        x for x in fetch_google_result_urls(query, limit=10)
+    ]  # noqa
     print(&#34;first_ten_urls: &#34;, first_ten_urls)
     # reveal_type(first_ten_urls)
 
-    result_pages: GoogleResultPages = [GoogleResultPage(get_page(url)) for url in first_ten_urls]  # noqa
+    f: Callable[[URL], WebPage] = get_page
+    result_pages: List[WebPage] = [f(url) for url in first_ten_urls]
     # reveal_type(result_pages)
 
+    f: Callable[[WebPage], WebPageContext] = extract_webpage_context
+    contexts: List[WebPageContext] = [f(page) for page in result_pages]
+
+    large_context: Context = Context(&#34;\n\n&#34;.join(contexts))
+
+    print(large_context)
     # print(&#34;: &#34;, transformer(&#34;ok&#34;, &#34;cool&#34;))</code></pre>
 </details>
 </section>
@@ -389,6 +431,77 @@ from a given <a href="ntfp_types.html#ntfp.ntfp_types.Question"><code>Question</
     return query</code></pre>
 </details>
 </dd>
+<dt id="ntfp.ntfp.extract_webpage_context"><code class="name flex">
+<span>def <span class="ident">extract_webpage_context</span></span>(<span>page, only_paragraphs=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Extracts the text from a given HTML
+<a href="ntfp_types.html#ntfp.ntfp_types.WebPage"><code>WebPage</code></a> and returns it as a
+<a href="ntfp_types.html#ntfp.ntfp_types.WebPageContext"><code>WebPageContext</code></a>.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>page</code></strong></dt>
+<dd>A <a href="ntfp_types.html#ntfp.ntfp_types.WebPage"><code>WebPage</code></a> HTML string.</dd>
+<dt><strong><code>only_paragraphs</code></strong></dt>
+<dd>An Optional boolean value to specify whether to only
+look at paragraph tags <code>&lt;p&gt;</code>. (Default = False).</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The <a href="ntfp_types.html#ntfp.ntfp_types.WebPageContext"><code>WebPageContext</code></a> string.</p>
+<h2 id="example">Example</h2>
+<pre><code>&gt;&gt;&gt; html = "&lt;html&gt;&lt;div&gt;Hello World!&lt;/div&gt;&lt;code&gt;126/3==42&lt;/code&gt;&lt;/html&gt;"
+&gt;&gt;&gt; p: WebPage = WebPage(html)
+&gt;&gt;&gt; wpc: WebPageContext = extract_webpage_context(p)
+&gt;&gt;&gt; wpc
+... 'Hello World!126/3==42'
+</code></pre>
+<h2 id="resources">Resources</h2>
+<ul>
+<li>BeautifulSoup4<ul>
+<li><a href="https://pypi.org/project/beautifulsoup4/">https://pypi.org/project/beautifulsoup4/</a></li>
+</ul>
+</li>
+</ul></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def extract_webpage_context(
+    page: WebPage, only_paragraphs: Optional[bool] = False
+) -&gt; WebPageContext:
+    &#34;&#34;&#34;Extracts the text from a given HTML \
+        [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) and returns it as a \
+        [`WebPageContext`](ntfp_types.html#ntfp.ntfp_types.WebPageContext).
+
+    [//]: # (markdown comment # noqa)
+
+    Args:
+        page: A [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) HTML string.
+        only_paragraphs: An Optional boolean value to specify whether to only \
+            look at paragraph tags `&lt;p&gt;`. (Default = False).
+
+    Returns:
+        The [`WebPageContext`](ntfp_types.html#ntfp.ntfp_types.WebPageContext) string.
+
+    Example:
+        &gt;&gt;&gt; html = &#34;&lt;html&gt;&lt;div&gt;Hello World!&lt;/div&gt;&lt;code&gt;126/3==42&lt;/code&gt;&lt;/html&gt;&#34;
+        &gt;&gt;&gt; p: WebPage = WebPage(html)
+        &gt;&gt;&gt; wpc: WebPageContext = extract_webpage_context(p)
+        &gt;&gt;&gt; wpc
+        ... &#39;Hello World!126/3==42&#39;
+
+    Resources:
+        * BeautifulSoup4
+            * https://pypi.org/project/beautifulsoup4/
+    &#34;&#34;&#34;
+    soup: BeautifulSoup = BeautifulSoup(page)
+    if only_paragraphs is True:
+        paragraph_text: str = &#34;&#34;.join([p.text for p in soup.find_all(&#34;p&#34;)])
+        return WebPageContext(Context(paragraph_text))
+    text: Context = Context(str(soup.text))
+    return WebPageContext(text)</code></pre>
+</details>
+</dd>
 <dt id="ntfp.ntfp.fetch_google_result_urls"><code class="name flex">
 <span>def <span class="ident">fetch_google_result_urls</span></span>(<span>query, limit=None)</span>
 </code></dt>
@@ -412,7 +525,7 @@ By default <code>None</code> means fetch all results that google offers.</dd>
 <p>A single
 <a href="ntfp_types.html#ntfp.ntfp_types.GoogleResultURL"><code>GoogleResultURL</code></a>
 from the Google Search
-<a href="ntfp_types.html#ntfp.ntfp_types.GoogleResultPage"><code>GoogleResultPage</code></a>.</p>
+<a href="ntfp_types.html#ntfp.ntfp_types.GooglePage"><code>GooglePage</code></a>.</p>
 <h2 id="resources">Resources</h2>
 <ul>
 <li>How to type annotate Generators<ul>
@@ -425,7 +538,9 @@ from the Google Search
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def fetch_google_result_urls(query: Query, limit: Optional[int] = None) -&gt; GoogleResultURLIterator:  # noqa
+<pre><code class="python">def fetch_google_result_urls(
+    query: Query, limit: Optional[int] = None
+) -&gt; GoogleResultURLIterator:
     &#34;&#34;&#34;Fetches [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)s \
         from [large list of Google Search results][4].
 
@@ -447,7 +562,7 @@ from the Google Search
         A single \
             [`GoogleResultURL`](ntfp_types.html#ntfp.ntfp_types.GoogleResultURL)
             from the Google Search
-            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+            [`GooglePage`](ntfp_types.html#ntfp.ntfp_types.GooglePage).
 
     Resources:
         * How to type annotate Generators
@@ -456,7 +571,6 @@ from the Google Search
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
-    # fmt: on
     for url in googlesearch.search(
         query,
         num=10,
@@ -466,8 +580,8 @@ from the Google Search
         yield GoogleResultURL(url)</code></pre>
 </details>
 </dd>
-<dt id="ntfp.ntfp.get_google_result_page"><code class="name flex">
-<span>def <span class="ident">get_google_result_page</span></span>(<span>query)</span>
+<dt id="ntfp.ntfp.get_google_page"><code class="name flex">
+<span>def <span class="ident">get_google_page</span></span>(<span>query)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Perform a Google Search and return the html content.</p>
@@ -483,20 +597,20 @@ which is expected to be used as a URL parameter.</dd>
 &gt;&gt;&gt; query: Query = create_query(question)
 &gt;&gt;&gt; query
 ... 'what is foaad email? site:calpoly.edu'
-&gt;&gt;&gt; google_result: GoogleResultPage = get_google_result_page(query)
-&gt;&gt;&gt; google_result
+&gt;&gt;&gt; google_page: GooglePage = get_google_page_page(query)
+&gt;&gt;&gt; google_page
 ... '&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
-&gt;&gt;&gt; type(google_result)  # type still str at runtime
+&gt;&gt;&gt; type(google_page)  # type still str at runtime
 ... &lt;class 'str'&gt;
 </code></pre>
 <h2 id="returns">Returns</h2>
 <p>A string of HTML representing the <a href="http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu">Google Search result</a>
-<a href="ntfp_types.html#ntfp.ntfp_types.GoogleResultPage"><code>GoogleResultPage</code></a>.</p></section>
+<a href="ntfp_types.html#ntfp.ntfp_types.GooglePage"><code>GooglePage</code></a>.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_google_result_page(query: Query) -&gt; GoogleResultPage:
+<pre><code class="python">def get_google_page(query: Query) -&gt; GooglePage:
     &#34;&#34;&#34;
     Perform a Google Search and return the html content.
 
@@ -510,15 +624,15 @@ which is expected to be used as a URL parameter.</dd>
         &gt;&gt;&gt; query: Query = create_query(question)
         &gt;&gt;&gt; query
         ... &#39;what is foaad email? site:calpoly.edu&#39;
-        &gt;&gt;&gt; google_result: GoogleResultPage = get_google_result_page(query)
-        &gt;&gt;&gt; google_result
+        &gt;&gt;&gt; google_page: GooglePage = get_google_page_page(query)
+        &gt;&gt;&gt; google_page
         ... &#39;&lt;html&gt;&lt;body&gt;&lt;div&gt;...&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&#39;
-        &gt;&gt;&gt; type(google_result)  # type still str at runtime
+        &gt;&gt;&gt; type(google_page)  # type still str at runtime
         ... &lt;class &#39;str&#39;&gt;
 
     Returns:
         A string of HTML representing the [Google Search result][4] \
-            [`GoogleResultPage`](ntfp_types.html#ntfp.ntfp_types.GoogleResultPage).
+            [`GooglePage`](ntfp_types.html#ntfp.ntfp_types.GooglePage).
 
     [4]: http://google.com/search?q=what+is+foaad+email?+site:calpoly.edu
     &#34;&#34;&#34;
@@ -528,7 +642,7 @@ which is expected to be used as a URL parameter.</dd>
 
     url: URL = URL(f&#34;{BASE_GOOGLE_URL}{sanitized_query}&#34;)
 
-    html_page: GoogleResultPage = GoogleResultPage(get_page(url))
+    html_page: GooglePage = GooglePage(get_page(url))
 
     return html_page</code></pre>
 </details>
@@ -549,7 +663,9 @@ of the given <a href="ntfp_types.html#ntfp.ntfp_types.URL"><code>URL</code></a>.
         [`WebPage`](ntfp_types.html#ntfp.ntfp_types.WebPage) \
         of the given [`URL`](ntfp_types.html#ntfp.ntfp_types.URL).
     &#34;&#34;&#34;
-    return WebPage(googlesearch.get_page(url))</code></pre>
+    response: Response = get(url)
+    html: str = response.text
+    return WebPage(html)</code></pre>
 </details>
 </dd>
 <dt id="ntfp.ntfp.transformer"><code class="name flex">
@@ -652,8 +768,9 @@ and special characters into their appropriate codes.</p></section>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="ntfp.ntfp.create_query" href="#ntfp.ntfp.create_query">create_query</a></code></li>
+<li><code><a title="ntfp.ntfp.extract_webpage_context" href="#ntfp.ntfp.extract_webpage_context">extract_webpage_context</a></code></li>
 <li><code><a title="ntfp.ntfp.fetch_google_result_urls" href="#ntfp.ntfp.fetch_google_result_urls">fetch_google_result_urls</a></code></li>
-<li><code><a title="ntfp.ntfp.get_google_result_page" href="#ntfp.ntfp.get_google_result_page">get_google_result_page</a></code></li>
+<li><code><a title="ntfp.ntfp.get_google_page" href="#ntfp.ntfp.get_google_page">get_google_page</a></code></li>
 <li><code><a title="ntfp.ntfp.get_page" href="#ntfp.ntfp.get_page">get_page</a></code></li>
 <li><code><a title="ntfp.ntfp.transformer" href="#ntfp.ntfp.transformer">transformer</a></code></li>
 <li><code><a title="ntfp.ntfp.url_param_sanitize" href="#ntfp.ntfp.url_param_sanitize">url_param_sanitize</a></code></li>
