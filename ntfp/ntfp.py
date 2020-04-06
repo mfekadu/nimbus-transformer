@@ -152,7 +152,7 @@ def get_google_page(query: Query) -> GooglePage:
         ... 'what is foaad email? site:calpoly.edu'
         >>> google_page: GooglePage = get_google_page_page(query)
         >>> google_page
-        ... '<html><body><div>...</div></body></html>'
+        ... '<html><body><div>...Google...foaad...email...</div></body></html>'
         >>> type(google_page)  # type still str at runtime
         ... <class 'str'>
 

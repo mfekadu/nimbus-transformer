@@ -37,63 +37,73 @@ if __name__ == "__main__":
     query: Query = create_query(question)
     print("query: ", query, "\n")
 
-    # first_ten_urls: GoogleResultURLs = [
-    #     x for x in fetch_google_result_urls(query, limit=10)
-    # ]
-    # print("first_ten_urls: ", first_ten_urls)
+    google_page: GooglePage = get_google_page(query)
 
-    # google_page: GooglePage = get_google_page(query)
+    context: WebPageContext = extract_webpage_context(page=google_page)
 
-    # f: Callable[[URL], WebPage] = get_page
-    # result_pages: List[WebPage] = [f(url) for url in first_ten_urls]
+    print("context: ", context)
 
-    # f: Callable[[WebPage], WebPageContext] = extract_webpage_context
-    # contexts: List[WebPageContext] = [f(page) for page in result_pages]
+    answer: Answer = transformer(question, context)
 
-    # large_context: Context = Context("\n\n".join(contexts))
+    print("answer: ", answer)
 
-    # print(large_context)
+    # # first_ten_urls: GoogleResultURLs = [
+    # #     x for x in fetch_google_result_urls(query, limit=10)
+    # # ]
+    # # print("first_ten_urls: ", first_ten_urls)
 
-    def generate_data(query, verbose=False):
-        sanitized_query: SanitizedQuery = url_param_sanitize(query)
-        print("sanitized_query: ", sanitized_query, "\n")
+    # # google_page: GooglePage = get_google_page(query)
 
-        large_context: str = ""
+    # # f: Callable[[URL], WebPage] = get_page
+    # # result_pages: List[WebPage] = [f(url) for url in first_ten_urls]
 
-        for url in fetch_google_result_urls(query, limit=10):
-            if verbose:
-                print(f"getting data for url: {url}...")
-            page: WebPage = get_page(url, verbose=verbose)
-            context: WebPageContext = extract_webpage_context(page)
-            large_context += context + "\n\n"
-            yield (url, page, context)
+    # # f: Callable[[WebPage], WebPageContext] = extract_webpage_context
+    # # contexts: List[WebPageContext] = [f(page) for page in result_pages]
 
-        return large_context
+    # # large_context: Context = Context("\n\n".join(contexts))
 
-    def handle_return(generator, func):
-        """
-        https://stackoverflow.com/a/41875793
-        """
-        returned = yield from generator
-        func(returned)
+    # # print(large_context)
 
-    gen = generate_data(query)  # , verbose=True)
+    # def generate_data(query, verbose=False):
+    #     sanitized_query: SanitizedQuery = url_param_sanitize(query)
+    #     print("sanitized_query: ", sanitized_query, "\n")
 
-    def fun(return_value):
-        print(f"type(return_value): {type(return_value)}")
-        print(f"len(return_value): {len(return_value)}")
+    #     large_context: str = ""
 
-    def print_answer(question):
-        def func(large_context):
-            answer: Answer = transformer(question, context)
-            print("\n\n")
-            print("question: ", question)
-            print("context[:25]", large_context[:25])
-            print("answer: ", answer)
+    #     for url in fetch_google_result_urls(query, limit=10):
+    #         if verbose:
+    #             print(f"getting data for url: {url}...")
+    #         page: WebPage = get_page(url, verbose=verbose)
+    #         context: WebPageContext = extract_webpage_context(page)
+    #         large_context += context + "\n\n"
+    #         yield (url, page, context)
 
-        return func
+    #     return large_context
 
-    fun2 = print_answer(question)
+    # def handle_return(generator, func):
+    #     """
+    #     https://stackoverflow.com/a/41875793
+    #     """
+    #     returned = yield from generator
+    #     func(returned)
 
-    for url, page, context in handle_return(gen, fun2):
-        print("got data\n")
+    # gen = generate_data(query)  # , verbose=True)
+
+    # def fun(return_value):
+    #     print(f"type(return_value): {type(return_value)}")
+    #     print(f"len(return_value): {len(return_value)}")
+
+    # def print_answer(question):
+    #     def func(large_context):
+    #         answer: Answer = transformer(question, context)
+    #         print("\n\n")
+    #         print("question: ", question)
+    #         print("context[:25]", large_context[:25])
+    #         print("answer: ", answer)
+
+    #     return func
+
+    # fun2 = print_answer(question)
+
+    # for url, page, context in handle_return(gen, fun2):
+    #     print("got data\n")
