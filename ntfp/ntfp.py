@@ -301,6 +301,20 @@ def extract_relevant_context(page: WebPage, question: Question) -> Context:
     return Context("\n".join(relevant_text_list))
 
 
+def get_context(
+    question: Question, use_google: bool = True, verbose: bool = False
+) -> Context:
+    if use_google:
+        query: Query = create_query(question)
+        page: GooglePage = get_google_page(query)
+        if verbose:
+            print("query: ", query, "\n")
+            print("len(page): ", len(page), "\n")
+        return extract_relevant_context(page, question)
+    else:
+        raise NotImplementedError
+
+
 if __name__ == "__main__":
     print()
     print("IDK: ", IDK, "\n")

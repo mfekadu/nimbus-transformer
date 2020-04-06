@@ -345,6 +345,20 @@ def extract_relevant_context(page: WebPage, question: Question) -&gt; Context:
     return Context(&#34;\n&#34;.join(relevant_text_list))
 
 
+def get_context(
+    question: Question, use_google: bool = True, verbose: bool = False
+) -&gt; Context:
+    if use_google:
+        query: Query = create_query(question)
+        page: GooglePage = get_google_page(query)
+        if verbose:
+            print(&#34;query: &#34;, query, &#34;\n&#34;)
+            print(&#34;len(page): &#34;, len(page), &#34;\n&#34;)
+        return extract_relevant_context(page, question)
+    else:
+        raise NotImplementedError
+
+
 if __name__ == &#34;__main__&#34;:
     print()
     print(&#34;IDK: &#34;, IDK, &#34;\n&#34;)
@@ -668,6 +682,29 @@ from the Google Search
         yield GoogleResultURL(url)</code></pre>
 </details>
 </dd>
+<dt id="ntfp.ntfp.get_context"><code class="name flex">
+<span>def <span class="ident">get_context</span></span>(<span>question, use_google=True, verbose=False)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_context(
+    question: Question, use_google: bool = True, verbose: bool = False
+) -&gt; Context:
+    if use_google:
+        query: Query = create_query(question)
+        page: GooglePage = get_google_page(query)
+        if verbose:
+            print(&#34;query: &#34;, query, &#34;\n&#34;)
+            print(&#34;len(page): &#34;, len(page), &#34;\n&#34;)
+        return extract_relevant_context(page, question)
+    else:
+        raise NotImplementedError</code></pre>
+</details>
+</dd>
 <dt id="ntfp.ntfp.get_google_page"><code class="name flex">
 <span>def <span class="ident">get_google_page</span></span>(<span>query)</span>
 </code></dt>
@@ -881,6 +918,7 @@ and special characters into their appropriate codes.</p></section>
 <li><code><a title="ntfp.ntfp.extract_relevant_context" href="#ntfp.ntfp.extract_relevant_context">extract_relevant_context</a></code></li>
 <li><code><a title="ntfp.ntfp.extract_webpage_context" href="#ntfp.ntfp.extract_webpage_context">extract_webpage_context</a></code></li>
 <li><code><a title="ntfp.ntfp.fetch_google_result_urls" href="#ntfp.ntfp.fetch_google_result_urls">fetch_google_result_urls</a></code></li>
+<li><code><a title="ntfp.ntfp.get_context" href="#ntfp.ntfp.get_context">get_context</a></code></li>
 <li><code><a title="ntfp.ntfp.get_google_page" href="#ntfp.ntfp.get_google_page">get_google_page</a></code></li>
 <li><code><a title="ntfp.ntfp.get_page" href="#ntfp.ntfp.get_page">get_page</a></code></li>
 <li><code><a title="ntfp.ntfp.transformer" href="#ntfp.ntfp.transformer">transformer</a></code></li>
