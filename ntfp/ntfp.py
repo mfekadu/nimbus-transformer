@@ -45,11 +45,12 @@ Resources:
 from typing import Optional, get_type_hints
 from bs4 import BeautifulSoup
 import googlesearch
+from fuzzywuzzy import fuzz
 from requests import get
 from requests.models import Response
 from transformers import pipeline
 from typing_extensions import Final
-from typing import List, Callable
+from typing import List, Callable, Iterator
 from ntfp.ntfp_types import (
     IDK,
     IDK_TYPE,
@@ -255,12 +256,43 @@ def extract_webpage_context(
         * BeautifulSoup4
             * https://pypi.org/project/beautifulsoup4/
     """
-    soup: BeautifulSoup = BeautifulSoup(page)
+    soup: BeautifulSoup = BeautifulSoup(markup=page, features="html.parser")
     if only_paragraphs is True:
         paragraph_text: str = "".join([p.text for p in soup.find_all("p")])
         return WebPageContext(Context(paragraph_text))
     text: Context = Context(str(soup.text))
     return WebPageContext(text)
+
+
+def extract_relevant_context(page: WebPage, question: Question) -> Context:
+    soup: BeautifulSoup = BeautifulSoup(markup=page, features="html.parser")
+
+    txt_lst: List[str] = [x for x in soup.stripped_strings]
+
+    def relevance(to):
+        original_question = to
+
+        def filter_func(text):
+            # TODO: make smarter filter rules
+            FUZZ_THRESHOLD = 30
+            LEN_THRESHOLD = 2
+            if original_question in text:
+                # ASSUME: that answer would not include original_question
+                return False
+            if fuzz.ratio(text, original_question) < FUZZ_THRESHOLD:
+                # ASSUME: some lexical similarity question with answer
+                return False
+            if len(text) < LEN_THRESHOLD:
+                # ASSUME: answer is not short
+                return False
+            return True
+
+        return filter_func
+
+    # Filter by relevance to the question
+    relevant_text_list: Iterator[str] = filter(relevance(to=question), txt_lst)
+
+    return Context("\n".join(relevant_text_list))
 
 
 if __name__ == "__main__":

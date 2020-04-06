@@ -8,15 +8,16 @@ from ntfp.ntfp import (
     get_google_page,
     get_page,
     url_param_sanitize,
+    extract_relevant_context,
     transformer,
 )
-from fuzzywuzzy import fuzz
 from ntfp.ntfp_types import (
     IDK,
     IDK_TYPE,
     URL,
     Answer,
     Context,
+    GoogleContext,
     GooglePage,
     GooglePages,
     GoogleResultURL,
@@ -29,51 +30,29 @@ from ntfp.ntfp_types import (
     WebPageContext,
 )
 
+
+def get_google_context(question: Question, verbose=False) -> GoogleContext:
+    query: Query = create_query(question)
+    page: GooglePage = get_google_page(query)
+    if verbose:
+        print("query: ", query, "\n")
+        print("len(page): ", len(page), "\n")
+    return GoogleContext(extract_relevant_context(page, question))
+
+
 if __name__ == "__main__":
     print("nimbus_transformer")
 
     user_input: str = input("question: ")
     question: Question = Question(user_input)
 
-    query: Query = create_query(question)
-    print("query: ", query, "\n")
-
-    google_page: GooglePage = get_google_page(query)
-
-    # context: WebPageContext = extract_webpage_context(page=google_page)
-
-    soup = BeautifulSoup(google_page)
-    text_list = [x for x in soup.stripped_strings]
-
-    def relevance(to):
-        original_question = to
-
-        def filter_func(text):
-            FUZZ_THRESHOLD = 30
-            LEN_THRESHOLD = 2
-            if original_question in text:
-                # ASSUME: that answer would not include original_question
-                return False
-            if fuzz.ratio(text, original_question) < FUZZ_THRESHOLD:
-                # ASSUME: some lexical similarity question with answer
-                return False
-            if len(text) < LEN_THRESHOLD:
-                # ASSUME: answer is not short
-                return False
-            return True
-
-        return filter_func
-
-    # Filter by relevance to the question
-    relevant_text = filter(relevance(to=question), text_list)
-
-    context: Context = Context("\n".join(relevant_text))
-    print("context: ", context)
+    context: GoogleContext = get_google_context(question)
+    print("len(context): ", len(context))
 
     assert len(context) > 0, "UH OH. No context?"
 
     answer: Answer = transformer(question, context)
-    print("answer: ", answer)
+    print("\n\n\nanswer: ", answer)
 
     # # first_ten_urls: GoogleResultURLs = [
     # #     x for x in fetch_google_result_urls(query, limit=10)
