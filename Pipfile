@@ -20,6 +20,7 @@ typing-extensions = "*"
 requests = "*"
 fuzzywuzzy = "*"
 python-levenshtein = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.6"

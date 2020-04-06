@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # flake8: noqa
 from typing import Callable, Iterator, List, NewType, Type
-from typing_extensions import Literal
+from typing_extensions import Literal, TypedDict
 
 __pdoc__ = {}
 
@@ -280,6 +280,86 @@ IDK_TYPE = Literal["¯\\_(ツ)_/¯"]
 IDK: IDK_TYPE = "¯\\_(ツ)_/¯"
 """IDK: `IDK_TYPE`"""
 
+
+Score = NewType("Score", float)
+"""Score"""
+__pdoc__[
+    "Score"
+] = """A Score type
+
+The confidence score from the transformer.
+
+[//]: # (markdown comment # noqa)
+
+Example:
+    >>> # Allocate a pipeline for question-answering
+    >>> nlp = pipeline('question-answering')
+    >>> nlp({
+    ...    'question': 'What is the name of the repository ?',
+    ...    'context': 'Pipeline have been included in the huggingface/transformers repository'
+    ... })
+    {'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
+"""
+
+Start = NewType("Start", int)
+"""Start"""
+__pdoc__[
+    "Start"
+] = """A Start type
+
+The start index of the answer from the transformer.
+
+Example:
+    >>> # Allocate a pipeline for question-answering
+    >>> nlp = pipeline('question-answering')
+    >>> nlp({
+    ...    'question': 'What is the name of the repository ?',
+    ...    'context': 'Pipeline have been included in the huggingface/transformers repository'
+    ... })
+    {'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
+"""
+
+End = NewType("End", int)
+"""End"""
+__pdoc__[
+    "End"
+] = """An End type
+
+The end index of the answer from the transformer.
+
+Example:
+    >>> # Allocate a pipeline for question-answering
+    >>> nlp = pipeline('question-answering')
+    >>> nlp({
+    ...    'question': 'What is the name of the repository ?',
+    ...    'context': 'Pipeline have been included in the huggingface/transformers repository'
+    ... })
+    {'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
+"""
+
+
+ExtraDataDict = TypedDict(
+    "ExtraDataDict",
+    {"score": float, "start": int, "end": int, "tokenizer": str, "model": str},
+)
+"""ExtraDataDict"""
+__pdoc__[
+    "ExtraDataDict"
+] = """An ExtraDataDict type
+
+Some extra data for ntfp.transformer to return.
+
+Example:
+    ```
+    {
+        "score": 0.28756016668193496,
+        "start": 35,
+        "end": 59,
+        "tokenizer": "DistilBertTokenizer",
+        "model": "DistilBertForQuestionAnswering"
+    }
+    ```
+"""
 
 if __name__ == "__main__":
     question: Question = Question("what is the meaning of life?")

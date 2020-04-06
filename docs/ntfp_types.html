@@ -27,7 +27,7 @@
 <pre><code class="python">#!/usr/bin/env python3
 # flake8: noqa
 from typing import Callable, Iterator, List, NewType, Type
-from typing_extensions import Literal
+from typing_extensions import Literal, TypedDict
 
 __pdoc__ = {}
 
@@ -307,6 +307,86 @@ IDK: IDK_TYPE = &#34;¯\\_(ツ)_/¯&#34;
 &#34;&#34;&#34;IDK: `IDK_TYPE`&#34;&#34;&#34;
 
 
+Score = NewType(&#34;Score&#34;, float)
+&#34;&#34;&#34;Score&#34;&#34;&#34;
+__pdoc__[
+    &#34;Score&#34;
+] = &#34;&#34;&#34;A Score type
+
+The confidence score from the transformer.
+
+[//]: # (markdown comment # noqa)
+
+Example:
+    &gt;&gt;&gt; # Allocate a pipeline for question-answering
+    &gt;&gt;&gt; nlp = pipeline(&#39;question-answering&#39;)
+    &gt;&gt;&gt; nlp({
+    ...    &#39;question&#39;: &#39;What is the name of the repository ?&#39;,
+    ...    &#39;context&#39;: &#39;Pipeline have been included in the huggingface/transformers repository&#39;
+    ... })
+    {&#39;score&#39;: 0.28756016668193496, &#39;start&#39;: 35, &#39;end&#39;: 59, &#39;answer&#39;: &#39;huggingface/transformers&#39;}
+&#34;&#34;&#34;
+
+Start = NewType(&#34;Start&#34;, int)
+&#34;&#34;&#34;Start&#34;&#34;&#34;
+__pdoc__[
+    &#34;Start&#34;
+] = &#34;&#34;&#34;A Start type
+
+The start index of the answer from the transformer.
+
+Example:
+    &gt;&gt;&gt; # Allocate a pipeline for question-answering
+    &gt;&gt;&gt; nlp = pipeline(&#39;question-answering&#39;)
+    &gt;&gt;&gt; nlp({
+    ...    &#39;question&#39;: &#39;What is the name of the repository ?&#39;,
+    ...    &#39;context&#39;: &#39;Pipeline have been included in the huggingface/transformers repository&#39;
+    ... })
+    {&#39;score&#39;: 0.28756016668193496, &#39;start&#39;: 35, &#39;end&#39;: 59, &#39;answer&#39;: &#39;huggingface/transformers&#39;}
+&#34;&#34;&#34;
+
+End = NewType(&#34;End&#34;, int)
+&#34;&#34;&#34;End&#34;&#34;&#34;
+__pdoc__[
+    &#34;End&#34;
+] = &#34;&#34;&#34;An End type
+
+The end index of the answer from the transformer.
+
+Example:
+    &gt;&gt;&gt; # Allocate a pipeline for question-answering
+    &gt;&gt;&gt; nlp = pipeline(&#39;question-answering&#39;)
+    &gt;&gt;&gt; nlp({
+    ...    &#39;question&#39;: &#39;What is the name of the repository ?&#39;,
+    ...    &#39;context&#39;: &#39;Pipeline have been included in the huggingface/transformers repository&#39;
+    ... })
+    {&#39;score&#39;: 0.28756016668193496, &#39;start&#39;: 35, &#39;end&#39;: 59, &#39;answer&#39;: &#39;huggingface/transformers&#39;}
+&#34;&#34;&#34;
+
+
+ExtraDataDict = TypedDict(
+    &#34;ExtraDataDict&#34;,
+    {&#34;score&#34;: float, &#34;start&#34;: int, &#34;end&#34;: int, &#34;tokenizer&#34;: str, &#34;model&#34;: str},
+)
+&#34;&#34;&#34;ExtraDataDict&#34;&#34;&#34;
+__pdoc__[
+    &#34;ExtraDataDict&#34;
+] = &#34;&#34;&#34;An ExtraDataDict type
+
+Some extra data for ntfp.transformer to return.
+
+Example:
+    ```
+    {
+        &#34;score&#34;: 0.28756016668193496,
+        &#34;start&#34;: 35,
+        &#34;end&#34;: 59,
+        &#34;tokenizer&#34;: &#34;DistilBertTokenizer&#34;,
+        &#34;model&#34;: &#34;DistilBertForQuestionAnswering&#34;
+    }
+    ```
+&#34;&#34;&#34;
+
 if __name__ == &#34;__main__&#34;:
     question: Question = Question(&#34;what is the meaning of life?&#34;)
     context: Context = Context(&#34;The meaning of life is 42.&#34;)
@@ -363,6 +443,29 @@ if __name__ == &#34;__main__&#34;:
 <p><a href="#ntfp.ntfp_types.Query"><code>Query</code></a>: "what is foaad khosmood's email? site:calpoly.edu"</p>
 <p><a href="#ntfp.ntfp_types.Context"><code>Context</code></a>: "The email is foaad@calpoly.edu."</p>
 <p><a href="#ntfp.ntfp_types.Answer"><code>Answer</code></a>: "foaad@calpoly.edu"</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_type(x):
+    return x</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp_types.End"><code class="name flex">
+<span>def <span class="ident">End</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>An End type</p>
+<p>The end index of the answer from the transformer.</p>
+<h2 id="example">Example</h2>
+<pre><code>&gt;&gt;&gt; # Allocate a pipeline for question-answering
+&gt;&gt;&gt; nlp = pipeline('question-answering')
+&gt;&gt;&gt; nlp({
+...    'question': 'What is the name of the repository ?',
+...    'context': 'Pipeline have been included in the huggingface/transformers repository'
+... })
+{'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -545,6 +648,52 @@ title="The GoogleResultURLPage after clicking the first link in the GooglePage."
     return x</code></pre>
 </details>
 </dd>
+<dt id="ntfp.ntfp_types.Score"><code class="name flex">
+<span>def <span class="ident">Score</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A Score type</p>
+<p>The confidence score from the transformer.</p>
+<h2 id="example">Example</h2>
+<pre><code>&gt;&gt;&gt; # Allocate a pipeline for question-answering
+&gt;&gt;&gt; nlp = pipeline('question-answering')
+&gt;&gt;&gt; nlp({
+...    'question': 'What is the name of the repository ?',
+...    'context': 'Pipeline have been included in the huggingface/transformers repository'
+... })
+{'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_type(x):
+    return x</code></pre>
+</details>
+</dd>
+<dt id="ntfp.ntfp_types.Start"><code class="name flex">
+<span>def <span class="ident">Start</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A Start type</p>
+<p>The start index of the answer from the transformer.</p>
+<h2 id="example">Example</h2>
+<pre><code>&gt;&gt;&gt; # Allocate a pipeline for question-answering
+&gt;&gt;&gt; nlp = pipeline('question-answering')
+&gt;&gt;&gt; nlp({
+...    'question': 'What is the name of the repository ?',
+...    'context': 'Pipeline have been included in the huggingface/transformers repository'
+... })
+{'score': 0.28756016668193496, 'start': 35, 'end': 59, 'answer': 'huggingface/transformers'}
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_type(x):
+    return x</code></pre>
+</details>
+</dd>
 <dt id="ntfp.ntfp_types.URL"><code class="name flex">
 <span>def <span class="ident">URL</span></span>(<span>x)</span>
 </code></dt>
@@ -606,6 +755,30 @@ title="The GoogleResultURLPage after clicking the first link in the GooglePage."
 </dl>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="ntfp.ntfp_types.ExtraDataDict"><code class="flex name class">
+<span>class <span class="ident">ExtraDataDict</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>An ExtraDataDict type</p>
+<p>Some extra data for ntfp.transformer to return.</p>
+<h2 id="example">Example</h2>
+<pre><code>{
+    &quot;score&quot;: 0.28756016668193496,
+    &quot;start&quot;: 35,
+    &quot;end&quot;: 59,
+    &quot;tokenizer&quot;: &quot;DistilBertTokenizer&quot;,
+    &quot;model&quot;: &quot;DistilBertForQuestionAnswering&quot;
+}
+</code></pre></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.dict</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -629,6 +802,7 @@ title="The GoogleResultURLPage after clicking the first link in the GooglePage."
 <ul class="two-column">
 <li><code><a title="ntfp.ntfp_types.Answer" href="#ntfp.ntfp_types.Answer">Answer</a></code></li>
 <li><code><a title="ntfp.ntfp_types.Context" href="#ntfp.ntfp_types.Context">Context</a></code></li>
+<li><code><a title="ntfp.ntfp_types.End" href="#ntfp.ntfp_types.End">End</a></code></li>
 <li><code><a title="ntfp.ntfp_types.GoogleContext" href="#ntfp.ntfp_types.GoogleContext">GoogleContext</a></code></li>
 <li><code><a title="ntfp.ntfp_types.GooglePage" href="#ntfp.ntfp_types.GooglePage">GooglePage</a></code></li>
 <li><code><a title="ntfp.ntfp_types.GoogleResultURL" href="#ntfp.ntfp_types.GoogleResultURL">GoogleResultURL</a></code></li>
@@ -636,9 +810,18 @@ title="The GoogleResultURLPage after clicking the first link in the GooglePage."
 <li><code><a title="ntfp.ntfp_types.Query" href="#ntfp.ntfp_types.Query">Query</a></code></li>
 <li><code><a title="ntfp.ntfp_types.Question" href="#ntfp.ntfp_types.Question">Question</a></code></li>
 <li><code><a title="ntfp.ntfp_types.SanitizedQuery" href="#ntfp.ntfp_types.SanitizedQuery">SanitizedQuery</a></code></li>
+<li><code><a title="ntfp.ntfp_types.Score" href="#ntfp.ntfp_types.Score">Score</a></code></li>
+<li><code><a title="ntfp.ntfp_types.Start" href="#ntfp.ntfp_types.Start">Start</a></code></li>
 <li><code><a title="ntfp.ntfp_types.URL" href="#ntfp.ntfp_types.URL">URL</a></code></li>
 <li><code><a title="ntfp.ntfp_types.WebPage" href="#ntfp.ntfp_types.WebPage">WebPage</a></code></li>
 <li><code><a title="ntfp.ntfp_types.WebPageContext" href="#ntfp.ntfp_types.WebPageContext">WebPageContext</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="ntfp.ntfp_types.ExtraDataDict" href="#ntfp.ntfp_types.ExtraDataDict">ExtraDataDict</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

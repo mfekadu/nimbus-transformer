@@ -50,7 +50,7 @@ from requests import get
 from requests.models import Response
 from transformers import pipeline
 from typing_extensions import Final
-from typing import List, Callable, Iterator
+from typing import List, Callable, Iterator, Tuple
 from ntfp.ntfp_types import (
     IDK,
     IDK_TYPE,
@@ -65,6 +65,7 @@ from ntfp.ntfp_types import (
     SanitizedQuery,
     WebPage,
     URL,
+    ExtraDataDict,
 )
 
 
@@ -216,7 +217,7 @@ def fetch_google_result_urls(
         yield GoogleResultURL(url)
 
 
-def transformer(q: Question, c: Context) -> Answer:
+def transformer(q: Question, c: Context) -> Tuple[Answer, ExtraDataDict]:
     """transformer
 
     [//]: # (markdown comment # noqa)
@@ -226,12 +227,29 @@ def transformer(q: Question, c: Context) -> Answer:
             * https://github.com/huggingface/transformers#quick-tour-of-pipelines
     """
     if len(c) <= 0:
-        return Answer(IDK)
+        extra_data: ExtraDataDict = {
+            "score": -1.0,
+            "start": -1,
+            "end": -1,
+            "tokenizer": "NA_SKIPPED_TRANSFORMER",
+            "model": "NA_SKIPPED_TRANSFORMER",
+        }
+        return (
+            Answer(IDK),
+            extra_data,
+        )
     # FIXME: this line below needs an internet connection!
     nlp = pipeline("question-answering")
     input_data = {"question": q, "context": c}
     answer = nlp(input_data)
-    return answer.get("answer", IDK)
+    extra_data: ExtraDataDict = {
+        "score": answer.get("score", -1.0),
+        "start": answer.get("start", -1),
+        "end": answer.get("end", -1),
+        "tokenizer": nlp.tokenizer.__class__.__name__,
+        "model": nlp.model.__class__.__name__,
+    }
+    return (answer.get("answer", IDK), extra_data)
 
 
 def extract_webpage_context(
@@ -303,14 +321,15 @@ def extract_relevant_context(page: WebPage, question: Question) -> Context:
 
 def get_context(
     question: Question, use_google: bool = True, verbose: bool = False
-) -> Context:
+) -> Tuple[Query, WebPage, Context]:
     if use_google:
         query: Query = create_query(question)
         page: GooglePage = get_google_page(query)
         if verbose:
             print("query: ", query, "\n")
             print("len(page): ", len(page), "\n")
-        return extract_relevant_context(page, question)
+        context: Context = extract_relevant_context(page, question)
+        return query, page, context
     else:
         raise NotImplementedError
 
