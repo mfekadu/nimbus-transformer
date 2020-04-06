@@ -8,6 +8,7 @@ from ntfp.ntfp import (
     get_google_page,
     get_page,
     url_param_sanitize,
+    transformer,
 )
 from ntfp.ntfp_types import (
     IDK,
@@ -82,5 +83,17 @@ if __name__ == "__main__":
         print(f"type(return_value): {type(return_value)}")
         print(f"len(return_value): {len(return_value)}")
 
-    for url, page, context in handle_return(gen, fun):
+    def print_answer(question):
+        def func(large_context):
+            answer: Answer = transformer(question, context)
+            print("\n\n")
+            print("question: ", question)
+            print("context[:25]", large_context[:25])
+            print("answer: ", answer)
+
+        return func
+
+    fun2 = print_answer(question)
+
+    for url, page, context in handle_return(gen, fun2):
         print("got data\n")

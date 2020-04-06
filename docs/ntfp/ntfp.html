@@ -264,7 +264,7 @@ def transformer(q: Question, c: Context) -&gt; Answer:
 
     Is a `Transformer`.
     &#34;&#34;&#34;
-    # this line below needs an internet connection!
+    # FIXME: this line below needs an internet connection!
     nlp = pipeline(&#34;question-answering&#34;)
     input_data = {&#34;question&#34;: q, &#34;context&#34;: c}
     answer = nlp(input_data)
@@ -703,7 +703,7 @@ of the given <a href="ntfp_types.html#ntfp.ntfp_types.URL"><code>URL</code></a>.
 
     Is a `Transformer`.
     &#34;&#34;&#34;
-    # this line below needs an internet connection!
+    # FIXME: this line below needs an internet connection!
     nlp = pipeline(&#34;question-answering&#34;)
     input_data = {&#34;question&#34;: q, &#34;context&#34;: c}
     answer = nlp(input_data)

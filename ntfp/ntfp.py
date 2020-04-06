@@ -220,7 +220,7 @@ def transformer(q: Question, c: Context) -> Answer:
 
     Is a `Transformer`.
     """
-    # this line below needs an internet connection!
+    # FIXME: this line below needs an internet connection!
     nlp = pipeline("question-answering")
     input_data = {"question": q, "context": c}
     answer = nlp(input_data)
