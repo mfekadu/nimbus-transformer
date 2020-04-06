@@ -49,8 +49,6 @@ if __name__ == "__main__":
     context: GoogleContext = get_google_context(question)
     print("len(context): ", len(context))
 
-    assert len(context) > 0, "UH OH. No context?"
-
     answer: Answer = transformer(question, context)
     print("\n\n\nanswer: ", answer)
 

@@ -263,8 +263,14 @@ def fetch_google_result_urls(
 def transformer(q: Question, c: Context) -&gt; Answer:
     &#34;&#34;&#34;transformer
 
-    Is a `Transformer`.
+    [//]: # (markdown comment # noqa)
+
+    Resources:
+        * HuggingFace Transformers pipelines
+            * https://github.com/huggingface/transformers#quick-tour-of-pipelines
     &#34;&#34;&#34;
+    if len(c) &lt;= 0:
+        return Answer(IDK)
     # FIXME: this line below needs an internet connection!
     nlp = pipeline(&#34;question-answering&#34;)
     input_data = {&#34;question&#34;: q, &#34;context&#34;: c}
@@ -765,7 +771,13 @@ of the given <a href="ntfp_types.html#ntfp.ntfp_types.URL"><code>URL</code></a>.
 </code></dt>
 <dd>
 <section class="desc"><p>transformer</p>
-<p>Is a <code>Transformer</code>.</p></section>
+<h2 id="resources">Resources</h2>
+<ul>
+<li>HuggingFace Transformers pipelines<ul>
+<li><a href="https://github.com/huggingface/transformers#quick-tour-of-pipelines">https://github.com/huggingface/transformers#quick-tour-of-pipelines</a></li>
+</ul>
+</li>
+</ul></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -773,8 +785,14 @@ of the given <a href="ntfp_types.html#ntfp.ntfp_types.URL"><code>URL</code></a>.
 <pre><code class="python">def transformer(q: Question, c: Context) -&gt; Answer:
     &#34;&#34;&#34;transformer
 
-    Is a `Transformer`.
+    [//]: # (markdown comment # noqa)
+
+    Resources:
+        * HuggingFace Transformers pipelines
+            * https://github.com/huggingface/transformers#quick-tour-of-pipelines
     &#34;&#34;&#34;
+    if len(c) &lt;= 0:
+        return Answer(IDK)
     # FIXME: this line below needs an internet connection!
     nlp = pipeline(&#34;question-answering&#34;)
     input_data = {&#34;question&#34;: q, &#34;context&#34;: c}

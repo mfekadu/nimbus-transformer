@@ -219,8 +219,14 @@ def fetch_google_result_urls(
 def transformer(q: Question, c: Context) -> Answer:
     """transformer
 
-    Is a `Transformer`.
+    [//]: # (markdown comment # noqa)
+
+    Resources:
+        * HuggingFace Transformers pipelines
+            * https://github.com/huggingface/transformers#quick-tour-of-pipelines
     """
+    if len(c) <= 0:
+        return Answer(IDK)
     # FIXME: this line below needs an internet connection!
     nlp = pipeline("question-answering")
     input_data = {"question": q, "context": c}
