@@ -1,8 +1,8 @@
 #!/bin/bash
-pdoc --html nimbus_transformer --output-dir docs --force
+pdoc --html ntfp --output-dir docs --force
 
-mv docs/nimbus_transformer/* docs
-rmdir docs/nimbus_transformer
+mv docs/ntfp/* docs
+rmdir docs/ntfp
 
 if [[ $1 == "--open" ]] ||
     [[ $2 == "--open" ]] ||
@@ -17,17 +17,17 @@ else
     echo "open docs/index.html"
 fi
 
-if [[ $1 == "--ntfp" ]] ||
-    [[ $2 == "--ntfp" ]] ||
-    [[ $1 == "-n" ]] ||
-    [[ $2 == "-n" ]] ||
-    [[ $1 == "n" ]] ||
-    [[ $2 == "n" ]] ||
-    [[ $1 == "fp" ]] ||
-    [[ $2 == "fp" ]]; then
-    pdoc --html ntfp --output-dir docs --force
-    open docs/ntfp/index.html
+if [[ $1 == "--oop" ]] ||
+    [[ $2 == "--oop" ]] ||
+    [[ $1 == "-oo" ]] ||
+    [[ $2 == "-oo" ]] ||
+    [[ $1 == "oop" ]] ||
+    [[ $2 == "oop" ]] ||
+    [[ $1 == "object-oriented" ]] ||
+    [[ $2 == "object-oriented" ]]; then
+    pdoc --html nimbus_transformer --output-dir docs --force
+    open docs/nimbus_transformer/index.html
 else
-    echo "pdoc --html ntfp --output-dir docs --force"
+    echo "pdoc --html nimbus_transformer --output-dir docs --force"
     echo "open docs/index.html"
 fi

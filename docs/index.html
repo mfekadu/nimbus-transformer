@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.5" />
-<title>nimbus_transformer API documentation</title>
+<title>ntfp API documentation</title>
 <meta name="description" content="it&#39;s like [Nimbus][1] but uses [a transformer language model][2] …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -17,78 +17,86 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>nimbus_transformer</code></h1>
+<h1 class="title">Module <code>ntfp</code></h1>
 </header>
 <section id="section-intro">
 <p>it's like <a href="http://github.com/calpoly-csai/api">Nimbus</a> but uses <a href="https://github.com/huggingface/transformers">a transformer language model</a></p>
-<p><a href="http://github.com/mfekadu/nimbus-transformer">READ MORE ON GITHUB</a></p>
-<p><strong>Pipeline</strong></p>
-<ol>
-<li>
-<p><em>User</em> asks <a title="nimbus_transformer.question.Question" href="question.html#nimbus_transformer.question.Question"><code>Question</code></a> to a web application.</p>
+<p>Implemented in a <a href="https://realpython.com/courses/functional-programming-python/">functional programming style</a></p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/typing.html">import typing</a></li>
+<li><a href="https://docs.python.org/3/library/functools.html">import functools</a></li>
+<li><a href="https://youtu.be/ucnWLfBA1dc">Functional Design Patterns - Scott Wlaschin</a></li>
+<li><a href="https://youtu.be/ucnWLfBA1dc?t=685">"Types are not classes&hellip; they're sort of like Sets"</a></li>
+<li><a href="https://youtu.be/QyJZzq0v7Z4">Why Isn't Functional Programming the Norm? – Richard Feldman</a></li>
+<li><a href="https://docs.python.org/3/library/typing.html#newtype">"NewType declares one type to be a <em>subtype</em> of another"</a><ul>
+<li><em>subtype</em> means the same thing as <em>subclass</em> in this context</li>
+</ul>
 </li>
-<li>
-<p>Scrape Google for <code>Context</code> limit 10 url results.</p>
-</li>
-<li>
-<p>Store <code>Context</code> into database.</p>
-</li>
-<li>
-<p>Transform ( <a title="nimbus_transformer.question.Question" href="question.html#nimbus_transformer.question.Question"><code>Question</code></a>, <code>Context</code> ) &gt;&gt; <code>Answer</code></p>
-</li>
-<li>
-<p>Reply with <code>Answer</code></p>
-</li>
-<li>
-<p>Mark, good/bad answer <em>to learn from later</em>.</p>
-</li>
-</ol>
+<li><a href="https://pdoc3.github.io/pdoc/doc/pdoc/#overriding-docstrings-with-__pdoc__">__pdoc__override</a></li>
+<li><a href="https://pyre-check.org/docs/error-suppression.html">pyre-check error suppression</a></li>
+<li><a href="https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html">mypy type hints cheat sheet</a></li>
+<li><a href="https://youtu.be/pMgmKJyWKn8">Carl Meyer - Type-checked Python in the real world - PyCon 2018</a></li>
+</ul>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;it&#39;s like [Nimbus][1] but uses [a transformer language model][2]
 
-[READ MORE ON GITHUB][3]
+Implemented in a [functional programming style][4]
 
-**Pipeline**
+[//]: # (markdown comment # noqa)
 
-1. _User_ asks `nimbus_transformer.question.Question` to a web application.
-
-2. Scrape Google for `Context` limit 10 url results.
-
-3. Store `Context` into database.
-
-4. Transform ( `nimbus_transformer.question.Question`, `Context` ) &gt;&gt; `Answer`
-
-5. Reply with `Answer`
-
-6. Mark, good/bad answer _to learn from later_.
+Resources:
+    * [import typing][python3_typing]
+    * [import functools][python3_functools]
+    * [Functional Design Patterns - Scott Wlaschin][wlaschin_talk]
+    * [&#34;Types are not classes... they&#39;re sort of like Sets&#34;][wlaschin_talk_types]
+    * [Why Isn&#39;t Functional Programming the Norm? – Richard Feldman][richard_feldman_talk]
+    * [&#34;NewType declares one type to be a _subtype_ of another&#34;][new_type]
+        * _subtype_ means the same thing as _subclass_ in this context
+    * [__pdoc__override]
+    * [pyre-check error suppression][5]
+    * [mypy type hints cheat sheet][6]
+    * [Carl Meyer - Type-checked Python in the real world - PyCon 2018][carl_myer_pycon2018]
 
 [1]: http://github.com/calpoly-csai/api
 [2]: https://github.com/huggingface/transformers
 [3]: http://github.com/mfekadu/nimbus-transformer
+
+[4]: https://realpython.com/courses/functional-programming-python/
+
+[5]: https://pyre-check.org/docs/error-suppression.html
+
+[6]: https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html
+
+[carl_myer_pycon2018]: https://youtu.be/pMgmKJyWKn8
+
+[python3_typing]: https://docs.python.org/3/library/typing.html
+[python3_functools]: https://docs.python.org/3/library/functools.html
+
+[wlaschin_talk]: https://youtu.be/ucnWLfBA1dc
+[wlaschin_talk_types]: https://youtu.be/ucnWLfBA1dc?t=685
+
+[richard_feldman_talk]: https://youtu.be/QyJZzq0v7Z4
+
+[new_type]: https://docs.python.org/3/library/typing.html#newtype
+
+[__pdoc__override]: https://pdoc3.github.io/pdoc/doc/pdoc/#overriding-docstrings-with-__pdoc__
 &#34;&#34;&#34;</code></pre>
 </details>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
-<dt><code class="name"><a title="nimbus_transformer.context" href="context.html">nimbus_transformer.context</a></code></dt>
+<dt><code class="name"><a title="ntfp.ntfp" href="ntfp.html">ntfp.ntfp</a></code></dt>
 <dd>
-<section class="desc"><p>Defines the Google Search <code>Context</code> object …</p></section>
+<section class="desc"><p>it's like [Nimbus][1] but uses [a transformer language model][2] …</p></section>
 </dd>
-<dt><code class="name"><a title="nimbus_transformer.query" href="query.html">nimbus_transformer.query</a></code></dt>
+<dt><code class="name"><a title="ntfp.ntfp_types" href="ntfp_types.html">ntfp.ntfp_types</a></code></dt>
 <dd>
-<section class="desc"><p>Defines the Google Search <code>Query</code> object …</p></section>
-</dd>
-<dt><code class="name"><a title="nimbus_transformer.question" href="question.html">nimbus_transformer.question</a></code></dt>
-<dd>
-<section class="desc"><p>Defines the Cal Poly <code>Question</code> object …</p></section>
-</dd>
-<dt><code class="name"><a title="nimbus_transformer.result" href="result.html">nimbus_transformer.result</a></code></dt>
-<dd>
-<section class="desc"><p>Defines the Google Search <code>Results</code> object …</p></section>
+<section class="desc"></section>
 </dd>
 </dl>
 </section>
@@ -107,10 +115,8 @@
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="nimbus_transformer.context" href="context.html">nimbus_transformer.context</a></code></li>
-<li><code><a title="nimbus_transformer.query" href="query.html">nimbus_transformer.query</a></code></li>
-<li><code><a title="nimbus_transformer.question" href="question.html">nimbus_transformer.question</a></code></li>
-<li><code><a title="nimbus_transformer.result" href="result.html">nimbus_transformer.result</a></code></li>
+<li><code><a title="ntfp.ntfp" href="ntfp.html">ntfp.ntfp</a></code></li>
+<li><code><a title="ntfp.ntfp_types" href="ntfp_types.html">ntfp.ntfp_types</a></code></li>
 </ul>
 </li>
 </ul>
