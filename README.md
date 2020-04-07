@@ -92,7 +92,11 @@ appended new row to data.csv
 - [ ] make improvements to _assumptions_
 
 
-## What is `data.csv`
+## What is `data.csv`?
+
+`data.csv` is a temporary "database" for appending question samples with the generated meta-data and final answer of this system.
+
+Keeping track of this data will help with measuring the model's performance and making improvements based on performance metrics.
 
 ![data.png](./data.png)
 
