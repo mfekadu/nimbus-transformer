@@ -91,6 +91,12 @@ appended new row to data.csv
 - [ ] measure **`precision` & `recall`** of this system
 - [ ] make improvements to _assumptions_
 
+
+## What is `data.csv`
+
+![data.png](./data.png)
+
+
 ## Resources
 
 - [**huggingface/transformers**][2]
