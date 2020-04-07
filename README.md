@@ -75,11 +75,11 @@ appended new row to data.csv
 
 **Pipeline**
 
-1. _User_ asks `Question` to a web application.
-2. Scrape Google for `Context` limit 10 url results.
-3. Store `Context` into database.
-4. Transform ( `Question`, `Context` ) >> `Answer`
-5. Reply with `Answer`
+1. _User_ asks [`Question`] to a web application.
+2. Scrape Google for [`Context`] limit 10 url results.
+3. Store [`Context`] into database.
+4. [Transform] ( [`Question`], [`Context`] ) >> [`Answer`]
+5. Reply with [`Answer`]
 6. Mark, good/bad answer _to learn from later_.
 
 ## TODO
@@ -117,3 +117,7 @@ appended new row to data.csv
 [12]: http://python.org
 [13]: https://pipenv.pypa.io/en/latest/install/#pragmatic-installation-of-pipenv
 [14]: http://github.com/calpoly-csai/api
+[`Question`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Question
+[`Context`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Context
+[`Answer`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Answer
+[Transform]: https://mfekadu.github.io/nimbus-transformer/ntfp.html#ntfp.ntfp.transformer
