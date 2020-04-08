@@ -6,7 +6,8 @@ Ask questions about Cal Poly clubs.
 [//]: # (markdown comment # noqa)
 
 Usage:
-    clubs.py [ --fuzz-threshold=50 | --fuzz=50 ]
+    clubs.py [IN_TXT_FILE]
+             [ --fuzz-threshold=50 | --fuzz=50 ]
              [ --context-limit=100 | --limit=100 ]
              [ --verbose | -v ]
     clubs.py (demo|d) [IN_TXT_FILE]
@@ -18,25 +19,49 @@ Usage:
              [ --context-limit=100 | --limit=100 ]
              [ --verbose | -v ]
     clubs.py (-h | --help)
+             [ --verbose | -v ]
 
 Options:
     -h --help                     Show this screen.
     demo d                        read IN_TXT_FILE and ask a default question.
     make-doc md doc m             read IN_CSV_FILE and do stuff and write out txt
-    IN_TXT_FILE                   defaults to "clubs.txt"
-    IN_CSV_FILE                   defaults to "clubs.csv"
-    OUT_TXT_FILE                  defaults to "clubs.txt"
+    [IN_TXT_FILE]                 defaults to "clubs.txt"
+    [IN_CSV_FILE]                 defaults to "clubs.csv"
+    [OUT_TXT_FILE]                defaults to "clubs.txt"
     --fuzz-threshold=50 --fuzz    defaults to 50.
     --context-limit=50 --limit    defaults to 100.
     --verbose -v                  printouts while running.
 
+Example:
+    $ python clubs.py make-doc my_clubs_data.csv my_clubs_doc.txt
+
+    $ python clubs.py demo my_clubs_doc.txt --verbose
+    question: "What is blah?"
+    ...
+    context: "..."
+    ...
+    answer: "Blah is foobar"
+    extradata: {...}
+
+    $ python clubs.py my_clubs_doc.txt
+    question: "user_input"
+    ...
+    answer: "answer"
+
+Resources:
+    * docopt is cool
+        * http://docopt.org
 """
+import re
+
 import pandas as pd
-from docopt import docopt
-from ntfp.ntfp import filter_string_by_relevance, transformer
-from ntfp.ntfp_types import Question, Context
 from colorama import init
+from docopt import docopt
 from termcolor import colored
+from colors import strip_color
+
+from ntfp.ntfp import filter_string_by_relevance, transformer
+from ntfp.ntfp_types import Context, Question
 
 # use Colorama to make Termcolor work on Windows too
 init()
@@ -84,15 +109,79 @@ def make_sents(club):
 
 
 def green_bold(s: str) -> str:
-    return colored(s, "green", attrs=["bold"])
+    return colored(s, "green", "on_grey", attrs=["bold"])
 
 
 def yellow_bold(s: str) -> str:
-    return colored(s, "yellow", attrs=["bold"])
+    return colored(s, "yellow", "on_grey", attrs=["bold"])
+
+
+def white_bold(s: str) -> str:
+    return colored(s, "white", "on_grey", attrs=["bold"])
+
+
+def red_bold(s: str) -> str:
+    return colored(s, "red", "on_grey", attrs=["bold"])
+
+
+def grey_out(s: str) -> str:
+    return colored(s, "grey", "on_grey")
+
+
+def print_colored_doc():
+    colored_doc = __doc__
+    to_color_green_bold = (
+        "clubs.py",
+        "(demo|d)",
+        "(make-doc|md|doc|m)",
+        "(-h | --help)",
+    )
+    to_color_yellow_bold = (
+        "[IN_TXT_FILE]",
+        "[IN_CSV_FILE]",
+        "[OUT_TXT_FILE]",
+    )
+    to_color_white_bold = (
+        "Ask questions about Cal Poly clubs.",
+        "Usage:",
+        "Options:",
+        "Resources:",
+        "Example:",
+    )
+    to_color_white_bold_patterns = (r"(\$.*)",)
+    to_color_red_bold_patterns = (r"(defaults to.*)",)
+    to_color_grey_out = ("[//]: # (markdown comment # noqa)",)
+
+    def repl(color_fun, strip=True):
+        def _repl(m):
+            s = m.group(1)
+            s = strip_color(s) if strip else s
+            return f"{color_fun(s)}"
+
+        return _repl
+
+    for s in to_color_yellow_bold:
+        colored_doc = colored_doc.replace(s, yellow_bold(s))
+    for s in to_color_green_bold:
+        colored_doc = colored_doc.replace(s, green_bold(s))
+    for s in to_color_white_bold:
+        colored_doc = colored_doc.replace(s, white_bold(s))
+    for s in to_color_grey_out:
+        colored_doc = colored_doc.replace(s, grey_out(s))
+    for s in to_color_red_bold_patterns:
+        colored_doc = re.sub(s, repl(red_bold), colored_doc)
+    for s in to_color_white_bold_patterns:
+        colored_doc = re.sub(s, repl(white_bold), colored_doc)
+    print(colored_doc)
 
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__, version="Clubs 1.0")
+    arguments = docopt(__doc__, version="Clubs 1.0", help=False)
+    VERBOSE = arguments["--verbose"]
+    print(arguments) if VERBOSE else None
+    if arguments["--help"]:
+        print_colored_doc()
+        exit()
     IN_CSV_FILE = arguments["IN_CSV_FILE"] or "clubs.csv"
     IN_TXT_FILE = arguments["IN_TXT_FILE"] or "clubs.txt"
     OUT_TXT_FILE = arguments["OUT_TXT_FILE"] or "clubs.txt"
@@ -100,8 +189,6 @@ if __name__ == "__main__":
     FUZZ = int(FUZZ)
     LIMIT = arguments["--context-limit"] or arguments["--limit"] or 100
     LIMIT = int(LIMIT)
-    VERBOSE = arguments["--verbose"]
-    print(arguments) if VERBOSE else None
     if arguments["make-doc"] or arguments["md"] or arguments["m"]:
         df = pd.read_csv(IN_CSV_FILE, escapechar="\\", engine="python")
         doc = ""
@@ -109,7 +196,7 @@ if __name__ == "__main__":
             sents = make_sents(club)
             new_string = "\n".join(sents)
             doc += new_string
-        with open("clubs.txt", "w") as f:
+        with open(OUT_TXT_FILE, "w") as f:
             f.write(doc)
     elif arguments["demo"] or arguments["d"]:
         doc = ""
