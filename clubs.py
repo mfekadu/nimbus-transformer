@@ -43,7 +43,7 @@ Options:
     --verbose -v                    printouts while running.
     --debug -d                      printouts while running, extra debugging.
     --sentence-separator=" "        defaults to " ". Separates same club sentences.
-    --club-separator="\\n\\n\\n"    defaults to "\\n\\n\\n". Separates different club sentences.
+    --club-separator="\\n\\n\\n"       defaults to "\\n\\n\\n". Separates different club sentences.
 
 Example:
     $ python clubs.py --make-doc my_clubs_data.csv my_clubs_doc.txt
@@ -75,6 +75,8 @@ from colors import strip_color
 
 from ntfp.ntfp import filter_string_by_relevance, transformer
 from ntfp.ntfp_types import Context, Question
+
+import spacy
 
 # use Colorama to make Termcolor work on Windows too
 init()
@@ -228,8 +230,14 @@ if __name__ == "__main__":
         print(f"club: {club}...") if DEBUG else None
         question = f"who is the advisor for {club} club?"
         print(green_bold("question:"), question)
+        spacy_nlp = spacy.load("en_core_web_sm")
         context = filter_string_by_relevance(
-            to=question, string=doc, FUZZ=FUZZ, limit=LIMIT, sep=CLUB_SEPARATOR
+            to=question,
+            string=doc,
+            FUZZ=FUZZ,
+            limit=LIMIT,
+            sep=CLUB_SEPARATOR,
+            nlp=spacy_nlp,
         )
         print(yellow_bold("context:"), context) if VERBOSE else None
         answer, extradata = transformer(Question(question), Context(context))
@@ -241,8 +249,14 @@ if __name__ == "__main__":
         with open(IN_TXT_FILE, "r") as f:
             doc = f.read()
         question = input(green_bold("question: "))
+        spacy_nlp = spacy.load("en_core_web_sm")
         context = filter_string_by_relevance(
-            to=question, string=doc, FUZZ=FUZZ, limit=LIMIT, sep=CLUB_SEPARATOR
+            to=question,
+            string=doc,
+            FUZZ=FUZZ,
+            limit=LIMIT,
+            sep=CLUB_SEPARATOR,
+            nlp=spacy_nlp,
         )
         print(yellow_bold("context:"), context) if VERBOSE else None
         answer, extradata = transformer(Question(question), Context(context))

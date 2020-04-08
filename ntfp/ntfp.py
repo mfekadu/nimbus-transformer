@@ -67,6 +67,7 @@ from ntfp.ntfp_types import (
     URL,
     ExtraDataDict,
 )
+import spacy
 
 
 def create_query(question: Question) -> Query:
@@ -288,18 +289,55 @@ def extract_webpage_context(
     return WebPageContext(text)
 
 
-def relevance(to, FUZZ_THRESHOLD=30, LEN_THRESHOLD=2):
+class NtfpNoEntityError(Exception):
+    """Spacy's named entity recognizer failed to find an entity in a sentence.
+
+    Attributes:
+        sentence -- the sentence that lacks an entity.
+        message -- explanation of the error
+    """
+
+    def __init__(self, sentence, message):
+        self.sentence = sentence
+        self.messsage = message
+
+
+def relevance(to, nlp=None, FUZZ_THRESHOLD=30, LEN_THRESHOLD=2):
     FUZZ_THRESHOLD = FUZZ_THRESHOLD or 30
     LEN_THRESHOLD = LEN_THRESHOLD or 2
     # TODO: make smarter filter THRESHOLDS
+    # TODO: consider semantic similarity
     original_question = to
+    entity_text = None
+    if isinstance(nlp, spacy.language.Language):
+        doc = nlp(original_question)
+        ents = doc.ents
+        if len(ents) > 0:
+            entity = ents[0]
+            entity_text = entity.text
+            # metadata = {
+            #     "entity_text": entity.text,
+            #     "entity_start_char": entity.start_char,
+            #     "entity_end_char": entity.end_char,
+            #     "entity_label_": entity.label_,
+            # }
+            if entity_text is None or entity_text == "":
+                msg = f"'{original_question}' has no named entity from spacy?"
+                raise NtfpNoEntityError(original_question, msg)
+        else:
+            msg = f"'{original_question}' has no named entity from spacy?"
+            raise NtfpNoEntityError(original_question, msg)
 
     def _filter_func(text):
+        text_question_lexical_similarity = fuzz.ratio(text, original_question)
         # TODO: make smarter filter rules
+        if entity_text is not None and entity_text in text:
+            # ASSUME: answer would contain exact match of entity_text
+            text_question_lexical_similarity += FUZZ_THRESHOLD
         if original_question in text:
             # ASSUME: that answer would not include original_question
             return False
-        if fuzz.ratio(text, original_question) < FUZZ_THRESHOLD:
+        if text_question_lexical_similarity < FUZZ_THRESHOLD:
             # ASSUME: some lexical similarity question with answer
             return False
         if len(text) < LEN_THRESHOLD:
@@ -316,9 +354,10 @@ def filter_list_by_relevance(
     lst: List[str],
     FUZZ: Optional[int] = None,
     LEN: Optional[int] = None,
+    nlp: Optional[object] = None,
 ) -> Iterator[str]:
     relevant_text_list: Iterator[str] = filter(
-        relevance(to=to, FUZZ_THRESHOLD=FUZZ, LEN_THRESHOLD=LEN), lst,
+        relevance(to=to, FUZZ_THRESHOLD=FUZZ, LEN_THRESHOLD=LEN, nlp=nlp), lst,
     )
     return relevant_text_list
 # fmt:on
@@ -331,10 +370,11 @@ def filter_string_by_relevance(
     LEN: Optional[int] = None,
     limit: Optional[int] = None,
     sep: str = "\n",
+    nlp: Optional[object] = None,
 ) -> str:
     lst = string.split(sep)
     relevant_text_list: Iterator[str] = filter_list_by_relevance(
-        to=to, lst=lst, FUZZ=FUZZ, LEN=LEN
+        to=to, lst=lst, FUZZ=FUZZ, LEN=LEN, nlp=nlp
     )
     return sep.join(sorted(relevant_text_list, reverse=True)[:limit])
 

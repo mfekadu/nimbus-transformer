@@ -9,7 +9,6 @@ black = "*"
 
 [packages]
 transformers = "==2.4"
-spacy = "*"
 google = "*"
 beautifulsoup4 = "*"
 torch = "*"
@@ -25,6 +24,7 @@ docopt = "*"
 termcolor = "*"
 colorama = "*"
 ansicolors = "*"
+spacy = "*"
 
 [requires]
 python_version = "3.6"
