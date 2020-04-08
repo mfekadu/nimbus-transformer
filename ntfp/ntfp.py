@@ -330,12 +330,13 @@ def filter_string_by_relevance(
     FUZZ: Optional[int] = None,
     LEN: Optional[int] = None,
     limit: Optional[int] = None,
+    sep: str = "\n",
 ) -> str:
-    lst = string.split("\n")
+    lst = string.split(sep)
     relevant_text_list: Iterator[str] = filter_list_by_relevance(
         to=to, lst=lst, FUZZ=FUZZ, LEN=LEN
     )
-    return "\n".join(sorted(relevant_text_list, reverse=True)[:limit])
+    return sep.join(sorted(relevant_text_list, reverse=True)[:limit])
 
 
 def extract_relevant_context(page: WebPage, question: Question) -> Context:

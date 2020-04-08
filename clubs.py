@@ -7,18 +7,24 @@ Ask questions about Cal Poly clubs.
 
 Usage:
     clubs.py [IN_TXT_FILE]
-             [ --fuzz-threshold=50 | --fuzz=50 ]
-             [ --context-limit=100 | --limit=100 ]
+             [ --sentence-separator=" " ]
+             [ --club-separator="\\n\\n\\n" ]
+             [ --fuzz-threshold=25 | --fuzz=25 ]
+             [ --context-limit=25 | --limit=25 ]
              [ --verbose | -v ]
              [ --debug | -d ]
     clubs.py (--example | -e) [IN_TXT_FILE]
-             [ --fuzz-threshold=50 | --fuzz=50 ]
-             [ --context-limit=100 | --limit=100 ]
+             [ --sentence-separator=" " ]
+             [ --club-separator="\\n\\n\\n" ]
+             [ --fuzz-threshold=25 | --fuzz=25 ]
+             [ --context-limit=25 | --limit=25 ]
              [ --verbose | -v ]
              [ --debug | -d ]
     clubs.py (--make-doc | -m) [IN_CSV_FILE] [OUT_TXT_FILE]
-             [ --fuzz-threshold=50 | --fuzz=50 ]
-             [ --context-limit=100 | --limit=100 ]
+             [ --sentence-separator=" " ]
+             [ --club-separator="\\n\\n\\n" ]
+             [ --fuzz-threshold=25 | --fuzz=25 ]
+             [ --context-limit=25 | --limit=25 ]
              [ --verbose | -v ]
              [ --debug | -d ]
     clubs.py (-h | --help)
@@ -26,16 +32,18 @@ Usage:
              [ --debug | -d ]
 
 Options:
-    -h --help                     Show this screen.
-    --example -e                  read IN_TXT_FILE and ask a default question.
-    --make-doc -m                 read IN_CSV_FILE and do stuff and write out txt
-    [IN_TXT_FILE]                 defaults to "clubs.txt"
-    [IN_CSV_FILE]                 defaults to "clubs.csv"
-    [OUT_TXT_FILE]                defaults to "clubs.txt"
-    --fuzz-threshold=50 --fuzz    defaults to 50.
-    --context-limit=50 --limit    defaults to 100.
-    --verbose -v                  printouts while running.
-    --debug -d                    printouts while running, extra debugging.
+    -h --help                       Show this screen.
+    --example -e                    read IN_TXT_FILE and ask a default question.
+    --make-doc -m                   read IN_CSV_FILE and do stuff and write out txt.
+    [IN_TXT_FILE]                   defaults to "clubs.txt"
+    [IN_CSV_FILE]                   defaults to "clubs.csv"
+    [OUT_TXT_FILE]                  defaults to "clubs.txt"
+    --fuzz-threshold=25 --fuzz=25   defaults to 25.
+    --context-limit=25 --limit=25   defaults to 25.
+    --verbose -v                    printouts while running.
+    --debug -d                      printouts while running, extra debugging.
+    --sentence-separator=" "        defaults to " ". Separates same club sentences.
+    --club-separator="\\n\\n\\n"    defaults to "\\n\\n\\n". Separates different club sentences.
 
 Example:
     $ python clubs.py --make-doc my_clubs_data.csv my_clubs_doc.txt
@@ -191,10 +199,12 @@ if __name__ == "__main__":
     IN_CSV_FILE = arguments["IN_CSV_FILE"] or "clubs.csv"
     IN_TXT_FILE = arguments["IN_TXT_FILE"] or "clubs.txt"
     OUT_TXT_FILE = arguments["OUT_TXT_FILE"] or "clubs.txt"
-    FUZZ = arguments["--fuzz-threshold"] or arguments["--fuzz"] or 50
+    FUZZ = arguments["--fuzz-threshold"] or arguments["--fuzz"] or 25
     FUZZ = int(FUZZ)
-    LIMIT = arguments["--context-limit"] or arguments["--limit"] or 100
+    LIMIT = arguments["--context-limit"] or arguments["--limit"] or 25
     LIMIT = int(LIMIT)
+    SENTENCE_SEPARATOR = arguments["--sentence-separator"] or " "
+    CLUB_SEPARATOR = arguments["--club-separator"] or "\n\n\n"
     if arguments["--make-doc"]:
         print(f"reading from {IN_CSV_FILE}...") if DEBUG else None
         df = pd.read_csv(IN_CSV_FILE, escapechar="\\", engine="python")
@@ -202,8 +212,8 @@ if __name__ == "__main__":
         print(f"making sentences...", end="") if DEBUG else None
         for _, club in df.iterrows():
             sents = make_sents(club)
-            new_string = "\n".join(sents)
-            doc += new_string + "\n"
+            new_string = SENTENCE_SEPARATOR.join(sents)
+            doc += new_string + CLUB_SEPARATOR
             print(f".", end="") if DEBUG else None
         print(f".", end="\n") if DEBUG else None
         print(f"writing to {OUT_TXT_FILE}.") if DEBUG else None
@@ -219,7 +229,7 @@ if __name__ == "__main__":
         question = f"who is the advisor for {club} club?"
         print(green_bold("question:"), question)
         context = filter_string_by_relevance(
-            to=question, string=doc, FUZZ=FUZZ, limit=100
+            to=question, string=doc, FUZZ=FUZZ, limit=LIMIT, sep=CLUB_SEPARATOR
         )
         print(yellow_bold("context:"), context) if VERBOSE else None
         answer, extradata = transformer(Question(question), Context(context))
@@ -232,7 +242,7 @@ if __name__ == "__main__":
             doc = f.read()
         question = input(green_bold("question: "))
         context = filter_string_by_relevance(
-            to=question, string=doc, FUZZ=FUZZ, limit=100
+            to=question, string=doc, FUZZ=FUZZ, limit=LIMIT, sep=CLUB_SEPARATOR
         )
         print(yellow_bold("context:"), context) if VERBOSE else None
         answer, extradata = transformer(Question(question), Context(context))
