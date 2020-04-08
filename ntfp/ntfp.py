@@ -288,33 +288,63 @@ def extract_webpage_context(
     return WebPageContext(text)
 
 
+def relevance(to, FUZZ_THRESHOLD=30, LEN_THRESHOLD=2):
+    FUZZ_THRESHOLD = FUZZ_THRESHOLD or 30
+    LEN_THRESHOLD = LEN_THRESHOLD or 2
+    # TODO: make smarter filter THRESHOLDS
+    original_question = to
+
+    def _filter_func(text):
+        # TODO: make smarter filter rules
+        if original_question in text:
+            # ASSUME: that answer would not include original_question
+            return False
+        if fuzz.ratio(text, original_question) < FUZZ_THRESHOLD:
+            # ASSUME: some lexical similarity question with answer
+            return False
+        if len(text) < LEN_THRESHOLD:
+            # ASSUME: text is long enough to contain an answer.
+            return False
+        return True
+
+    return _filter_func
+
+
+# fmt:off
+def filter_list_by_relevance(
+    to: str,
+    lst: List[str],
+    FUZZ: Optional[int] = None,
+    LEN: Optional[int] = None,
+) -> Iterator[str]:
+    relevant_text_list: Iterator[str] = filter(
+        relevance(to=to, FUZZ_THRESHOLD=FUZZ, LEN_THRESHOLD=LEN), lst,
+    )
+    return relevant_text_list
+# fmt:on
+
+
+def filter_string_by_relevance(
+    to: str,
+    string: str,
+    FUZZ: Optional[int] = None,
+    LEN: Optional[int] = None,
+    limit: Optional[int] = None,
+) -> str:
+    lst = string.split("\n")
+    relevant_text_list: Iterator[str] = filter_list_by_relevance(
+        to=to, lst=lst, FUZZ=FUZZ, LEN=LEN
+    )
+    return "\n".join(sorted(relevant_text_list, reverse=True)[:limit])
+
+
 def extract_relevant_context(page: WebPage, question: Question) -> Context:
     soup: BeautifulSoup = BeautifulSoup(markup=page, features="html.parser")
 
     txt_lst: List[str] = [x for x in soup.stripped_strings]
 
-    def relevance(to):
-        original_question = to
-
-        def filter_func(text):
-            # TODO: make smarter filter rules
-            FUZZ_THRESHOLD = 30
-            LEN_THRESHOLD = 2
-            if original_question in text:
-                # ASSUME: that answer would not include original_question
-                return False
-            if fuzz.ratio(text, original_question) < FUZZ_THRESHOLD:
-                # ASSUME: some lexical similarity question with answer
-                return False
-            if len(text) < LEN_THRESHOLD:
-                # ASSUME: answer is not short
-                return False
-            return True
-
-        return filter_func
-
     # Filter by relevance to the question
-    relevant_text_list: Iterator[str] = filter(relevance(to=question), txt_lst)
+    relevant_text_list = filter_list_by_relevance(to=question, lst=txt_lst)
 
     return Context("\n".join(relevant_text_list))
 

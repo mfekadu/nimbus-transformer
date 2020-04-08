@@ -90,7 +90,7 @@ appended new row to data.csv
   - UPDATE _good-bad-answer_
 - [ ] measure **`precision` & `recall`** of this system
 - [ ] make improvements to _assumptions_
-
+- [ ] consider `git rev-parse HEAD` to get latest commit hash to associate with data.
 
 ## What is `data.csv`?
 
@@ -99,7 +99,6 @@ appended new row to data.csv
 Keeping track of this data will help with measuring the model's performance and making improvements based on performance metrics.
 
 ![data.png](./data.png)
-
 
 ## Resources
 
