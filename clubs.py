@@ -10,31 +10,28 @@ Usage:
              [ --fuzz-threshold=50 | --fuzz=50 ]
              [ --context-limit=100 | --limit=100 ]
              [ --verbose | -v ]
-             [ --debug ]
-    clubs.py (--example | -e)
-             [IN_TXT_FILE]
+             [ --debug | -d ]
+    clubs.py (--example | -e) [IN_TXT_FILE]
              [ --fuzz-threshold=50 | --fuzz=50 ]
              [ --context-limit=100 | --limit=100 ]
              [ --verbose | -v ]
-             [ --debug ]
-    clubs.py (--make-doc | -m)
-             [IN_CSV_FILE]
-             [OUT_TXT_FILE]
+             [ --debug | -d ]
+    clubs.py (--make-doc | -m) [IN_CSV_FILE] [OUT_TXT_FILE]
              [ --fuzz-threshold=50 | --fuzz=50 ]
              [ --context-limit=100 | --limit=100 ]
              [ --verbose | -v ]
-             [ --debug ]
+             [ --debug | -d ]
     clubs.py (-h | --help)
              [ --verbose | -v ]
-             [ --debug ]
+             [ --debug | -d ]
 
 Options:
     -h --help                     Show this screen.
-    demo d                        read IN_TXT_FILE and ask a default question.
-    make-doc md doc m             read IN_CSV_FILE and do stuff and write out txt
-    IN_TXT_FILE                   defaults to "clubs.txt"
-    IN_CSV_FILE                   defaults to "clubs.csv"
-    OUT_TXT_FILE                  defaults to "clubs.txt"
+    --example -e                  read IN_TXT_FILE and ask a default question.
+    --make-doc -m                 read IN_CSV_FILE and do stuff and write out txt
+    [IN_TXT_FILE]                 defaults to "clubs.txt"
+    [IN_CSV_FILE]                 defaults to "clubs.csv"
+    [OUT_TXT_FILE]                defaults to "clubs.txt"
     --fuzz-threshold=50 --fuzz    defaults to 50.
     --context-limit=50 --limit    defaults to 100.
     --verbose -v                  printouts while running.
@@ -198,7 +195,7 @@ if __name__ == "__main__":
     FUZZ = int(FUZZ)
     LIMIT = arguments["--context-limit"] or arguments["--limit"] or 100
     LIMIT = int(LIMIT)
-    if arguments["--make-doc"] or arguments["-m"]:
+    if arguments["--make-doc"]:
         print(f"reading from {IN_CSV_FILE}...") if DEBUG else None
         df = pd.read_csv(IN_CSV_FILE, escapechar="\\", engine="python")
         doc = ""
@@ -212,7 +209,7 @@ if __name__ == "__main__":
         print(f"writing to {OUT_TXT_FILE}.") if DEBUG else None
         with open(OUT_TXT_FILE, "w") as f:
             f.write(doc)
-    elif arguments["--example"] or arguments["-e"]:
+    elif arguments["--example"]:
         doc = ""
         print(f"reading from {IN_TXT_FILE}...") if DEBUG else None
         with open(IN_TXT_FILE, "r") as f:
