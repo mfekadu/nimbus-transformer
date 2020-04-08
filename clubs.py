@@ -10,32 +10,40 @@ Usage:
              [ --fuzz-threshold=50 | --fuzz=50 ]
              [ --context-limit=100 | --limit=100 ]
              [ --verbose | -v ]
-    clubs.py (demo|d) [IN_TXT_FILE]
+             [ --debug ]
+    clubs.py (--example | -e)
+             [IN_TXT_FILE]
              [ --fuzz-threshold=50 | --fuzz=50 ]
              [ --context-limit=100 | --limit=100 ]
              [ --verbose | -v ]
-    clubs.py (make-doc|md|doc|m) [IN_CSV_FILE] [OUT_TXT_FILE]
+             [ --debug ]
+    clubs.py (--make-doc | -m)
+             [IN_CSV_FILE]
+             [OUT_TXT_FILE]
              [ --fuzz-threshold=50 | --fuzz=50 ]
              [ --context-limit=100 | --limit=100 ]
              [ --verbose | -v ]
+             [ --debug ]
     clubs.py (-h | --help)
              [ --verbose | -v ]
+             [ --debug ]
 
 Options:
     -h --help                     Show this screen.
     demo d                        read IN_TXT_FILE and ask a default question.
     make-doc md doc m             read IN_CSV_FILE and do stuff and write out txt
-    [IN_TXT_FILE]                 defaults to "clubs.txt"
-    [IN_CSV_FILE]                 defaults to "clubs.csv"
-    [OUT_TXT_FILE]                defaults to "clubs.txt"
+    IN_TXT_FILE                   defaults to "clubs.txt"
+    IN_CSV_FILE                   defaults to "clubs.csv"
+    OUT_TXT_FILE                  defaults to "clubs.txt"
     --fuzz-threshold=50 --fuzz    defaults to 50.
     --context-limit=50 --limit    defaults to 100.
     --verbose -v                  printouts while running.
+    --debug -d                    printouts while running, extra debugging.
 
 Example:
-    $ python clubs.py make-doc my_clubs_data.csv my_clubs_doc.txt
+    $ python clubs.py --make-doc my_clubs_data.csv my_clubs_doc.txt
 
-    $ python clubs.py demo my_clubs_doc.txt --verbose
+    $ python clubs.py --example my_clubs_doc.txt --verbose
     question: "What is blah?"
     ...
     context: "..."
@@ -44,9 +52,9 @@ Example:
     extradata: {...}
 
     $ python clubs.py my_clubs_doc.txt
-    question: "user_input"
+    question: "user_input ¯\\_(ツ)_/¯"
     ...
-    answer: "answer"
+    answer: "¯\\_(ツ)_/¯"
 
 Resources:
     * docopt is cool
@@ -132,8 +140,8 @@ def print_colored_doc():
     colored_doc = __doc__
     to_color_green_bold = (
         "clubs.py",
-        "(demo|d)",
-        "(make-doc|md|doc|m)",
+        "(--example | -e)",
+        "(--make-doc | -m)",
         "(-h | --help)",
     )
     to_color_yellow_bold = (
@@ -178,7 +186,8 @@ def print_colored_doc():
 if __name__ == "__main__":
     arguments = docopt(__doc__, version="Clubs 1.0", help=False)
     VERBOSE = arguments["--verbose"]
-    print(arguments) if VERBOSE else None
+    DEBUG = arguments["--debug"]
+    print(arguments) if DEBUG else None
     if arguments["--help"]:
         print_colored_doc()
         exit()
@@ -189,20 +198,27 @@ if __name__ == "__main__":
     FUZZ = int(FUZZ)
     LIMIT = arguments["--context-limit"] or arguments["--limit"] or 100
     LIMIT = int(LIMIT)
-    if arguments["make-doc"] or arguments["md"] or arguments["m"]:
+    if arguments["--make-doc"] or arguments["-m"]:
+        print(f"reading from {IN_CSV_FILE}...") if DEBUG else None
         df = pd.read_csv(IN_CSV_FILE, escapechar="\\", engine="python")
         doc = ""
+        print(f"making sentences...", end="") if DEBUG else None
         for _, club in df.iterrows():
             sents = make_sents(club)
             new_string = "\n".join(sents)
-            doc += new_string
+            doc += new_string + "\n"
+            print(f".", end="") if DEBUG else None
+        print(f".", end="\n") if DEBUG else None
+        print(f"writing to {OUT_TXT_FILE}.") if DEBUG else None
         with open(OUT_TXT_FILE, "w") as f:
             f.write(doc)
-    elif arguments["demo"] or arguments["d"]:
+    elif arguments["--example"] or arguments["-e"]:
         doc = ""
+        print(f"reading from {IN_TXT_FILE}...") if DEBUG else None
         with open(IN_TXT_FILE, "r") as f:
             doc = f.read()
         club = "Computer Science and Artificial Intelligence"
+        print(f"club: {club}...") if DEBUG else None
         question = f"who is the advisor for {club} club?"
         print(green_bold("question:"), question)
         context = filter_string_by_relevance(
@@ -214,6 +230,7 @@ if __name__ == "__main__":
         print(yellow_bold("extradata:"), extradata) if VERBOSE else None
     else:
         doc = ""
+        print(f"reading from {IN_TXT_FILE}...") if DEBUG else None
         with open(IN_TXT_FILE, "r") as f:
             doc = f.read()
         question = input(green_bold("question: "))
