@@ -285,6 +285,38 @@ Example:
 &#34;&#34;&#34;
 
 
+UserContext = NewType(&#34;UserContext&#34;, Context)
+&#34;&#34;&#34;UserContext&#34;&#34;&#34;
+__pdoc__[
+    &#34;UserContext&#34;
+] = &#34;&#34;&#34;A UserContext type
+
+Has _supertype_ [`Context`](#ntfp.ntfp_types.Context)
+
+**The text content of a custom _plain-text_ document provided by the User.**
+
+The User must be a TrustedUser.
+
+An example of a TrustedUser would be Dr. Foaad Khosmood. A Professor at Cal Poly.
+
+This kind of UserContext could be extracted from GoogleForms sent to Cal Poly Professors.
+
+Example:
+    &gt;&gt;&gt; from ntfp.ntfp_types import Context, UserContext
+    &gt;&gt;&gt; user_doc: str = &#34;My name is Foaad. I&#39;m a Cal Poly CPE alumnus myself. I grew up speaking Persian.&#34;
+    &gt;&gt;&gt; context: UserContext = UserContext(Context(user_doc))
+    &gt;&gt;&gt; question: Question = Question(&#34;What did Foaad grow up speaking?&#34;)
+    &gt;&gt;&gt; transformer(question, context)
+    ... &#34;Persian&#34;
+    &gt;&gt;&gt; question: Question = Question(&#34;Where did he go to school?&#34;)
+    &gt;&gt;&gt; transformer(question, context)
+    ... &#34;Cal Poly&#34;
+    &gt;&gt;&gt; question: Question = Question(&#34;What&#39;s his name again?&#34;)
+    &gt;&gt;&gt; transformer(question, context)
+    ... &#34;Foaad&#34;
+&#34;&#34;&#34;
+
+
 Answer = NewType(&#34;Answer&#34;, str)
 &#34;&#34;&#34;Answer&#34;&#34;&#34;
 __pdoc__[
@@ -711,6 +743,38 @@ title="The GoogleResultURLPage after clicking the first link in the GooglePage."
     return x</code></pre>
 </details>
 </dd>
+<dt id="ntfp.ntfp_types.UserContext"><code class="name flex">
+<span>def <span class="ident">UserContext</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A UserContext type</p>
+<p>Has <em>supertype</em> <a href="#ntfp.ntfp_types.Context"><code>Context</code></a></p>
+<p><strong>The text content of a custom <em>plain-text</em> document provided by the User.</strong></p>
+<p>The User must be a TrustedUser.</p>
+<p>An example of a TrustedUser would be Dr. Foaad Khosmood. A Professor at Cal Poly.</p>
+<p>This kind of UserContext could be extracted from GoogleForms sent to Cal Poly Professors.</p>
+<h2 id="example">Example</h2>
+<pre><code>&gt;&gt;&gt; from ntfp.ntfp_types import Context, UserContext
+&gt;&gt;&gt; user_doc: str = "My name is Foaad. I'm a Cal Poly CPE alumnus myself. I grew up speaking Persian."
+&gt;&gt;&gt; context: UserContext = UserContext(Context(user_doc))
+&gt;&gt;&gt; question: Question = Question("What did Foaad grow up speaking?")
+&gt;&gt;&gt; transformer(question, context)
+... "Persian"
+&gt;&gt;&gt; question: Question = Question("Where did he go to school?")
+&gt;&gt;&gt; transformer(question, context)
+... "Cal Poly"
+&gt;&gt;&gt; question: Question = Question("What's his name again?")
+&gt;&gt;&gt; transformer(question, context)
+... "Foaad"
+</code></pre></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_type(x):
+    return x</code></pre>
+</details>
+</dd>
 <dt id="ntfp.ntfp_types.WebPage"><code class="name flex">
 <span>def <span class="ident">WebPage</span></span>(<span>x)</span>
 </code></dt>
@@ -813,6 +877,7 @@ title="The GoogleResultURLPage after clicking the first link in the GooglePage."
 <li><code><a title="ntfp.ntfp_types.Score" href="#ntfp.ntfp_types.Score">Score</a></code></li>
 <li><code><a title="ntfp.ntfp_types.Start" href="#ntfp.ntfp_types.Start">Start</a></code></li>
 <li><code><a title="ntfp.ntfp_types.URL" href="#ntfp.ntfp_types.URL">URL</a></code></li>
+<li><code><a title="ntfp.ntfp_types.UserContext" href="#ntfp.ntfp_types.UserContext">UserContext</a></code></li>
 <li><code><a title="ntfp.ntfp_types.WebPage" href="#ntfp.ntfp_types.WebPage">WebPage</a></code></li>
 <li><code><a title="ntfp.ntfp_types.WebPageContext" href="#ntfp.ntfp_types.WebPageContext">WebPageContext</a></code></li>
 </ul>

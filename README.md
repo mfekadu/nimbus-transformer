@@ -86,11 +86,25 @@ appended new row to data.csv
 
 - [ ] a simple web UI with an input box and a section for answers
 - [ ] database code for
-  - INSERT `Context`/`Question`/`Answer`/_timestamp_/_good-bad-answer_
+  - INSERT [`Context`]/[`Question`]/[`Answer`]/_timestamp_/_good-bad-answer_
   - UPDATE _good-bad-answer_
 - [ ] measure **`precision` & `recall`** of this system
 - [ ] make improvements to _assumptions_
 - [ ] consider `git rev-parse HEAD` to get latest commit hash to associate with data.
+- [ ] consider learning new facts from `TrustedUser`
+  - e.g. Dr. Khosmood is a `TrustedUser` and can offer the system either:
+    - [`URL`]
+      - _e.g. a published google doc containing a professor's syllabus._
+      - _e.g. a professor's personal website_
+    - [`UserContext`]
+      - _e.g. the plain-text of a professor's syllabus._
+      - **either** provided through real-time chat client
+      - **or** provided through a simple input box
+      - **also** consider `ChatContext`
+    - ([`Question`], [`Answer`]) mappings
+    - **so**, when any `User` asks a previously mapped question, then the correct answer can be returned
+    - **or**, when the most relevant [`UserContext`] is found for the given question, a reasonable answer can still be returned.
+- [ ] test performance
 
 ## What is `data.csv`?
 
@@ -126,7 +140,9 @@ Keeping track of this data will help with measuring the model's performance and 
 [12]: http://python.org
 [13]: https://pipenv.pypa.io/en/latest/install/#pragmatic-installation-of-pipenv
 [14]: http://github.com/calpoly-csai/api
-[`Question`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Question
-[`Context`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Context
-[`Answer`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Answer
-[Transform]: https://mfekadu.github.io/nimbus-transformer/ntfp.html#ntfp.ntfp.transformer
+[`question`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Question
+[`context`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Context
+[`answer`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Answer
+[transform]: https://mfekadu.github.io/nimbus-transformer/ntfp.html#ntfp.ntfp.transformer
+[`url`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.URL
+[`usercontext`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.UserContext

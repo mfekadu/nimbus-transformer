@@ -259,6 +259,38 @@ Example:
 """
 
 
+UserContext = NewType("UserContext", Context)
+"""UserContext"""
+__pdoc__[
+    "UserContext"
+] = """A UserContext type
+
+Has _supertype_ [`Context`](#ntfp.ntfp_types.Context)
+
+**The text content of a custom _plain-text_ document provided by the User.**
+
+The User must be a TrustedUser.
+
+An example of a TrustedUser would be Dr. Foaad Khosmood. A Professor at Cal Poly.
+
+This kind of UserContext could be extracted from GoogleForms sent to Cal Poly Professors.
+
+Example:
+    >>> from ntfp.ntfp_types import Context, UserContext
+    >>> user_doc: str = "My name is Foaad. I'm a Cal Poly CPE alumnus myself. I grew up speaking Persian."
+    >>> context: UserContext = UserContext(Context(user_doc))
+    >>> question: Question = Question("What did Foaad grow up speaking?")
+    >>> transformer(question, context)
+    ... "Persian"
+    >>> question: Question = Question("Where did he go to school?")
+    >>> transformer(question, context)
+    ... "Cal Poly"
+    >>> question: Question = Question("What's his name again?")
+    >>> transformer(question, context)
+    ... "Foaad"
+"""
+
+
 Answer = NewType("Answer", str)
 """Answer"""
 __pdoc__[
