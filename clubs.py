@@ -230,7 +230,7 @@ if __name__ == "__main__":
         print(f"club: {club}...") if DEBUG else None
         question = f"who is the advisor for {club} club?"
         print(green_bold("question:"), question)
-        spacy_nlp = spacy.load("en_core_web_sm")
+        spacy_nlp = spacy.load("en_core_web_lg")
         context = filter_string_by_relevance(
             to=question,
             string=doc,
@@ -249,7 +249,7 @@ if __name__ == "__main__":
         with open(IN_TXT_FILE, "r") as f:
             doc = f.read()
         question = input(green_bold("question: "))
-        spacy_nlp = spacy.load("en_core_web_sm")
+        spacy_nlp = spacy.load("en_core_web_lg")
         context = filter_string_by_relevance(
             to=question,
             string=doc,

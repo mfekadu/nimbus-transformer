@@ -302,13 +302,33 @@ class NtfpNoEntityError(Exception):
         self.messsage = message
 
 
-def relevance(to, nlp=None, FUZZ_THRESHOLD=30, LEN_THRESHOLD=2):
+class NtfpBadNLPError(Exception):
+    """A given NLP object is not an instance of Spacy's langauge models.
+
+    Attributes:
+        sentence -- the types of the bad nlp object.
+        message -- explanation of the error
+    """
+
+    def __init__(self, type_of_nlp, message):
+        self.type_of_nlp = type_of_nlp
+        self.messsage = message
+
+
+def relevance(
+    to, nlp=None, FUZZ_THRESHOLD=30, LEN_THRESHOLD=2, SIMILARITY_THRESHOLD=0.5
+):
     FUZZ_THRESHOLD = FUZZ_THRESHOLD or 30
     LEN_THRESHOLD = LEN_THRESHOLD or 2
     # TODO: make smarter filter THRESHOLDS
-    # TODO: consider semantic similarity
+    # TODO: consider semantic similarity: https://spacy.io/usage/vectors-similarity
+    # TODO: consider precise entity recognition on Cal Poly entities is needed
+    #       e.g. "Computer Science and Artificial Intelligence" entitiy
+    #       prefered over "Computer Science" or "Artificial Intelligence" alone
+    # TODO: consider lexical similarity applied between entity_text && text
     original_question = to
     entity_text = None
+    entity_text_doc = None
     if isinstance(nlp, spacy.language.Language):
         doc = nlp(original_question)
         ents = doc.ents
@@ -324,11 +344,21 @@ def relevance(to, nlp=None, FUZZ_THRESHOLD=30, LEN_THRESHOLD=2):
             if entity_text is None or entity_text == "":
                 msg = f"'{original_question}' has no named entity from spacy?"
                 raise NtfpNoEntityError(original_question, msg)
+            entity_text_doc = nlp(entity_text)
         else:
             msg = f"'{original_question}' has no named entity from spacy?"
             raise NtfpNoEntityError(original_question, msg)
+    else:
+        msg = f"{type(nlp)} not an instanceof spacy.language.Language"
+        raise NtfpBadNLPError(type(nlp), msg)
+
+    question_doc = nlp(original_question)
 
     def _filter_func(text):
+        text_doc = nlp(text)
+        text_question_semantic_similarity = question_doc.similarity(text_doc)
+        text_entitytext_semantic_similarity = entity_text_doc.similarity(text_doc)
+        text_entitytext_lexical_similarity = fuzz.ratio(text, entity_text)
         text_question_lexical_similarity = fuzz.ratio(text, original_question)
         # TODO: make smarter filter rules
         if entity_text is not None and entity_text in text:
@@ -477,7 +507,7 @@ if __name__ == "__main__":
 
     first_ten_urls: List[GoogleResultURL] = [
         x for x in fetch_google_result_urls(query, limit=10)
-    ]  # noqa
+    ]
     print("first_ten_urls: ", first_ten_urls)
     # reveal_type(first_ten_urls)
 
