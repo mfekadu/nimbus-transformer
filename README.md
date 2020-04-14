@@ -143,6 +143,9 @@ appended new row to data.csv
           - `I teach at Cal Poly`
             - => `እኔ በካሊ ፖሊ አስተምራለሁ ፡፡` (English => Amharic)
             - => `I teach by Kali Poly.` (Amharic => English)
+- [ ] chart useful metrics
+  - _e.g. averge confidence `score` of transformer over time (or over code changes)_ **need log commit hash**
+  - _e.g. lexical similarity (fuzz ratio) of question to context over time (or over code changes)_ **need log commit hash**
 
 ## What is `data.csv`?
 
