@@ -1,0 +1,15 @@
+{
+    "python.pythonPath": "/Users/mfekadu/.local/share/virtualenvs/nimbus-transformer-03ms5r62/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "editor.rulers": [
+        80,
+        88,  // https://github.com/psf/black#line-length
+        120  // GitHub is 125 or 127 I think
+    ],
+    "python.linting.flake8Args": [
+        "--max-line-length=88"
+    ]
+}
