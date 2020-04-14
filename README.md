@@ -85,10 +85,15 @@ appended new row to data.csv
 ## TODO
 
 - [ ] a simple web UI with an input box and a section for answers
+  - if bad-answer then offer user a toggle: isItAnyOf(ans1,ans2..)
+  - if user does not choose a toggle then mark as _possibly-answerable_
+  - set up a nice UI for verification team to complete task.
 - [ ] database code for
   - INSERT [`Context`]/[`Question`]/[`Answer`]/_timestamp_/_good-bad-answer_
-  - UPDATE _good-bad-answer_
-- [ ] measure **`precision` & `recall`** of this system
+  - UPDATE _good-bad-anxswer_
+- [ ] test performance
+  - avoid test generation by code because the test itself should not depend on subject-under-test.
+  - measure **`precision` & `recall`** of this system
 - [ ] make improvements to _assumptions_
 - [ ] consider `git rev-parse HEAD` to get latest commit hash to associate with data.
 - [ ] consider learning new facts from `TrustedUser`
@@ -104,7 +109,40 @@ appended new row to data.csv
     - ([`Question`], [`Answer`]) mappings
     - **so**, when any `User` asks a previously mapped question, then the correct answer can be returned
     - **or**, when the most relevant [`UserContext`] is found for the given question, a reasonable answer can still be returned.
-- [ ] test performance
+- [ ] question/answer data augmentation
+  - _remember augmentations need grammar check by human_
+  - [try Question-Paraphrasing][15]
+  - also try [style-transformations][16]
+    - "PHRASE REPLACEMENT TRANSFORM" ([Khosmood], pg. 118)
+      - `I wanted to be with you alone`
+        - => `I desired to be with you only.`
+      - class `phraseXform`
+        - update it to latest technologies: SpaCy! BabelNet?
+      - similar to [/r/IncreasinglyVerbose][17]
+      - `I teach at Cal Poly`
+        - => `I teach at a university in California`
+          - (replace **Stanford University** with definition)
+        - => `I impart skills or knowledge to students at a university in California`
+          - (replace **teach** with definition and append _students_)
+        - => `I impart skills or knowledge to students at an establishment where a seat of higher learning is housed in California`
+          - (replace **university** with definition)
+        - => `I impart skills or knowledge to students at an establishment where a seat of higher learning is housed in San Luis Obispo, California`
+          - (apply knowledge of city location of Cal Poly)
+      - "Translation-Tours" ([Khosmood], pg. 141)
+        - "Translation tour with Spanish, French, German" ([Khosmood], pg. 141)
+          - `I teach at Cal Poly`
+            - => `Enseño en Cal Poly` (Enlish => Spanish)
+            - => `J'enseigne à Cal Poly` (Spanish => French)
+            - => `Ich unterrichte an der Cal Poly` (French => German)
+            - => `I teach at Cal Poly` (German => English)
+          - `I teach at Cal Poly.`
+            - => `Doy clases en Cal Poly.` (Enlish => Spanish)
+            - => `Ich unterrichte an der Cal Poly.`
+            - => `I teach at Cal Poly.`
+        - Alternative Translation Tours
+          - `I teach at Cal Poly`
+            - => `እኔ በካሊ ፖሊ አስተምራለሁ ፡፡` (English => Amharic)
+            - => `I teach by Kali Poly.` (Amharic => English)
 
 ## What is `data.csv`?
 
@@ -140,6 +178,10 @@ Keeping track of this data will help with measuring the model's performance and 
 [12]: http://python.org
 [13]: https://pipenv.pypa.io/en/latest/install/#pragmatic-installation-of-pipenv
 [14]: http://github.com/calpoly-csai/api
+[15]: https://www.aclweb.org/anthology/P19-1610/
+[16]: https://works.bepress.com/foaad/2/
+[khosmood]: https://works.bepress.com/foaad/2/
+[17]: https://www.reddit.com/r/IncreasinglyVerbose/
 [`question`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Question
 [`context`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Context
 [`answer`]: https://mfekadu.github.io/nimbus-transformer/ntfp_types.html#ntfp.ntfp_types.Answer
