@@ -121,7 +121,36 @@ if __name__ == "__main__":
     DEBUG = arguments["--debug"]
     print(arguments) if DEBUG else None
     if arguments["--help"]:
-        print_colored_doc(__doc__)
+        to_color_green_bold = (
+            "clubs.py",
+            "(--example | -e)",
+            "(--make-doc | -m)",
+            "(-h | --help)",
+        )
+        to_color_yellow_bold = (
+            "[IN_TXT_FILE]",
+            "[IN_CSV_FILE]",
+            "[OUT_TXT_FILE]",
+        )
+        to_color_white_bold = (
+            "Ask questions about Cal Poly clubs.",
+            "Usage:",
+            "Options:",
+            "Resources:",
+            "Example:",
+        )
+        to_color_white_bold_patterns = (r"(\$.*)",)
+        to_color_red_bold_patterns = (r"(defaults to.*)",)
+        to_color_grey_out = ("[//]: # (markdown comment # noqa)",)
+        print_colored_doc(
+            doc=__doc__,
+            to_color_green_bold=to_color_green_bold,
+            to_color_yellow_bold=to_color_yellow_bold,
+            to_color_white_bold=to_color_white_bold,
+            to_color_white_bold_patterns=to_color_white_bold_patterns,
+            to_color_red_bold_patterns=to_color_red_bold_patterns,
+            to_color_grey_out=to_color_grey_out,
+        )
         exit()
     IN_CSV_FILE = arguments["IN_CSV_FILE"] or "clubs.csv"
     IN_TXT_FILE = arguments["IN_TXT_FILE"] or "clubs.txt"

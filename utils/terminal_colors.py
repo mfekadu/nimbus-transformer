@@ -28,29 +28,16 @@ def grey_out(s: str) -> str:
     return colored(s, "grey", "on_grey")
 
 
-def print_colored_doc(doc):
+def print_colored_doc(
+    doc,
+    to_color_green_bold=tuple(),
+    to_color_yellow_bold=tuple(),
+    to_color_white_bold=tuple(),
+    to_color_white_bold_patterns=tuple(),
+    to_color_red_bold_patterns=tuple(),
+    to_color_grey_out=tuple(),
+):
     colored_doc = doc
-    to_color_green_bold = (
-        "clubs.py",
-        "(--example | -e)",
-        "(--make-doc | -m)",
-        "(-h | --help)",
-    )
-    to_color_yellow_bold = (
-        "[IN_TXT_FILE]",
-        "[IN_CSV_FILE]",
-        "[OUT_TXT_FILE]",
-    )
-    to_color_white_bold = (
-        "Ask questions about Cal Poly clubs.",
-        "Usage:",
-        "Options:",
-        "Resources:",
-        "Example:",
-    )
-    to_color_white_bold_patterns = (r"(\$.*)",)
-    to_color_red_bold_patterns = (r"(defaults to.*)",)
-    to_color_grey_out = ("[//]: # (markdown comment # noqa)",)
 
     def repl(color_fun, strip=True):
         def _repl(m):
