@@ -4,4 +4,12 @@
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
+    "editor.rulers": [
+        80,  // convention as well as flake-8 default
+        88,  // black formatter
+        125, // I've read somewhere that GitHub line limits 125-127
+    ],
+    "python.linting.flake8Args": [
+        "--max-line-length=88"
+    ],
 }
