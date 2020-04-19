@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Resources:
+#  * https://stackoverflow.com/a/12802592/5411712
+#  * https://stackoverflow.com/a/25664507/5411712
+#  * https://stackoverflow.com/a/10669101/5411712
+#
+
+echo
+
+# # to communicate with post-commit
+# touch .commit
+
+if [ -e map_commit_to_checksum.csv ]; then
+	# echo the current commit hash and checksum into `map_commit_to_checksum.csv`
+	A=$(git rev-parse HEAD^1)
+	B=$(git rev-parse HEAD)
+	C=$(pipenv run python checksum.py -n)
+	D=$(echo -n "$A$B$C" | shasum -a 256 -U | head -c 64)
+	echo "\"$A\", \"$B\", \"$C\", \"$D\"" >>map_commit_to_checksum.csv
+	# add the change
+	git add map_commit_to_checksum.csv
+else
+	# create `map_commit_to_checksum.csv`
+	col1="grandparent_commit_hash"
+	col2="parent_commit_hash"
+	col3="checksum_on_commit"
+	col4="sha256_of_first_three_cols"
+	echo "\"$col1\", \"$col2\", \"$col3\", \"$col4\"" >map_commit_to_checksum.csv
+	# echo the commit hashes and checksum into `map_commit_to_checksum.csv`
+	A=$(git rev-parse HEAD^1)
+	B=$(git rev-parse HEAD)
+	C=$(pipenv run python checksum.py -n)
+	D=$(echo -n "$A$B$C" | shasum -a 256 -U | head -c 64)
+	echo "\"$A\", \"$B\", \"$C\", \"$D\"" >>map_commit_to_checksum.csv
+	# add the change
+	git add map_commit_to_checksum.csv
+fi
+exit
