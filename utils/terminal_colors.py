@@ -3,6 +3,7 @@ import re
 from colorama import init
 from colors import strip_color
 from termcolor import colored
+from typing import Any
 
 # use Colorama to make Termcolor work on Windows too
 init()
@@ -26,6 +27,16 @@ def red_bold(s: str) -> str:
 
 def grey_out(s: str) -> str:
     return colored(s, "grey", "on_grey")
+
+
+def print_verbose(var_name: str, val: Any) -> None:
+    colored_var_name = yellow_bold(var_name)
+    print(f"{colored_var_name}: {val}")
+
+
+def print_debug(var_name: str, val: Any) -> None:
+    colored_var_name = red_bold(var_name)
+    print(f"{colored_var_name}: {val}")
 
 
 def print_colored_doc(
